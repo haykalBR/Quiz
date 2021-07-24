@@ -1,0 +1,97 @@
+version: '3.3'
+services:
+  php:
+    build: ./tools/docker/php7-fpm
+    environment:
+      APP_ENV: ${APP_ENV}
+    volumes:
+      - ./:/var/www/application/
+      - ./tools/docker/php7-fpm/php.ini:/usr/local/etc/php/conf.d/my.ini:ro
+    depends_on:
+      - database
+    networks:
+      - immo
+  nginx:
+    build: ./tools/docker/nginx
+    volumes:
+      - ./:/var/www/application/
+      - ./tools/docker/nginx/log:/var/log/nginx
+    ports:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=immo"
+      - "traefik.http.routers.nginx.rule=Host(`www.app.immo.com`)"
+      - "traefik.http.services.nginx.loadbalancer.server.port=80"
+    networks:
+      - immo
+  encore:
+    build: ./tools/docker/nodejs
+    volumes:
+        - .:/app
+    ports:
+        - "3000:3000"
+    working_dir: /app
+    #command: yarn run dev
+    networks:
+      - immo
+  database:
+    image: mariadb:10.4
+    restart: always
+    volumes:
+      - dbmmo:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - immo
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - 1080:8025
+    networks:
+      - immo
+  portainer:
+    image: portainer/portainer
+    expose:
+      - "9000"
+    networks:
+      - immo
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - portainer-data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=immo"
+      - "traefik.http.routers.portainer.rule=Host(`www.portainer.local.com`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.app1.tls=true"
+  traefik:
+    image: traefik:v2.1
+    command: 
+      - --api.insecure=true 
+      - --providers.docker 
+      - --providers.docker.exposedByDefault=false 
+      - --providers.docker.network=internal
+    ports:
+      - "80:80"
+      - 8080:8080
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   
+
+    networks:
+      - immo
+
+networks:
+  immo:
+    driver: bridge
+volumes:
+  portainer-data: {}
+  dbmmo: {}
+

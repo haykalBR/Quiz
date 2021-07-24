@@ -1,0 +1,57 @@
+# {{ ansible_managed }}
+# Overrides for MariaDB Server on Ubuntu 18.04
+
+[mysqld]
+{% if mysql_datadir is defined and mysql_datadir != '/var/lib/mysql' %}
+datadir		= {{ mysql_datadir }}
+{% endif %}
+
+{% if mysql_tmpdir is defined and mysql_tmpdir != '/tmp' %}
+tmpdir		= {{ mysql_tmpdir }}
+{% endif %}
+
+{% if mysql_transaction_isolation is defined and mysql_binlog_format is defined %}
+transaction-isolation = {{ mysql_transaction_isolation }}
+binlog_format = {{ mysql_binlog_format }}
+{% endif %}
+
+{% if mysql_max_connections is defined %}
+max_connections		= {{ mysql_max_connections }}
+{% endif %}
+
+{% if mysql_max_allowed_packet is defined %}
+max_allowed_packet	= {{ mysql_max_allowed_packet }}
+{% endif %}
+
+{% if mysql_innodb_log_file_size is defined %}
+innodb_log_file_size	= {{ mysql_innodb_log_file_size }}
+{% endif %}
+
+{% if mysql_general_log_file is defined %}
+general_log_file		= {{ mysql_general_log_file }}
+{% endif %}
+
+{% if mysql_general_log is defined %}
+general_log		= {{ mysql_general_log }}
+{% endif %}
+
+{% if mysql_slow_query_log is defined %}
+slow_query_log		= {{ mysql_slow_query_log }}
+{% endif %}
+
+{% if mysql_slow_query_log_file is defined %}
+slow_query_log_file	= {{ mysql_slow_query_log_file }}
+{% endif %}
+
+{% if mysql_long_query_time is defined %}
+long_query_time = {{ mysql_long_query_time }}
+{% endif %}
+
+{% if mysql_expire_logs_days is defined %}
+expire_logs_days	= {{ mysql_expire_logs_days }}
+{% endif %}
+
+{% if mysql_transaction_isolation is defined and mysql_binlog_format is defined %}
+transaction-isolation = {{ mysql_transaction_isolation }}
+binlog_format = {{ mysql_binlog_format }}
+{% endif %}

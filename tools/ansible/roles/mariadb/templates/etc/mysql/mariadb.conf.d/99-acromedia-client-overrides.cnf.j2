@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+# Overrides for MariaDB Client on Ubuntu 18.04
+
+[mysqldump]
+{% if mysql_max_allowed_packet is defined %}
+max_allowed_packet	= {{ mysql_max_allowed_packet }}
+{% endif %}

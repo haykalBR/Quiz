@@ -1,0 +1,14 @@
+---
+- name: Outils | Requis
+  apt:
+    name:
+      - gnupg
+      - curl
+    state: present
+- name: Outils | Install
+  apt:
+    name:
+      - vim
+      - git
+      - make
+    state: present

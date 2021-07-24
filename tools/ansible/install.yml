@@ -1,0 +1,20 @@
+- name: Installation du serveur
+  hosts: dev
+  become: yes
+  pre_tasks:
+    - name: "APT | Update & Upgrade"
+      become: yes
+      apt:
+        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 432000
+  roles:
+    - {role: tools, tags: tools}
+    - {role: php, tags: php}
+    - {role: nginx, tags: nginx}
+    -  role: mariadb
+       vars:
+         mysql_bind_address: 0.0.0.0
+         mysql_allow_from:
+           - 0.0.0.0
+    - {role: node, tags: node}

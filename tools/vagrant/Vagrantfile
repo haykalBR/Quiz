@@ -1,0 +1,36 @@
+
+Vagrant.configure("2") do |config|
+  # server jenkins
+  config.vm.define "jenkins-server" do |jenkins|
+    jenkins.vm.box = "bento/ubuntu-20.04"
+    jenkins.vm.hostname = "jenkins-server"
+    jenkins.vm.box_url = "bento/ubuntu-20.04"
+    jenkins.vm.network :private_network, ip: "192.168.5.20"
+    jenkins.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+      v.customize ["modifyvm", :id, "--memory", 4096]
+      v.customize ["modifyvm", :id, "--name", "jenkins-server"]
+      v.customize ["modifyvm", :id, "--cpus", "4"]
+    end
+    config.vm.provision "shell", inline: <<-SHELL
+      sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
+      service ssh restart
+    SHELL
+  end
+  # server dev
+  config.vm.define "server-dev" do |server|
+    server.vm.box = "bento/ubuntu-20.04"
+    server.vm.hostname = "server-dev"
+    server.vm.box_url = "bento/ubuntu-20.04"
+    server.vm.network :private_network, ip: "192.168.5.21"
+    server.vm.network "forwarded_port", guest: 80, host: 8080
+    server.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+      v.customize ["modifyvm", :id, "--memory", 1024]
+      v.customize ["modifyvm", :id, "--name", "server-dev"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+  end
+  end

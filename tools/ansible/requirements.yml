@@ -1,0 +1,11 @@
+- src: https://github.com/ansistrano/deploy
+  name: ansistrano-deploy
+  version: master
+  scm: git
+- src: https://github.com/ansistrano/rollback
+  name: ansistrano-rollback
+  version: master
+  scm: git
+
+
+
