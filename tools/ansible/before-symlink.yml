@@ -27,8 +27,8 @@
     recurse: true
  # Symfony console commands
 - name: Create DB if not exists
-  command: '{{ symfony_console_path }} doctrine:database:create --if-not-exists'
+  command: '{{ release_console_path }} doctrine:database:create --if-not-exists'
 - name: Execute migrations
-  command: '{{ symfony_console_path }} doctrine:migrations:migrate --no-interaction'
+  command: '{{ release_console_path }} doctrine:migrations:migrate --no-interaction'
 
 
