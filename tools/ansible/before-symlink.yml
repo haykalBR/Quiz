@@ -1,5 +1,5 @@
 ---
-- name: Create project directory and set its permissions
+- name: Set permissions on Composer
   become: true
   file:
     path: "{{ root_path }}"
@@ -7,7 +7,7 @@
     owner: "dev"
     group: "dev"
     recurse: yes
-- name: composer install
+- name: Install Composer's dependencies
   become: false
   command:  php /usr/local/bin/composer install -d {{ ansistrano_release_path.stdout }}
 - name: Clear the cache
@@ -27,8 +27,10 @@
     recurse: true
  # Symfony console commands
 - name: Create DB if not exists
-  command: '{{ release_console_path }} doctrine:database:create --if-not-exists'
-- name: Execute migrations
-  command: '{{ release_console_path }} doctrine:migrations:migrate --no-interaction'
+  shell: '{{ release_console_path }} doctrine:database:create --if-not-exists'
+  register: db_create_result
+  changed_when: db_create_result.stdout is not search('already exists. Skipped')
+#- name: Execute migrations
+#  shell: '{{ release_console_path }} doctrine:migrations:migrate --no-interaction'
 
 
