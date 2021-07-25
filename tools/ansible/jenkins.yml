@@ -1,0 +1,15 @@
+- name: Installation du jenkins
+  hosts: jenkins
+  become: yes
+  pre_tasks:
+    - name: "APT | Update & Upgrade"
+      become: yes
+      apt:
+        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 432000
+  vars:
+    - update_apt_cache: yes
+  roles:
+    - {role: jenkins, tags: jenkins}
+
