@@ -11,4 +11,6 @@
       - vim
       - git
       - make
+      - zip
+      - unzip
     state: present

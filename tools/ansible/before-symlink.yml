@@ -1,5 +1,12 @@
 ---
-- name: Install Composer dependencies
-  composer:
-    command: install
-    working_dir: '{{ ansistrano_release_path.stdout }}'
+- name: Create project directory and set its permissions
+  become: true
+  file:
+    path: "{{ root_path }}"
+    state: directory
+    owner: "dev"
+    group: "dev"
+    recurse: yes
+- name: composer install local
+  become: false
+  command:  php /usr/local/bin/composer install -d {{ ansistrano_release_path.stdout }}

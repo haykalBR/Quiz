@@ -2,17 +2,16 @@
 - name: Deploy immo application to dev server
   hosts: dev
   become: yes
-  environment:
-    SYMFONY_ENV: dev
   roles:
-    - role: ansistrano-deploy
-      vars:
-        ansistrano_deploy_from: "{{ playbook_dir }}/../../"
-        ansistrano_deploy_to: "{{ root_path }}"
-        ansistrano_version_dir: "release"
-        ansistrano_current_dir: "current"
-        ansistrano_current_via: "symlink"
-        ansistrano_keep_release: 3
-        # ansistrano_before_symlink_shared_tasks_file: "{{ playbook_dir }}/before-symlink.yml"
+     - carlosbuenosvinos.ansistrano-deploy
+  vars:
+    ansistrano_deploy_via: "git"
+    ansistrano_git_repo: "git@gitlab.com:immonext/immopanel.git"
+    ansistrano_git_branch: "master"
+    ansistrano_deploy_to: "{{ root_path }}"
+    ansistrano_version_dir: "release"
+    ansistrano_current_dir: "current"
+    ansistrano_keep_releases: 3
+    ansistrano_after_symlink_shared_tasks_file: "{{ playbook_dir }}/before-symlink.yml"
 
 

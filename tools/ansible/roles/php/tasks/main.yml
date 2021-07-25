@@ -42,6 +42,10 @@
   script:
     cmd: ../files/composer.sh
     creates: /usr/local/bin/composer
+- name: Set permissions on Composer
+  file:
+    path: /usr/local/bin/composer
+    mode: "a+x"
 - name: PHP | Prod confinguration
   template:
     src: php.ini

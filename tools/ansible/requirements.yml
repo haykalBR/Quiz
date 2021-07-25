@@ -1,11 +1,12 @@
 - src: https://github.com/ansistrano/deploy
-  name: ansistrano-deploy
+  name: carlosbuenosvinos.ansistrano-deploy
   version: master
   scm: git
 - src: https://github.com/ansistrano/rollback
-  name: ansistrano-rollback
+  name: carlosbuenosvinos.ansistrano-rollback
   version: master
   scm: git
+
 
 
 
