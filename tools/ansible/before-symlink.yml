@@ -1,6 +1,6 @@
 ---
 - name: Set permissions on Composer
-  become: true
+  #become: true
   file:
     path: "{{ root_path }}"
     state: directory
