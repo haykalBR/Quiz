@@ -1,7 +1,8 @@
 ---
 - name: Deploy immo application to dev server
   hosts: dev
-  #become: yes
+  become: yes
+  ansible_become_pass: "haikel"
   roles:
      - carlosbuenosvinos.ansistrano-deploy
   vars:
