@@ -1,7 +1,7 @@
 ---
 - name: Deploy immo application to dev server
   hosts: dev
-  #become: yes
+  become: yes
   roles:
      - carlosbuenosvinos.ansistrano-deploy
   vars:
