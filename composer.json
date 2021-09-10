@@ -49,6 +49,7 @@
         "friendsofphp/php-cs-fixer": "2.18",
         "geolid/phpcs": "^11.0",
         "kubawerlos/php-cs-fixer-custom-fixers": "^2.5",
+        "phpro/grumphp": "^1.4",
         "phpstan/phpstan": "^0.12.98",
         "phpstan/phpstan-doctrine": "^0.12.44",
         "phpstan/phpstan-mockery": "^0.12.14",
