@@ -1,0 +1,59 @@
+---
+
+- name: Install packages and dependencies
+  apt:
+    pkg:
+      - openjdk-8-jdk
+      - libfontconfig
+      - libffi-dev
+      - libncurses5-dev
+      - ansible
+    state: present
+
+
+- name: Add the Jenkins public GPG key to the apt repo
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+    state=present
+
+
+- name: ensure the jenkins apt repository key is installed
+  apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+
+- name: ensure the repository is configured
+  apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+
+- name: Install Jenkins server
+  apt: name=jenkins state=present
+
+- name: Install additional Python packages
+  apt:
+    pkg:
+      - python
+      - ansible
+    state: present
+
+- name: APT Update for the Jenkins repository
+  command: apt update
+
+
+- name: start jenkins
+  systemd:
+    name: jenkins
+    state: started
+
+- name: enable jenkins
+  systemd:
+    name: jenkins
+    enabled: true
+
+- name: Wait for Jenkins to start up
+  wait_for: timeout=35
+
+- name: init password jenkin
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: print init password jenkins
+  debug:
+    var: result.stdout
