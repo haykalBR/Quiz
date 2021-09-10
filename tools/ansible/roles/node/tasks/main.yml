@@ -38,21 +38,29 @@
     path: "{{ nodejs_package_json_path }}"
   when: nodejs_package_json_path is defined and nodejs_package_json_path
 
-- name: Add Yarn APT key
-    become: true
-    apt_key:
-      url: 'https://dl.yarnpkg.com/debian/pubkey.gpg'
-      state: present
-      - name: Add Yarn to the source lists
-        become: true
-        lineinfile:
-          path: '/etc/apt/sources.list.d/yarn.list'
-          regexp: 'deb https://dl.yarnpkg.com/debian/ stable main'
-          line: 'deb https://dl.yarnpkg.com/debian/ stable main'
-          create: yes
-- name: Install Yarn package manager
-    become: true
-    apt:
-      name: yarn
-      state: latest
-      update_cache: yes
+- name: "Yarn | GPG"
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    state: present
+
+- name: "Yarn | Ensure Debian sources list file exists"
+  file:
+    path: /etc/apt/sources.list.d/yarn.list
+    owner: root
+    mode: 0644
+    state: touch
+
+- name: "Yarn | Ensure Debian package is in sources list"
+  lineinfile:
+    dest: /etc/apt/sources.list.d/yarn.list
+    regexp: 'deb http://dl.yarnpkg.com/debian/ stable main'
+    line: 'deb http://dl.yarnpkg.com/debian/ stable main'
+    state: present
+
+- name: "Yarn | Update APT cache"
+  apt:
+    update_cache: yes
+- name: "Yarn | Install"
+  package:
+    name: yarn
+    state: present
