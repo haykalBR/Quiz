@@ -1,0 +1,13 @@
+grumphp:
+  git_hook_variables:
+    EXEC_GRUMPHP_COMMAND: docker-compose exec php
+  tasks:
+    phpcsfixer2:
+      allow_risky: true
+      verbose: true
+      diff: true
+      triggered_by: [ 'php' ]
+      config: .php_cs.dist
+    phpunit: ~
+    phpstan: ~
+  process_timeout: 360000

@@ -1,10 +1,11 @@
 #!make
-
 user := $(shell id -u)
 group := $(shell id -g)
-dc := USER_ID=$(user) GROUP_ID=$(group) docker-compose
-de := docker-compose exec
-sy := $(de) php bin/console
+DOCKER_COMPOSE = docker-compose
+EXEC = $(DOCKER_COMPOSE) exec
+EXEC_PHP = $(DOCKER_COMPOSE) exec php
+SYMFONY = $(EXEC_PHP) bin/console
+COMPOSER = $(EXEC_PHP) composer
 # define standard colors
 BLACK        := $(shell tput -Txterm setaf 0)
 RED          := $(shell tput -Txterm setaf 1)
@@ -31,97 +32,103 @@ colors:
 	@echo "${PURPLE}PURPLE${RESET}"
 	@echo "${BLUE}BLUE${RESET}"
 	@echo "${WHITE}WHITE${RESET}"
-	## haikel
-
 
 ##
-###----------------------#
-###    Composer 🧙‍
-###----------------------#
+## Project
+## -------
 ##
-install: composer.lock ## Install vendor
-	sudo $(dc)  exec -u root php composer install
-update: composer.lock ## Install vendor
-	sudo $(dc)  exec -u root php  composer update
-autoload: ## autoload Composer
-	sudo $(dc)  exec -u root php composer dump-autoload
+build: ## build the project
+	$(DOCKER_COMPOSE) build
 
-##
-###----------------------#
-###    Symfony 🎵
-###----------------------#
-##
-cc: up      ##  cache clear
-	$(sy) cac:c
-assets:up	##  Install the assets with symlinks in the public folder
-	$(sy) assets:install
-migration: up ##  Migration
-	$(sy) make:migration
-migrate: up   ##  Migrate
-	sudo $(dc) exec -u www-data php php bin/console doctrine:migrations:migrate
-fix-perms: ##error
-	$(de) php chmod 777 -R var/
-##
-###----------------------#
-###    Docker 🐳
-###----------------------#
-##
-up: ## Start the docker hub
-	$(dc) up -d
-down: ## Stop the docker hub
-	$(dc) down
-build: ## build the docker hub
-	$(dc) build
-.PHONY: logs
-logs: 	##  look for 's' service logs, make s=php logs
-	$(dc) logs -f $(s)
-##
-###----------------------#
-###    Project 🐝
-###----------------------#
-##
-db: up  ##  Create Database
-	$(sy) doctrine:database:create
-fixtures: up  ##  Build the DB, control the schema validity, load fixtures and check the migration status
-	$(sy) doctrine:fixtures:load
-entity: up  ##  Create Entity in ure Domaine
-	$(sy) next:entity
-data: up ## add new data
-	$(sy) next:data
-routingjs: ## Generate routing json
-	$(sy)  fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
-##
-###----------------------#
-###  Coding standards ✨
-###----------------------#
-##
-phpcs: up  ## executes coding standards
-	$(de) php ./vendor/bin/php-cs-fixer fix --using-cache=no
-	$(de) php ./vendor/bin/phpcs src/
-phpstan: ## executes php analizers
-	$(de) php ./vendor/bin/phpstan analyse src/
-phpmd: ## executes coding standards in dry run mode PHP Mess Detector applique certaines règles pour vérifier la qualité
-	$(de) php ./vendor/bin/phpmd src/ text phpmd.xml
-.PHONY: psalm
-psalm: ## execute psalm analyzer
-	$(de) php  ./vendor/bin/psalm --show-info=false
+kill: ## kill the project
+	$(DOCKER_COMPOSE) kill
 
-##
-###---------------------------#
-###    Yarn 🐱 / JavaScript
-###---------------------------#
-##
+start: ## Start the project
+	$(DOCKER_COMPOSE) up -d --remove-orphans --no-recreate
 
-encore-dev: up   ##  encore dev
-	$(de)  php yarn encore dev
-encore-prod: up  ##  encore prod
-	$(de) php yarn encore production
-encore-watch: up  ##  encore watch
-	$(de) php yarn encore dev --watch
-js-install: ##  install JavaScript dependencies
-	$(de) php yarn install
-js-upgrade: ##  upgrade JavaScript dependencies
-	$(de) php yarn upgrade
+stop: ## Stop the project
+	$(DOCKER_COMPOSE) stop
+
+vendor: ## install composer
+vendor: composer.lock
+	$(COMPOSER) install
+
+cc: start  ## cache clear
+	$(SYMFONY)  c:c
+##
+## DB
+## -------
+##
+database-test: ## create database  test
+	$(SYMFONY) doctrine:database:drop --if-exists --force --env=test
+	$(SYMFONY) doctrine:database:create --env=test
+	$(SYMFONY) doctrine:schema:update --force --env=test
+
+database-dev: ## create database dev
+	$(SYMFONY)  doctrine:database:drop --if-exists --force --env=dev
+	$(SYMFONY)  doctrine:database:create --env=dev
+
+fixtures-test: ## load fixtures test
+fixtures-test:
+	$(SYMFONY) doctrine:fixtures:load -n --env=test
+
+fixtures-dev: ## load fixtures dev
+fixtures-dev:
+	$(SYMFONY) doctrine:fixtures:load -n --env=dev
+
+migration: ## Generate a new doctrine migration a verfier
+migration: vendor
+	$(SYMFONY) make:migration
+
+migrate: ## add new tables
+migrate: vendor
+	$(SYMFONY) doctrine:migrations:migrate
+
+db-validate-schema: ## Validate the doctrine ORM mapping
+db-validate-schema: vendor
+	$(SYMFONY) doctrine:schema:validate
+
+fixtures: start  ##  Build the DB, control the schema validity, load fixtures and check the migration status
+	$(SYMFONY) doctrine:fixtures:load
+##
+## Quality assurance
+## -----------------
+##
+ci: ## Run all quality insurance checks (tests, code styles, linting, security, static analysis...)
+#ci: php-cs-fixer phpcs phpmd phpmnd phpstan psalm lint validate-composer validate-mapping security test test-coverage test-spec
+ci: php-cs-fixer phpcs  phpstan  db-validate-schema security test test-coverage
+
+
+phpcs: ## Run phpcode_sniffer
+phpcs:
+	$(EXEC_PHP) vendor/bin/phpcs
+
+php-cs-fixer: ## Run PHP-CS-FIXER
+php-cs-fixer:
+	$(EXEC_PHP) vendor/bin/php-cs-fixer fix --verbose
+
+phpstan: ## Run PHPSTAN
+phpstan:
+	$(EXEC_PHP) vendor/bin/phpstan analyse
+
+
+security: ## Run security-checker
+security:
+	$(EXEC_PHP) symfony security:check --no-interaction
+
+test: ## Run phpunit tests
+test:
+	$(EXEC_PHP) vendor/bin/phpunit
+
+test-coverage-xdebug: ## Run phpunit tests with code coverage (xdebug - uncomment extension in dockerfile)
+test-coverage-xdebug:
+	$(EXEC_PHP) vendor/bin/phpunit --coverage-html=tools/coverage
+
+validate-composer: ## Validate composer.json and composer.lock
+validate-composer:
+	$(EXEC_PHP) composer validate
+
+
 ##
 ###---------------------------#
 ###   🐝 The Next Symfony Makefile 🐝
