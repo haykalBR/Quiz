@@ -1,19 +1,16 @@
-##################################################
-### Install and configure webserver
+---
 - name: Nginx | Ubuntu ppa
-  when: ansible_distribution == 'Ubuntu'
   apt_repository:
     repo: ppa:nginx/stable
     state: present
 - name: Nginx | GPG Key
-  when: ansible_distribution == 'Debian'
   apt_key:
     url: https://nginx.org/keys/nginx_signing.key
 - name: Nginx | Debian repository
-  when: ansible_distribution == 'Debian'
   apt_repository:
     repo: "{{ item }}"
     state: present
+    update_cache: false
   with_items:
     - deb https://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
     - deb-src https://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
@@ -21,35 +18,31 @@
   apt:
     name: nginx
     state: present
-
-- name: Copy nginx.conf
+- name: Nginx | création de /etc/nginx/sites-enabled
+  file: state=directory path=/etc/nginx/sites-enabled
+- name: Nginx | création de /etc/nginx/sites-available
+  file: state=directory path=/etc/nginx/sites-available
+- name: Nginx | nginx.conf
   template:
-    src: nginx.conf
-    dest: /etc/nginx/nginx.conf
-
-- name: Copy new virtual hosts file.
+    src: "{{ item }}.j2"
+    dest: "/etc/nginx/{{ item }}"
+  loop:
+    - nginx.conf
+- name: "Nginx | Vhost {{ domain }}"
   template:
-    src: vagrant.skel
-    dest: /etc/nginx/sites-available/vagrant
-
-- name: Enable new virtual hosts file.
+    src: vhost.j2
+    dest: "/etc/nginx/sites-available/{{ domain }}"
+  notify: nginx reload
+- name: "Nginx | Vhost {{ domain }}"
   file:
-    src: /etc/nginx/sites-available/vagrant
-    dest: /etc/nginx/sites-enabled/vagrant
+    path: "/etc/nginx/sites-enabled/{{ domain }}"
+    src: "/etc/nginx/sites-available/{{ domain }}"
     state: link
-  notify:
-   - restart nginx
+  notify: nginx reload
+- name: "Nginx | Vhost {{ domain }}"
+  template:
+    src: vhost.j2
+    dest: "/etc/nginx/sites-available/{{ domain }}"
+  notify: nginx reload
 
-- name: Allow Ports
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-  with_items:
-    - 80
-    - 443
 
-- name: Start Nginx and enable the service in autostart
-  service:
-    name: nginx
-    state: started
-    enabled: yes

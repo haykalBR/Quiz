@@ -1,6 +1,6 @@
 ---
-- name: Deploy immo application to dev server
-  hosts: dev
+- name: Deploy immo application to dev {{ domain }}
+  hosts: webserver
   become: yes
   roles:
      - carlosbuenosvinos.ansistrano-deploy
