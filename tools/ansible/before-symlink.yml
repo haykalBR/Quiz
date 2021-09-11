@@ -1,5 +1,5 @@
 ---
-- name: Set permissions on Composer
+- name: Set permissions on Composer {{ root_path }}
   become: true
   file:
     path: "{{ root_path }}"

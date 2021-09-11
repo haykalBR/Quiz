@@ -1,0 +1,13 @@
+webserver:
+  hosts:
+    192.168.213.128:
+      ansible_user: dev
+      ansible_become_password: haikel
+      ansible_python_interpreter: /usr/bin/python3
+      domain: stage.local.com
+      root_path: "/home/{{ ansible_user }}/stage.local.com"
+      self_signed: no
+      docker: false
+      private_key_file: ./ssh/
+      port: 81
+
