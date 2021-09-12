@@ -35,6 +35,6 @@ yarn-error.log
 /.phpcs-cache
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
-/tools/coverage/*
+/tools/coverage/
 /tools/docker/nginx/log/*
-
+.idea
