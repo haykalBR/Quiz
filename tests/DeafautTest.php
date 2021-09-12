@@ -1,12 +1,14 @@
 <?php
-namespace App\Tests;
 
+declare(strict_types=1);
+
+namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
 
 class DeafautTest extends TestCase
 {
-    public function testSomething()
+    public function testSomething(): void
     {
         $this->assertFalse(false);
     }
