@@ -12,4 +12,5 @@
     - update_apt_cache: yes
   roles:
     - {role: jenkins, tags: jenkins}
+    - {role: docker, tags: docker}
 
