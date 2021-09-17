@@ -14,7 +14,6 @@ node {
         }
         stage('Tests') {
           parallel (
-               // phpFixe: { sh 'docker-compose exec -T   php vendor/bin/php-cs-fixer fix ' },
                 phpCs: { sh 'docker-compose exec -T php vendor/bin/phpcs'},
                 phpStan: { sh 'docker-compose exec -T php vendor/bin/phpstan analyse'},
                 phpUnit: { sh 'docker-compose exec -T php vendor/bin/phpunit'},
@@ -23,6 +22,7 @@ node {
        stage('Deploy') {
          echo '> Deploying the application ...'
          sh '  ansible-playbook tools/ansible/deploy.yml -i tools/ansible/inventories/dev.yml -f 5 -u dev  --key-file  /var/lib/jenkins/.ssh/id_rsa'
+         emailext body: ' build Ok ', subject: 'Build Sucess', to: 'haikelbrinis@gmail.com'
      }
     } catch(error) {
         currentBuild.result = "FAILURE"
