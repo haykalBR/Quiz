@@ -26,11 +26,11 @@ node {
        stage('Deploy') {
          echo '> Deploying the application ...'
          sh "ansible-playbook tools/ansible/deploy.yml -i tools/ansible/inventories/${Environment_Type}.yml -f 5 -u dev  --key-file  /var/lib/jenkins/.ssh/id_rsa"
-         emailext body: "Completed ${ENV_DEVELOP} (< ${ BUILD_URL }|build ${BUILD_NUMBER}>) ${SUCCESS}  - <${BUILD_URL}console|click here to see the console output ", subject: "Build ${SUCCESS}-${BUILD_NUMBER}", to: 'haikelbrinis@gmail.com'
+         emailext body: "Completed ${Environment_Type} (< ${ BUILD_URL }|build ${BUILD_NUMBER}>) ${SUCCESS}  - <${BUILD_URL}console|click here to see the console output ", subject: "Build ${SUCCESS}-${BUILD_NUMBER}", to: 'haikelbrinis@gmail.com'
      }
     } catch(error) {
         result = "FAILURE"
-        emailext body: "Completed ${ENV_DEVELOP} (< ${ BUILD_URL }|build ${BUILD_NUMBER}>) ${FAILURE}  - <${BUILD_URL}console|click here to see the console output ", subject: "Build ${FAILURE}-${BUILD_NUMBER}", to: 'haikelbrinis@gmail.com'
+        emailext body: "Completed ${Environment_Type} (< ${ BUILD_URL }|build ${BUILD_NUMBER}>) ${FAILURE}  - <${BUILD_URL}console|click here to see the console output ", subject: "Build ${FAILURE}-${BUILD_NUMBER}", to: 'haikelbrinis@gmail.com'
         throw err
     } finally {
     }
