@@ -13,7 +13,7 @@ node {
            echo 'Build applicattion with docker'
            sh 'make build'
            sh 'make start '
-           sh 'make install'
+           sh 'docker-compose exec -T  php composer install'
         }
         stage('Tests') {
           parallel (
