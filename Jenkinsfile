@@ -11,6 +11,7 @@ node {
         }
         stage('Build Docker') {
            echo 'Build applicattion with docker'
+           echo 'docker stop $(docker ps -a -q)'
            sh 'make build'
            sh 'make start '
            sh 'docker-compose exec -T  php composer install'
