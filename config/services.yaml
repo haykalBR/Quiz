@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    recaptcha_key: '%env(resolve:GOOGLE_RECAPTCHA_SITE_KEY)%'
+    recaptcha_secret: '%env(resolve:GOOGLE_RECAPTCHA_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -23,3 +25,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Core\Services\CaptchaValidator:
+        arguments:
+            $key: '%recaptcha_key%'
+            $secret: '%recaptcha_secret%'
