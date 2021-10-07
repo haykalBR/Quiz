@@ -22,7 +22,7 @@ class RefLevelController extends AbstractController
     }
 
     /**
-     * @Route("/level", name="ref_level")
+     * @Route("/level", name="ref_level", methods={"GET","POST"},options={"expose"=true})
      */
     public function index(Request $request): Response
     {
