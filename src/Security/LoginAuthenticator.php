@@ -39,9 +39,13 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
         $recaptcha=$request->request->get('g-recaptcha-response','');
         $request->getSession()->set(Security::LAST_USERNAME, $email);
-         if(!$this->captchaValidator->validateCaptcha($recaptcha)){
-              throw new RecaptchaException();
-          }
+
+         /*if(!$this->captchaValidator->validateCaptcha($recaptcha)){
+                throw new RecaptchaException();
+           }
+         */
+
+
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
@@ -57,7 +61,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
     protected function getLoginUrl(Request $request): string
