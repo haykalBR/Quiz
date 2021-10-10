@@ -6,7 +6,7 @@ export default class ReflevelService implements DataTable{
     getAjax(){
         return {
             'url': Routing.generate("ref_level"),
-            data: function(data) {
+            data: function(data,buttons) {
 
             },
         }
@@ -19,10 +19,9 @@ export default class ReflevelService implements DataTable{
             {
                 "targets": -1,
                 'name':'t.id',
-                'data':'t_id',
+                'data':'t_buttons',
                 "render": function ( data, type, full, meta ) {
-                    let ch="";
-                    return ch;
+                    return data;
                 }
             }
         ]

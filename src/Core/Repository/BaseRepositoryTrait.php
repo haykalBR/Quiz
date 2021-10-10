@@ -1,124 +1,164 @@
 <?php
 namespace App\Core\Repository;
+use App\Core\Datatable\Buttons\SimpleButton;
+use App\Core\Datatable\Option\RefLevelOption;
 use App\Core\Enum\DataTableEnum;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
 trait BaseRepositoryTrait
 {
-
+    private array $search;
+    private array $orders;
+    private array $columns;
+    private array $hiddenColumn;
+    private array $joins;
+    private QueryBuilder $queryBuilder;
 
     public function dataTable(): array
     {
-        $request=$this->requestStack->getCurrentRequest();
-        $draw         = (int) ($request->query->all()['draw']);
-        $start        = $request->query->all()['start'];
-        $length       = $request->query->all()['length'];
-        $search       = $request->query->all()['search'];
-        $orders       = $request->query->all()['order'];
-        $columns      = $request->query->all()['columns'];
-        $hiddenColumn = $request->query->all('hiddenColumn');
-        if (isset($columns)) {
-            $column = '';
-            foreach ($columns as $colums) {
-                if ('true' === $colums['searchable'] and false === mb_strpos($column, $colums['name'])) {
-                    $column .= $colums['name'].' AS '.$colums['data'].',';
-                }
-            }
-        } else {
-            $column = 't';
-        }
-        if (isset($hiddenColumn)) {
-            foreach ($hiddenColumn as $colums) {
-                if (false === mb_strpos($column, $colums['name'])) {
-                    $column .= $colums['name'].' AS '.$colums['data'].',';
-                }
-            }
-        }
-        /**
-         * Select table with Colmuns.
-         */
-        $qb = $this->createQueryBuilder('t')->select(rtrim($column, ','));
-        /**
-         * get Total Items in database.
-         */
+    $request = $this->requestStack->getCurrentRequest();
+    $router=$this->urlGenerator;
+    if ($request) {
+        $requestQuery = $request->query->all();
+        $this->init($requestQuery);
+        $draw = $requestQuery['draw'] ?? '1';
+        $this->queryBuilder = $this->createQueryBuilder('t')
+            ->select($this->selectColumns())
+        ;
         $total = $this->createQueryBuilder('t')->select('count(t.id)');
+        $filteredTotal = $this->setJoins(clone $total);
+        $filteredTotal = $this->setSearch($filteredTotal);
+        $this->setOrderBy();
+        $this->setPaginationRecords($requestQuery);
+        $recordsTotal = $this->getRecordsTotal($total);
+        $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
         /**
-         *  get Flitred Item.
-         */
-        $FilteredTotal = clone $total;
-        if (isset($request->query->all()['join'])) {
-            $joins = $request->query->all()['join'];
-            foreach ($joins as $join) {
-                $qb->leftJoin($join['join'], $join['alias'], Expr\Join::WITH, $join['condition']);
-                $FilteredTotal->leftJoin($join['join'], $join['alias'], Expr\Join::WITH, $join['condition']);
-            }
-        }
-        /*
-         *  Set Start item
-         */
-        if (isset($start)) {
-            $qb->setFirstResult((int) $start);
-        }
-        /*
-         *  Set Length count item perpage  item
-         */
-        if (isset($length)) {
-            $qb->setMaxResults((int) $length);
-        }
-        /*
-         *  Set Ordred By cloumn
-         */
-        if (isset($orders)) {
-            foreach ($orders as $order) {
-                $qb->addOrderBy($columns[$order['column']]['name'], $order['dir']);
-            }
-        }
-        /**
-         *  Get List of search.
-         */
-        $searchlist = [];
-        if (isset($columns) and isset($search) and '' !== $search['value']) {
-            foreach ($columns as $column) {
-                if ('true' === $column['searchable']) {
-                    $searchlist[] = $qb->expr()->like('CAST('.$column['name'].' as text)', '\'%'.trim($search['value']).'%\''
-                    );
-                }
-            }
-            foreach ($hiddenColumn as $column) {
-                $searchlist[] = $qb->expr()->like('CAST('.$column['name'].' as text)', '\'%'.trim($search['value']).'%\'');
-            }
-        }
-
-        /*
-         *  if list search not empty serach
-         */
-        if (!empty($searchlist)) {
-            $qb->andWhere(new Expr\Andx($searchlist));
-            $FilteredTotal->andWhere(new Expr\Andx($searchlist));
-        }
-        try {
-            /**
-             *  get all count itmes.
-             */
-            $recordsTotal = $total->getQuery()->getSingleScalarResult();
-        } catch (NonUniqueResultException $e) {
-            $recordsTotal = 0;
-        }
-        try {
-            /**
-             *  get filtred  count itmes.
-             */
-            $recordsFiltered = $FilteredTotal->getQuery()->getSingleScalarResult();
-        } catch (NonUniqueResultException $e) {
-            $recordsFiltered = 0;
+        TODO DP
+         **/
+        $results=[];
+        foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result){
+           $x= new RefLevelOption();
+           $result['t_buttons'] =$x->render();
+           $results[]=$result;
         }
         return [
-            'draw'            => $draw,
-            'recordsTotal'    => $recordsTotal,
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
-            'data'            => $qb->getQuery()->getScalarResult(),
+            'data' => $results,
         ];
     }
+
+    return [];
+}
+
+    private function init(array $requestQuery): void
+{
+    $this->search = $requestQuery['search'] ?? [];
+    $this->orders = $requestQuery['order'] ?? [];
+    $this->columns = $requestQuery['columns'] ?? [];
+    $this->hiddenColumn = $requestQuery['hiddenColumn'] ?? [];
+    $this->joins = $requestQuery['join'] ?? [];
+}
+
+    /**
+     * set select columns.
+     */
+    private function selectColumns(): string
+{
+    $column = '';
+    foreach (\array_merge($this->columns, $this->hiddenColumn) as $colums) {
+        if (!isset($colums['searchable']) || (isset($colums['searchable']) && $colums['searchable'] === 'true') && !empty($colums['name']) && \mb_strpos($column, $colums['name']) === false) {
+            $column .= $colums['name'] . ' AS ' . $colums['data'] . ',';
+        }
+    }
+
+    return empty($column) ? 't' : \rtrim($column, ',');
+}
+
+    /**
+     * set join table to the query.
+     */
+    private function setJoins(QueryBuilder $filteredTotal): QueryBuilder
+{
+    foreach ($this->joins as $join) {
+        $this->queryBuilder->leftJoin($join['join'], $join['alias'], Expr\Join::WITH, $join['condition']);
+        $filteredTotal->leftJoin($join['join'], $join['alias'], Expr\Join::WITH, $join['condition']);
+    }
+
+    return $filteredTotal;
+}
+
+    /**
+     * set order by.
+     */
+    private function setOrderBy(): void
+{
+    foreach ($this->orders as $order) {
+        $this->queryBuilder->addOrderBy($this->columns[$order['column']]['name'], $order['dir']);
+    }
+}
+
+    private function setPaginationRecords(array $requestQuery): void
+{
+    $start = (int) $requestQuery['start'] ?? 0;
+    $length = (int) $requestQuery['length'] ?? 50;
+    $this->queryBuilder->setFirstResult($start)
+        ->setMaxResults($length)
+    ;
+}
+
+    /**
+     * Get List of search.
+     */
+    private function setSearch(QueryBuilder $filteredTotal): QueryBuilder
+{
+    $searchlist = [];
+    foreach ($this->columns as $column) {
+        if ($column['searchable'] === 'true') {
+            $searchlist[] = $this->queryBuilder->expr()
+                ->like($column['name'], '\'%' . \trim($this->search['value']) . '%\'')
+            ;
+        }
+    }
+    foreach ($this->hiddenColumn as $column) {
+        $searchlist[] = $this->queryBuilder->expr()
+            ->like($column['name'], '\'%' . \trim($this->search['value']) . '%\'')
+        ;
+    }
+
+    if (!empty($searchlist)) {
+        $this->queryBuilder->andWhere(new Expr\Orx($searchlist));
+        $filteredTotal->andWhere(new Expr\Orx($searchlist));
+    }
+
+    return $filteredTotal;
+}
+
+    /**
+     * Get number of total records.
+     */
+    private function getRecordsTotal(QueryBuilder $total): int
+{
+    try {
+        return (int) $total->getQuery()->getSingleScalarResult();
+    } catch (NonUniqueResultException $e) {
+        return 0;
+    }
+}
+
+    /**
+     * get number of filtred records.
+     */
+    private function getRecordsFiltered(QueryBuilder $filteredTotal): int
+{
+    try {
+        return (int) $filteredTotal->getQuery()->getSingleScalarResult();
+    } catch (NonUniqueResultException $e) {
+        return 0;
+    }
+}
 }
