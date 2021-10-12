@@ -4,18 +4,18 @@ namespace App\Core\Datatable\Option;
 
 use App\Core\Datatable\Buttons\SimpleButton;
 
-class RefLevelBuildOption extends AbstractBuildOption
+class RefLevelBuildOption implements BuildOption
 {
     const TYPE="level";
-    public function render(): string
+    public function render($data): string
     {
-       $options=SimpleButton::build("btn btn-info",'Edit').' ';
-       $options.=SimpleButton::build("btn",'info');
-       return "";
+        //a modifer
+       $options=SimpleButton::build("btn btn-info delete",'Delete',$data).' ';
+       $options.=SimpleButton::build("btn",'info',$data);
+       return  $options;
     }
-
-    public function support(string $media): bool
+    public function support(string $type): bool
     {
-        return  $media==self::TYPE;
+        return  $type==self::TYPE;
     }
 }

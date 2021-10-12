@@ -2,7 +2,6 @@ import "datatables.net";
 import "datatables-responsive";
 import "datatables.net-dt";
 import "datatables.net-bs4";
-import "datatables.net-scroller";
 import "datatables.net-buttons";
 
 export default {
@@ -18,7 +17,7 @@ export default {
     "serverSide": true,
     "paging":true,
     "sAjaxDataProp": "data",
-    "pageLength": 50,
+    "pageLength": 10,
     "length": 40,
     "deferRender": true,
     "scrollY": "600px",
@@ -38,11 +37,13 @@ export default {
             if ( last !== group ) {
 
                 $(rows).eq( i ).before(
+
                     `<tr class="group">
                         <td colspan="5">`+group+`</td>
                         <td>`+arr.toArray().filter(x => x==group).length+`</td>
                     </tr>`
                 );
+
 
                 last = group;
             }

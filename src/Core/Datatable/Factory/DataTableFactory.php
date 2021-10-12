@@ -8,20 +8,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class DataTableFactory
 {
-    private Request $requestStack;
-    private EntityManagerInterface $manager;
 
-
-    public function __construct(RequestStack $requestStack,EntityManagerInterface  $manager)
+    private DataTable $dataTable;
+    public function __construct(DataTable $dataTable)
     {
-        $this->requestStack = $requestStack->getCurrentRequest();
-
-        $this->manager = $manager;
+        $this->dataTable = $dataTable;
     }
     public function create($className){
-
-        return (new DataTable($this->requestStack,$this->manager))
-            ->dataTable($className);;
+        return $this->dataTable->dataTable($className);;
     }
 
 

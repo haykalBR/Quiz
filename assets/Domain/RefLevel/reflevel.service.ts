@@ -4,9 +4,8 @@ import DataTable from '../../Shared/interfaces/datatable';
 @injectable()
 export default class ReflevelService implements DataTable{
     getAjax(){
-        console.warn(55)
         return {
-            'url': Routing.generate("ref_level"),
+            'url': Routing.generate("admin_levels"),
             data: function(data,buttons) {
 
             },
@@ -27,5 +26,9 @@ export default class ReflevelService implements DataTable{
             }
         ]
     }
-
+    deleteLevel(event:JQuery.ClickEvent):void{
+        event.preventDefault();
+        const data = $(this).attr('data-level');
+        console.warn(55);
+    }
 }

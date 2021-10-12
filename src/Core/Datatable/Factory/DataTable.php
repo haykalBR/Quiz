@@ -3,13 +3,14 @@
 namespace App\Core\Datatable\Factory;
 
 use App\Core\Datatable\Option\RefLevelBuildOption;
+use App\Core\Datatable\Option\RegistryHandler;
 use App\Entity\RefLevel;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
-use App\Core\Enum\DataTableEnum;
 use Doctrine\ORM\Query\Expr;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DataTable
@@ -20,9 +21,10 @@ class DataTable
     private array $hiddenColumn;
     private array $joins;
     private  EntityManagerInterface $manager;
-    private Request $request;
+    private RequestStack $request;
+    private RegistryHandler $handler;
 
-    public function __construct(Request $request ,EntityManagerInterface  $manager)
+    public function __construct(RequestStack $request ,EntityManagerInterface  $manager ,RegistryHandler $handler)
    {
        $this->search = $requestQuery['search'] ?? [];
        $this->orders = $requestQuery['order'] ?? [];
@@ -33,6 +35,7 @@ class DataTable
        $this->manager=$manager;
        $resolver = new OptionsResolver();
       // dd($resolver);
+       $this->handler = $handler;
    }
 
     /**
@@ -134,7 +137,7 @@ class DataTable
     }
     public function dataTable($className): array
     {
-        $request = $this->request;
+        $request = $this->request->getCurrentRequest();
         if ($request) {
             $requestQuery = $request->query->all();
 
@@ -153,10 +156,8 @@ class DataTable
             TODO DP
              **/
             $results=[];
-
             foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result){
-                $x= new RefLevelBuildOption();
-                $result['t_buttons'] =$x->render();
+                $result['t_buttons'] =$this->handler->build('level',$result);
                 $results[]=$result;
             }
             return [

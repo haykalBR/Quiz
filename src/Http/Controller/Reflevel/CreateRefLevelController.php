@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/level/create", name="level_create")
+ * @Route("/level/create", name="level_create",)
  */
 class CreateRefLevelController extends  AbstractController
 {

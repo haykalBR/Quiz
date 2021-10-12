@@ -4,11 +4,16 @@ import DatatableFactory from "../../Shared/factory/datatableFactory"
 
 @injectable()
 export default class ReflevelComponent {
-    private reflevelService: ReflevelService;
+    private levelService: ReflevelService;
     constructor(
-        @inject(ReflevelService) reflevelService:ReflevelService,
+        @inject(ReflevelService) levelService:ReflevelService,
         @inject(DatatableFactory) datatableFactory:DatatableFactory,
     ){
-        datatableFactory.getDatatable('#reflevel_table', reflevelService)
+        this.levelService=levelService;
+        datatableFactory.getDatatable('#reflevel_table', levelService)
+    }
+
+    deleteLevel():void{
+        $("#reflevel_table").on('click', '.delete',this.levelService.deleteLevel);
     }
 }
