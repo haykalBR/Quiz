@@ -4,8 +4,13 @@ namespace App\Entity;
 
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={"delete"}
+ * )
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
  */
 class Question

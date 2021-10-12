@@ -4,8 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ReponsesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={"delete"}
+ * )
  * @ORM\Entity(repositoryClass=ReponsesRepository::class)
  */
 class Reponses

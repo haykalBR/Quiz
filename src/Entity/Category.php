@@ -4,8 +4,13 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={"delete"}
+ * )
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
