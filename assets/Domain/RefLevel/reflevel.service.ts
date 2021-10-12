@@ -4,6 +4,7 @@ import DataTable from '../../Shared/interfaces/datatable';
 @injectable()
 export default class ReflevelService implements DataTable{
     getAjax(){
+        console.warn(55)
         return {
             'url': Routing.generate("ref_level"),
             data: function(data,buttons) {

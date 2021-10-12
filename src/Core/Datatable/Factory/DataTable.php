@@ -2,7 +2,7 @@
 
 namespace App\Core\Datatable\Factory;
 
-use App\Core\Datatable\Option\RefLevelOption;
+use App\Core\Datatable\Option\RefLevelBuildOption;
 use App\Entity\RefLevel;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -155,7 +155,7 @@ class DataTable
             $results=[];
 
             foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result){
-                $x= new RefLevelOption();
+                $x= new RefLevelBuildOption();
                 $result['t_buttons'] =$x->render();
                 $results[]=$result;
             }

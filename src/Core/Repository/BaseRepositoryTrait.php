@@ -1,7 +1,7 @@
 <?php
 namespace App\Core\Repository;
 use App\Core\Datatable\Buttons\SimpleButton;
-use App\Core\Datatable\Option\RefLevelOption;
+use App\Core\Datatable\Option\RefLevelBuildOption;
 use App\Core\Enum\DataTableEnum;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\NonUniqueResultException;
@@ -40,7 +40,7 @@ trait BaseRepositoryTrait
          **/
         $results=[];
         foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result){
-           $x= new RefLevelOption();
+           $x= new RefLevelBuildOption();
            $result['t_buttons'] =$x->render();
            $results[]=$result;
         }
