@@ -192,6 +192,12 @@
     "laminas/laminas-code": {
         "version": "4.4.2"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.1.5"
+    },
     "monolog/monolog": {
         "version": "2.3.1"
     },
@@ -313,6 +319,25 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "scheb/2fa-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "62660e7d21b8b5295c5a6f8ca17dc7099881f267"
+        },
+        "files": [
+            "config/packages/scheb_2fa.yaml",
+            "config/routes/scheb_2fa.yaml"
+        ]
+    },
+    "scheb/2fa-email": {
+        "version": "v5.12.1"
+    },
+    "scheb/2fa-trusted-device": {
+        "version": "v5.12.1"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
