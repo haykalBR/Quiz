@@ -1,5 +1,5 @@
 <?php
-namespace  App\Controller\Category;
+namespace  App\Http\Controller\Category;
 
 /**
  * Created by PhpStorm.
