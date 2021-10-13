@@ -2,6 +2,7 @@
 
 namespace App\Core\Datatable\Option;
 
+use App\Core\Datatable\Buttons\AbstractButtons;
 use App\Core\Datatable\Buttons\SimpleButton;
 
 class RefLevelBuildOption implements BuildOption
@@ -9,10 +10,10 @@ class RefLevelBuildOption implements BuildOption
     const TYPE="level";
     public function render($data): string
     {
-        //a modifer
-       $options=SimpleButton::build("btn btn-info delete",'Delete',$data).' ';
-       $options.=SimpleButton::build("btn",'info',$data);
-       return  $options;
+        $options="";
+        $simpleButton =new SimpleButton();
+        $options.=$simpleButton->addClassName(AbstractButtons::DANGER)->addData($data)->addLabel('Delete')->build();
+        return  $options;
     }
     public function support(string $type): bool
     {
