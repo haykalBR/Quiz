@@ -20,23 +20,24 @@ class DataTable
     private array $columns;
     private array $hiddenColumn;
     private array $joins;
-    private  EntityManagerInterface $manager;
+    private EntityManagerInterface $manager;
     private RequestStack $request;
     private RegistryHandler $handler;
 
-    public function __construct(RequestStack $request ,EntityManagerInterface  $manager ,RegistryHandler $handler)
-   {
-       $this->search = $requestQuery['search'] ?? [];
-       $this->orders = $requestQuery['order'] ?? [];
-       $this->columns = $requestQuery['columns'] ?? [];
-       $this->hiddenColumn = $requestQuery['hiddenColumn'] ?? [];
-       $this->joins = $requestQuery['join'] ?? [];
-       $this->request = $request;
-       $this->manager=$manager;
-       $resolver = new OptionsResolver();
+    public function __construct(RequestStack $request, EntityManagerInterface  $manager, RegistryHandler $handler)
+    {
+        $requestQuery = $request->getCurrentRequest()->query->all();
+        $this->search = $requestQuery['search'] ?? [];
+        $this->orders = $requestQuery['order'] ?? [];
+        $this->columns = $requestQuery['columns'] ?? [];
+        $this->hiddenColumn = $requestQuery['hiddenColumn'] ?? [];
+        $this->joins = $requestQuery['join'] ?? [];
+        $this->request = $request;
+        $this->manager = $manager;
+        $resolver = new OptionsResolver();
       // dd($resolver);
-       $this->handler = $handler;
-   }
+        $this->handler = $handler;
+    }
 
     /**
      * set select columns.
@@ -46,7 +47,7 @@ class DataTable
         $column = '';
         foreach (\array_merge($this->columns, $this->hiddenColumn) as $colums) {
             if (!isset($colums['searchable']) || (isset($colums['searchable']) && $colums['searchable'] === 'true') && !empty($colums['name']) && \mb_strpos($column, $colums['name']) === false) {
-                $column .= $colums['name'] . ' AS ' . $colums['data'] . ',';
+                $column .= $colums['name'].' AS '.$colums['data'].',';
             }
         }
 
@@ -90,17 +91,18 @@ class DataTable
      */
     private function setSearch(QueryBuilder $filteredTotal): QueryBuilder
     {
+
         $searchlist = [];
         foreach ($this->columns as $column) {
             if ($column['searchable'] === 'true') {
                 $searchlist[] = $this->queryBuilder->expr()
-                    ->like($column['name'], '\'%' . \trim($this->search['value']) . '%\'')
+                    ->like($column['name'], '\'%'.\trim($this->search['value']).'%\'')
                 ;
             }
         }
         foreach ($this->hiddenColumn as $column) {
             $searchlist[] = $this->queryBuilder->expr()
-                ->like($column['name'], '\'%' . \trim($this->search['value']) . '%\'')
+                ->like($column['name'], '\'%'.\trim($this->search['value']).'%\'')
             ;
         }
 
@@ -142,24 +144,23 @@ class DataTable
             $requestQuery = $request->query->all();
 
             $draw = $requestQuery['draw'] ?? '1';
-            $this->queryBuilder = $this->manager->createQueryBuilder()->from($className,'t')
+            $this->queryBuilder = $this->manager->createQueryBuilder()->from($className, 't')
                 ->select($this->selectColumns())
             ;
-            $total = $this->manager->createQueryBuilder()->from($className,'t')->select('count(t.id)');
+            $total = $this->manager->createQueryBuilder()->from($className, 't')->select('count(t.id)');
             $filteredTotal = $this->setJoins(clone $total);
             $filteredTotal = $this->setSearch($filteredTotal);
             $this->setOrderBy();
             $this->setPaginationRecords($requestQuery);
             $recordsTotal = $this->getRecordsTotal($total);
             $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
-            /**
-            TODO DP
-             **/
-            $results=[];
-            foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result){
-                $result['t_buttons'] =$this->handler->build('level',$result);
-                $results[]=$result;
+
+            $results = [];
+            foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result) {
+                $result['t_buttons'] = $this->handler->build('level', $result);
+                $results[] = $result;
             }
+
             return [
                 'draw' => $draw,
                 'recordsTotal' => $recordsTotal,
@@ -170,5 +171,4 @@ class DataTable
 
         return [];
     }
-
 }
