@@ -20,7 +20,6 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.1",
         "@types/bootstrap.v3.datetimepicker": "^4.17.48",
         "@types/datatables.net": "^1.10.19",
         "@types/jquery": "^3.5.3",

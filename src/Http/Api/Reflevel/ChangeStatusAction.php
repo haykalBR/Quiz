@@ -6,12 +6,14 @@
  * Time: 15:18
  */
 
-namespace App\Http\Controller\Reflevel;
+namespace App\Http\Api\Reflevel;
 
 
 use App\Entity\RefLevel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ChangeStatusAction extends AbstractController
 {
@@ -25,10 +27,13 @@ class ChangeStatusAction extends AbstractController
     {
         $this->manager = $manager;
     }
-    public function __invoke(RefLevel $data)
+    public function __invoke(RefLevel $data ,Request  $request)
     {
-        dd($data->getId());
 
+        $result=json_decode($request->getContent(), true);
+        $data->setEnabled($result['state']);
+        $this->manager->flush();
+        return new JsonResponse("Compte Update");
     }
 
 }

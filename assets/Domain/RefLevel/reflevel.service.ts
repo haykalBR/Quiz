@@ -17,6 +17,7 @@ export default class ReflevelService implements DataTable{
         return [
             {   "targets": i++,'name':'t.id','data':'t_id'},
             {   "targets": i++,'name':'t.name','data':'t_name' },
+            {   "targets": i++,'name':'t.enabled','data':'t_enabled' },
             {
                 "targets": -1,
                 'name':'t.id',
