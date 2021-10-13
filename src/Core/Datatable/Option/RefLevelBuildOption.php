@@ -12,7 +12,11 @@ class RefLevelBuildOption implements BuildOption
     {
         $options="";
         $simpleButton =new SimpleButton();
-        $options.=$simpleButton->addClassName(AbstractButtons::DANGER)->addData($data)->addLabel('Delete')->build();
+        $options.=$simpleButton->addClassName(AbstractButtons::DANGER." delete")->addData($data)->addLabel('Delete')->build();
+        $options.='  <label  class="switch switch200">
+    <input data-id="'.$data['t_id'].'" type="checkbox" class="switch-input">
+    <span class="slider slider200"></span>
+  </label>';
         return  $options;
     }
     public function support(string $type): bool

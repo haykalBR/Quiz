@@ -1,7 +1,6 @@
 import { inject, injectable } from "inversify";
 import ReflevelService from "./reflevel.service";
 import DatatableFactory from "../../Shared/factory/datatableFactory"
-
 @injectable()
 export default class ReflevelComponent {
     private levelService: ReflevelService;
@@ -15,5 +14,8 @@ export default class ReflevelComponent {
 
     deleteLevel():void{
         $("#reflevel_table").on('click', '.delete',this.levelService.deleteLevel);
+    }
+    changeStateLevel():void{
+        $("#reflevel_table").on('click', '.switch-input',this.levelService.changeState);
     }
 }

@@ -5,10 +5,18 @@ namespace App\Entity;
 use App\Repository\RefLevelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Http\Controller\Reflevel\ChangeStatusAction;
 
 /**
  * @ApiResource(
- *     collectionOperations={},
+ *     collectionOperations={
+ *       "change-state"={
+ *           "method"="PUT",
+ *           "path"="/levels/state/{id}",
+ *           "openapi_context"={"summary"="change state Level"},
+ *           "controller"=ChangeStatusAction::class
+ *      },
+ *     },
  *     itemOperations={"delete"}
  * )
  * @ORM\Entity(repositoryClass=RefLevelRepository::class)
