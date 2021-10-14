@@ -121,14 +121,7 @@
                     <div class="form-group  row ">
                         <label class="col-sm-2 form-control-label" for="bouquets"> Show Recaptcha On Login Form </label>
                         <div class="col-sm-8">
-                            <div class="bootstrap-switch-on bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate" style="width: 86px;">
-                                <div class="bootstrap-switch-container" style="width: 126px; margin-left: 0px;">
-                                    <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 42px;">ON</span>
-                                     <span class="bootstrap-switch-label" style="width: 42px;">&nbsp;</span>
-                                     <span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 42px;">OFF</span>
-                                     <input type="checkbox" name="my-checkbox"  data-bootstrap-switch="">
-                                </div>
-                            </div>
+
                             {% set rand = random() %}
                             <div class="checkbox-toggle -extra-large">
                                 <input name="Security[app.security.recaptcha]" type="checkbox" id="check-toggle-{{ rand }}" {% if next['app.security.recaptcha']  =="on"%} checked {% endif %}>
