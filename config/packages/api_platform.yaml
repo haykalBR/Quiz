@@ -1,6 +1,11 @@
 api_platform:
+    title: 'Application Quiz '
+    description: 'Application footbaal '
+    version: '0.0.1'
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths:
+            - '%kernel.project_dir%/src/Domain'
+            - '%kernel.project_dir%/src/Http/'
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:

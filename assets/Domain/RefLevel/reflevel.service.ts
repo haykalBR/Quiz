@@ -9,7 +9,12 @@ export default class ReflevelService implements DataTable{
     getAjax(){
         return {
             'url': Routing.generate("admin_levels"),
-            data: function(data,buttons) {},
+            data: function(data,buttons) {
+                data.hiddenColumn= [
+                    {   name: 't.enabled',data: 't_enabled'}
+                ];
+            },
+
         }
     }
     getDatableColumnDef():Array<any>{
@@ -17,7 +22,6 @@ export default class ReflevelService implements DataTable{
         return [
             {   "targets": i++,'name':'t.id','data':'t_id'},
             {   "targets": i++,'name':'t.name','data':'t_name' },
-            {   "targets": i++,'name':'t.enabled','data':'t_enabled' },
             {
                 "targets": -1,
                 'name':'t.id',
@@ -39,10 +43,9 @@ export default class ReflevelService implements DataTable{
         const  id :string = $(this).attr('data-id');
         axios({
             method: 'put',
-            url: Routing.generate('api_ref_levels_change-state_collection',{id:id}),
+            url: Routing.generate('api_ref_levels_change-state_item',{id:id}),
             data: {state: state}
         }).then(async (response) => {
-            console.log(response)
         }, (error) => {
             console.error(error)
         });

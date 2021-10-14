@@ -9,7 +9,7 @@
 namespace App\Http\Api\Reflevel;
 
 
-use App\Entity\RefLevel;
+use App\Domain\User\Entity\RefLevel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,5 +34,4 @@ class ChangeStatusAction extends AbstractController
         $this->manager->flush();
         return new JsonResponse("Compte Update");
     }
-
 }

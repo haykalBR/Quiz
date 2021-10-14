@@ -3,7 +3,7 @@ namespace  App\Http\Controller\Reflevel;
 
 use App\Core\Datatable\Factory\DataTableFactory;
 use App\Core\Datatable\Option\RegistryHandler;
-use App\Entity\RefLevel;
+use App\Domain\User\Entity\RefLevel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

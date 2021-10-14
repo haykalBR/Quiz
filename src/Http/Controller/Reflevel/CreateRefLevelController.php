@@ -2,8 +2,8 @@
 namespace  App\Http\Controller\Reflevel;
 
 use App\Core\Datatable\Factory\DataTableFactory;
-use App\Entity\RefLevel;
-use App\Form\RefLevelType;
+use App\Domain\User\Entity\RefLevel;
+use App\Domain\User\Form\RefLevelType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -28,7 +28,8 @@ class SettingsCommand extends Command
     {
         parent::__construct();
         $this->settings=["app.settings.lang","app.settings.name","app.mail.smtp.name","app.mail.smtp.password",
-                         "app.mail.smtp.username","app.mail.smtp.encryption","app.mail.smtp.port","app.mail.smtp.host","app.mail.address.email"];
+                         "app.mail.smtp.username","app.mail.smtp.encryption","app.mail.smtp.port","app.mail.smtp.host",
+                         "app.mail.address.email"];
         $this->manager = $manager;
         $this->settingsRepository = $settingsRepository;
     }

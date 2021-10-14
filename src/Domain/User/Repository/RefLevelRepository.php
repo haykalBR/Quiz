@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\User\Repository;
 
 use App\Core\Repository\BaseRepositoryTrait;
-use App\Entity\RefLevel;
+
+use App\Domain\User\Entity\RefLevel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form;
+namespace App\Domain\User\Form;
 
-use App\Entity\RefLevel;
+use App\Domain\User\Entity\RefLevel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;

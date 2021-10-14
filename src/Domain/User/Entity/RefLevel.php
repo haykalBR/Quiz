@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Entity;
-
-use App\Repository\RefLevelRepository;
+namespace App\Domain\User\Entity;
+use App\Domain\User\Repository\RefLevelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Http\Api\Reflevel\ChangeStatusAction;
