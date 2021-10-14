@@ -34,8 +34,6 @@ class DataTable
         $this->joins = $requestQuery['join'] ?? [];
         $this->request = $request;
         $this->manager = $manager;
-        $resolver = new OptionsResolver();
-      // dd($resolver);
         $this->handler = $handler;
     }
 

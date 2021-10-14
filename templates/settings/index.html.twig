@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Settings</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Settings</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">Settings</h3>
+                </div>
+                <form action="{{ path('admin_settings') }}" method="post">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput" style="color: #17a2b8"><h5><strong> General Settings </strong></h5></label>
+                    </div>
+                    <div class="form-group  row ">
+                        <label class="col-sm-2 form-control-label" for="bouquets">Name Application </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="general[app.settings.name]" value="{{ next['app.settings.name'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group  row ">
+                        <label class="col-sm-2 form-control-label" for="bouquets">Default Language</label>
+                        <div class="col-sm-8">
+                            <select  id="" class="form-control" name="general[app.settings.lang]">
+                                <option {% if next['app.settings.lang'] =='Francais' %}selected{% endif %}>Francais</option>
+                                <option {% if next['app.settings.lang'] =='English' %}selected{% endif %}>English</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput" style="color: #17a2b8"><h5><strong> Mail Settings </strong></h5></label>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> Enter the email address which you want the emails to come from	 </label>
+                        <div class="col-sm-8">
+                            <input type="text" required name="Mail[app.mail.address.email]" id="url" class="form-control"  value="{{ next['app.mail.address.email'] }}" >
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> SMTP Host </label>
+                        <div class="col-sm-8">
+                            <input type="text" required name="Mail[app.mail.smtp.host]" id="url" class="form-control" value="{{ next['app.mail.smtp.host'] }}" >
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> SMTP Port </label>
+                        <div class="col-sm-8">
+                            <input type="number" name="Mail[app.mail.smtp.port]" id="port" class="form-control" value="{{ next['app.mail.smtp.port'] }}" >
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> SMTP Encryption	 </label>
+                        <div class="col-sm-8">
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="radioPrimary1" name="Mail[app.mail.smtp.encryption]" value="ssl" {% if next['app.mail.smtp.encryption'] =='ssl' %} checked {% endif %}>
+                                    <label for="radioPrimary1">SSL</label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input id="radioPrimary2"  type="radio" name="Mail[app.mail.smtp.encryption]" value="tls" {% if next['app.mail.smtp.encryption'] =='tls' %} checked {% endif %}>
+                                    <label for="radioPrimary2">TLS</label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input id="radioPrimary3"   type="radio" name="Mail[app.mail.smtp.encryption]" value="null" {% if next['app.mail.smtp.encryption'] =='null' %} checked {% endif %}>
+                                    <label for="radioPrimary3">No Encryption</label>
+                                </div>
+                            </div>
+                               <div class="clearBoth">
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> SMTP Username </label>
+                        <div class="col-sm-8">
+                            <input type="text" required name="Mail[app.mail.smtp.username]"id="url" class="form-control" value="{{ next['app.mail.smtp.username'] }}" >
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> SMTP Password </label>
+                        <div class="col-sm-8">
+                            <input type="text" required name="Mail[app.mail.smtp.password]"id="url" class="form-control" value="{{ next['app.mail.smtp.password'] }}">
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group  row ">
+
+                        <label class="col-sm-2 form-control-label" for="bouquets"> SMTP from name </label>
+                        <div class="col-sm-8">
+                            <input type="text" required name="Mail[app.mail.smtp.name]"id="url" class="form-control" value="{{ next['app.mail.smtp.name'] }}">
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput" style="color: #17a2b8"><h5><strong> General Settings </strong></h5></label>
+                    </div>
+                    <div class="form-group  row ">
+                        <label class="col-sm-2 form-control-label" for="bouquets"> Show Recaptcha On Login Form </label>
+                        <div class="col-sm-8">
+                            <div class="bootstrap-switch-on bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate" style="width: 86px;">
+                                <div class="bootstrap-switch-container" style="width: 126px; margin-left: 0px;">
+                                    <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 42px;">ON</span>
+                                     <span class="bootstrap-switch-label" style="width: 42px;">&nbsp;</span>
+                                     <span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 42px;">OFF</span>
+                                     <input type="checkbox" name="my-checkbox"  data-bootstrap-switch="">
+                                </div>
+                            </div>
+                            {% set rand = random() %}
+                            <div class="checkbox-toggle -extra-large">
+                                <input name="Security[app.security.recaptcha]" type="checkbox" id="check-toggle-{{ rand }}" {% if next['app.security.recaptcha']  =="on"%} checked {% endif %}>
+                                <label for="check-toggle-{{ rand }}"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <button type="submit" value="{{ 'edit'}}" class="btn btn-inline  btn-block btn-success" >edit</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}

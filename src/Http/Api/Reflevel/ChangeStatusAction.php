@@ -29,7 +29,6 @@ class ChangeStatusAction extends AbstractController
     }
     public function __invoke(RefLevel $data ,Request  $request)
     {
-
         $result=json_decode($request->getContent(), true);
         $data->setEnabled($result['state']);
         $this->manager->flush();

@@ -12,7 +12,7 @@ use App\Http\Api\Reflevel\ChangeStatusAction;
  *     collectionOperations={},
  *     itemOperations={
  *     "delete",
- *      "change-state"={
+ *     "change-state"={
  *         "method"="PUT",
  *         "path"="/levels/state/{id}",
  *         "openapi_context"={"summary"="change state Level"},

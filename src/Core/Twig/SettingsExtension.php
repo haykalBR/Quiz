@@ -6,7 +6,7 @@
  * Time: 16:39
  */
 namespace App\Core\Twig;
-use App\Repository\SettingsRepository;
+use App\Domain\Settings\Repository\SettingsRepository;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Settings\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\SettingsRepository;
+use App\Domain\Settings\Repository\SettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
