@@ -9,6 +9,7 @@ Encore
     .setPublicPath('/build')
     .addEntry('app', './assets/app.ts')
     .addEntry('reflevel', './assets/Domain/RefLevel/index')
+    .addEntry('category', './assets/Domain/category/index')
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Category\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Domain\Category\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
