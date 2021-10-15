@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Entity;
 
-use App\Repository\UserRepository;
+use App\Domain\User\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

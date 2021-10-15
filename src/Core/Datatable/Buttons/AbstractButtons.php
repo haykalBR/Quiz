@@ -13,4 +13,16 @@ abstract class AbstractButtons
     const LIGHT="btn btn-light";
     const DARK="btn btn-dark";
     abstract  function build();
+    /**
+     * Feature lila
+     * law wa7da fihom requierd w juste mouch order zada
+     * add label
+     * add className
+     * addData
+     * add icons
+     * add isChecked
+     * addRoute
+     * addTaille(Button-switch-checkbox)
+     *
+     */
 }

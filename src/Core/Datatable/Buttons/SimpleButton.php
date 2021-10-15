@@ -3,6 +3,7 @@ namespace App\Core\Datatable\Buttons;
 use App\Core\Datatable\Buttons\AbstractButtons;
 class SimpleButton extends AbstractButtons
 {
+
     private string $className;
     private string $label;
     private array $data;
