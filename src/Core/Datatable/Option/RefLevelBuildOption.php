@@ -8,18 +8,38 @@ use App\Core\Datatable\Buttons\SwitchButton;
 
 class RefLevelBuildOption implements BuildOption
 {
-    const TYPE="level";
+    private SwitchButton $switchButton;
+    private SimpleButton $simpleButton;
+
+    public function __construct(SwitchButton $switchButton, SimpleButton $simpleButton)
+    {
+        $this->switchButton = $switchButton;
+        $this->simpleButton = $simpleButton;
+    }
+
+    const TYPE = "LEVEL";
     public function render($data): string
     {
-        $options="";
-        $simpleButton =new SimpleButton();
-        $switchButton =new SwitchButton();
-        $options.=$simpleButton->addClassName(AbstractButtons::DANGER." delete")->addData($data)->addLabel('Delete')->build();
-        $options.=$switchButton->addData($data)->build();
+        $options = "";
+        $options .= $this->simpleButton->addClassName(AbstractButtons::DANGER." delete")
+                                 ->addLabel('Delete')
+                                 ->addData($data)
+                                 ->addWidth("btn-lg")
+                                 ->build();
+        $options .= $this->simpleButton->addLabel('Edit')
+                                 ->addClassName(AbstractButtons::WARNING)
+                                 ->addRoute('admin_level_update')
+                                 ->addParams(['id' => $data['t_id']])
+                                 ->addWidth("btn-lg")
+                                 ->build();
+        $options .= $this->switchButton->addData($data)
+                                 ->addParmsChecked('t_enabled')
+                                 ->build();
         return  $options;
     }
+
     public function support(string $type): bool
     {
-        return  $type==self::TYPE;
+        return  $type == self::TYPE;
     }
 }
