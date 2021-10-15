@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Exam\Entity;
 
-use App\Repository\ReponsesRepository;
+use App\Repository\RefQuestionTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -11,9 +11,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *     collectionOperations={},
  *     itemOperations={"delete"}
  * )
- * @ORM\Entity(repositoryClass=ReponsesRepository::class)
+ * @ORM\Entity(repositoryClass=RefQuestionTypeRepository::class)
  */
-class Reponses
+class RefQuestionType
 {
     /**
      * @ORM\Id
@@ -26,11 +26,6 @@ class Reponses
      * @ORM\Column(type="string", length=100)
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isCorrect;
 
     public function getId(): ?int
     {
@@ -45,18 +40,6 @@ class Reponses
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getIsCorrect(): ?bool
-    {
-        return $this->isCorrect;
-    }
-
-    public function setIsCorrect(bool $isCorrect): self
-    {
-        $this->isCorrect = $isCorrect;
 
         return $this;
     }

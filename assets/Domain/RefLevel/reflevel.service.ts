@@ -18,6 +18,7 @@ export default class ReflevelService implements DataTable{
         }
     }
     getDatableColumnDef():Array<any>{
+
         let i =0;
         return [
             {   "targets": i++,'name':'t.id','data':'t_id'},

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Exam\Repository;
 
 use App\Entity\RefQuestionType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

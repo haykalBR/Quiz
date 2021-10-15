@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Exam\Repository;
 
-use App\Entity\RefPoste;
+use App\Entity\Reponses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method RefPoste|null find($id, $lockMode = null, $lockVersion = null)
- * @method RefPoste|null findOneBy(array $criteria, array $orderBy = null)
- * @method RefPoste[]    findAll()
- * @method RefPoste[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Reponses|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Reponses|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Reponses[]    findAll()
+ * @method Reponses[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RefPosteRepository extends ServiceEntityRepository
+class ReponsesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RefPoste::class);
+        parent::__construct($registry, Reponses::class);
     }
 
     // /**
-    //  * @return RefPoste[] Returns an array of RefPoste objects
+    //  * @return Reponses[] Returns an array of Reponses objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class RefPosteRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?RefPoste
+    public function findOneBySomeField($value): ?Reponses
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.exampleField = :val')

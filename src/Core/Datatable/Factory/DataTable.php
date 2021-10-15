@@ -155,7 +155,7 @@ class DataTable
 
             $results = [];
             foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result) {
-                $result['t_buttons'] = $this->handler->build('category', $result);
+                $result['t_buttons'] = $this->handler->build(RefLevelBuildOption::TYPE, $result);
                 $results[] = $result;
             }
 

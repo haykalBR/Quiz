@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\User\Entity;
 
-use App\Repository\RefQuestionTypeRepository;
+use App\Repository\RefPosteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -11,9 +11,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *     collectionOperations={},
  *     itemOperations={"delete"}
  * )
- * @ORM\Entity(repositoryClass=RefQuestionTypeRepository::class)
+ * @ORM\Entity(repositoryClass=RefPosteRepository::class)
  */
-class RefQuestionType
+class RefPoste
 {
     /**
      * @ORM\Id

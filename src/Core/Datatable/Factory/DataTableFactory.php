@@ -17,7 +17,4 @@ class DataTableFactory
     public function create($className){
         return $this->dataTable->dataTable($className);;
     }
-
-
-
 }

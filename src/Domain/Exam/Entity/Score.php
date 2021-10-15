@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Exam\Entity;
 
 use App\Repository\ScoreRepository;
 use Doctrine\ORM\Mapping as ORM;

@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Domain\User\Entity\User;
+use App\Domain\User\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Exception\RuntimeException;
 use Symfony\Component\Console\Command\Command;
