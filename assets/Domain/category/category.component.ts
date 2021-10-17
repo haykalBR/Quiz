@@ -16,6 +16,6 @@ export default class CategoryComponent {
         $("#category_table").on('click', '.delete',this.categoryService.deleteLevel);
     }
     changeStateLevel():void{
-        $("#reflevel_table").on('click', '.switch-input',this.categoryService.changeState);
+        $("#category_table").on('click', '.switch-input',this.categoryService.changeState);
     }
 }

@@ -114,6 +114,7 @@ trait FileUploadTrait
     public function moveFile()
     {
         $extension = $this->getExtension($this->getFile());
+        if ($extension==null) return ;
         $this->getFile()->move(
             $this->getAbsoluteUploadDir(),
             sprintf('%s.%s', $this->fileName, $extension)
@@ -164,7 +165,10 @@ trait FileUploadTrait
     }
     protected function getExtension($file): ?string
     {
+
+        if ($file ==null) return  null;
         $originalName = $file->getClientOriginalName();
+
 
         if ($extension = pathinfo($originalName, PATHINFO_EXTENSION)) {
             return $extension;

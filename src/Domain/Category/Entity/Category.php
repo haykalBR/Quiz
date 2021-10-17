@@ -9,11 +9,21 @@ use App\Core\Traits\TimestampableTrait;
 use App\Domain\Category\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Http\Api\Category\ChangeStatusAction;
 
 /**
  * @ApiResource(
  *     collectionOperations={},
- *     itemOperations={"delete"}
+ *     itemOperations={
+ *      "delete",
+ *      "change-state"={
+ *         "method"="PUT",
+ *         "path"="/category/state/{id}",
+ *         "openapi_context"={"summary"="change state Category"},
+ *         "controller"=ChangeStatusAction::class
+ *      }
+ *
+ *    }
  * )
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @ORM\HasLifecycleCallbacks()

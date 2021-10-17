@@ -6,6 +6,7 @@ import axios from "../../Config/axios";
 
 @injectable()
 export default class CategoryService implements DataTable{
+
     getAjax(){
         return {
             'url': Routing.generate("admin_category"),
@@ -24,7 +25,6 @@ export default class CategoryService implements DataTable{
             {   "targets": i++,'name':'t.name','data':'t_name' },
             {   "targets": i++,'name':'t.path','data':'t_path',
                 "render": function ( data, type, full, meta ) {
-                console.warn(55555)
                     return '<img class="img-datatable" src="../uploads/category/'+data+'">'
                 }
             },
@@ -40,10 +40,11 @@ export default class CategoryService implements DataTable{
             }
         ]
     }
+
     deleteLevel(event:JQuery.ClickEvent):void{
         event.preventDefault();
         const id = $(this).attr('data-id');
-        deleterecord(id,"api_ref_levels_delete_item");
+        deleterecord(id,"api_categories_delete_item");
     }
     changeState(event:JQuery.ClickEvent):void{
         let  mainParent = $(this).parent('.switch ');
@@ -51,7 +52,7 @@ export default class CategoryService implements DataTable{
         const  id :string = $(this).attr('data-id');
         axios({
             method: 'put',
-            url: Routing.generate('api_ref_levels_change-state_item',{id:id}),
+            url: Routing.generate('api_categories_change-state_item',{id:id}),
             data: {state: state}
         }).then(async (response) => {
         }, (error) => {
