@@ -1,0 +1,27 @@
+
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Name</label>
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            <small id="" class="text-danger">
+                {{ form_errors(form.name) }}
+            </small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Enabled</label>
+            {{ form_widget(form.public) }}
+            <small id="" class="text-danger">
+                {{ form_errors(form.public) }}
+            </small>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    <div class="col-md-12">
+        <a href="{{path('admin_category')}}" class="btn btn-info float-left" type="button"> Retour a la liste </a>
+        <button class="btn btn-primary float-right" type="submit"> Sauvegarder</button>
+    </div>
+{{ form_end(form) }}

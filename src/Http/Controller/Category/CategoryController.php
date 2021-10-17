@@ -2,9 +2,8 @@
 namespace  App\Http\Controller\Category;
 use App\Core\Datatable\Factory\DataTable;
 use App\Core\Datatable\Factory\DataTableFactory;
-use App\Core\Datatable\Option\RefLevelBuildOption;
+use App\Core\Datatable\Option\CategoryBuildOption;
 use App\Domain\Category\Entity\Category;
-use App\Domain\User\Entity\RefLevel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +23,7 @@ class CategoryController extends  AbstractController
     public function __invoke(Request $request)
     {
         if ($request->isXmlHttpRequest()){
-            return  $this->json($this->dataTable->setEntity(RefLevel::class)->setTypeButtons(RefLevelBuildOption::TYPE)->dataTable());
+            return  $this->json($this->dataTable->setEntity(Category::class)->setTypeButtons(CategoryBuildOption::TYPE)->execute());
 
         }
         return $this->render('category/index.html.twig');

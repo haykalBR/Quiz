@@ -22,6 +22,8 @@ export default class CategoryService implements DataTable{
         return [
             {   "targets": i++,'name':'t.id','data':'t_id'},
             {   "targets": i++,'name':'t.name','data':'t_name' },
+            {   "targets": i++,'name':'t.createdAt','data':'t_createdAt' },
+            {   "targets": i++,'name':'t.updatedAt','data':'t_updatedAt' },
             {
                 "targets": -1,
                 'name':'t.id',

@@ -12,5 +12,5 @@ interface DataTableInterface
     function setEntity($entity_name):self;
     function setTypeButtons($type_button):self;
     function setSearch(QueryBuilder $filteredTotal):QueryBuilder;
-    function dataTable():array;
+    function execute():array;
 }

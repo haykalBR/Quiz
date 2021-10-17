@@ -124,7 +124,7 @@ class DataTable implements DataTableInterface
 
         return empty($column) ? 't' : \rtrim($column, ',');
     }
-    function dataTable(): array
+    function execute(): array
     {
         $request = $this->requestStack->getCurrentRequest();
         if ($request) {

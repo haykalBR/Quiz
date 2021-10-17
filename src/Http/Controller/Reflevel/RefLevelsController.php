@@ -33,7 +33,7 @@ class RefLevelsController extends  AbstractController
     public function __invoke() :Response
     {
         if ($this->requestStack->getCurrentRequest()->isXmlHttpRequest()){
-            return  $this->json($this->dataTable->setEntity(RefLevel::class)->setTypeButtons(RefLevelBuildOption::TYPE)->dataTable());
+            return  $this->json($this->dataTable->setEntity(RefLevel::class)->setTypeButtons(RefLevelBuildOption::TYPE)->execute());
         }
         return $this->render('ref_level/index.html.twig');
     }
