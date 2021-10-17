@@ -1,3 +1,9 @@
 @import url('button-switch.css');
 @import url('loading.css');
 @import url('custom.css');
+.img-datatable{
+    border: 0px;
+    width: 100px;
+    padding: 0px;
+    border-radius: 0px;
+}

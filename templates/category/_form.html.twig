@@ -19,6 +19,16 @@
             </small>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Photo</label>
+            {{ form_widget(form.file,{'attr': {'class':'dropify-fr' }}) }}
+
+            <small id="" class="text-danger">
+                {{ form_errors(form.file) }}
+            </small>
+        </div>
+    </div>
     {{ form_rest(form) }}
     <div class="col-md-12">
         <a href="{{path('admin_category')}}" class="btn btn-info float-left" type="button"> Retour a la liste </a>

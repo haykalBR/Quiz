@@ -8,12 +8,14 @@ use http\Exception\InvalidArgumentException;
  */
 trait FileUploadTrait
 {
-    protected string $file;
-    private string $fileName;
+    protected $file;
+
+    private $fileName;
+
     /**
      * @ORM\Column(type="text",nullable=true)
      */
-    protected string $path;
+    protected $path;
     /**
      * Sets file.
      *

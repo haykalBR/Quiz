@@ -22,6 +22,12 @@ export default class CategoryService implements DataTable{
         return [
             {   "targets": i++,'name':'t.id','data':'t_id'},
             {   "targets": i++,'name':'t.name','data':'t_name' },
+            {   "targets": i++,'name':'t.path','data':'t_path',
+                "render": function ( data, type, full, meta ) {
+                console.warn(55555)
+                    return '<img class="img-datatable" src="../uploads/category/'+data+'">'
+                }
+            },
             {   "targets": i++,'name':'t.createdAt','data':'t_createdAt' },
             {   "targets": i++,'name':'t.updatedAt','data':'t_updatedAt' },
             {
