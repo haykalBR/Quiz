@@ -26,6 +26,6 @@ class CategoryController extends  AbstractController
             return  $this->json($this->dataTable->setEntity(Category::class)->setTypeButtons(CategoryBuildOption::TYPE)->execute());
 
         }
-        return $this->render('category/index.html.twig');
+        return $this->render('Category/category/index.html.twig');
     }
 }

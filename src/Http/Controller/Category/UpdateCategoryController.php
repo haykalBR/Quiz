@@ -1,14 +1,34 @@
 <?php
 namespace  App\Http\Controller\Category;
 
-/**
- * Created by PhpStorm.
- * User: Haykel.Brinis
- * Date: 12/10/2021
- * Time: 09:23
- */
+use App\Domain\Category\Entity\Category;
+use App\Form\CategoryType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
-class UpdateCategoryController
+/**
+ * @Route("/category/update/{id}", name="category_update")
+ */
+class UpdateCategoryController extends AbstractController
 {
+
+    private EntityManagerInterface $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+    public function __invoke(Category $category ,Request $request)
+    {
+        $form   = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->flush();
+            return $this->redirectToRoute('admin_category');
+        }
+        return $this->render('Category/category/edit.html.twig',['form'=>$form->createView()]);
+    }
 
 }

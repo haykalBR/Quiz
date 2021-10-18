@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Domain\User\Entity;
+use App\Core\Traits\SoftDeleteTrait;
+use App\Core\Traits\TimestampableTrait;
 use App\Domain\User\Repository\RefLevelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -20,9 +22,11 @@ use App\Http\Api\Reflevel\ChangeStatusAction;
  *     }
  * )
  * @ORM\Entity(repositoryClass=RefLevelRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class RefLevel
 {
+    use TimestampableTrait,SoftDeleteTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

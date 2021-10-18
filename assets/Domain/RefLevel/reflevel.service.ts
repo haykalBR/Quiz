@@ -23,6 +23,16 @@ export default class ReflevelService implements DataTable{
         return [
             {   "targets": i++,'name':'t.id','data':'t_id'},
             {   "targets": i++,'name':'t.name','data':'t_name' },
+            {   "targets": i++,'name':'t.createdAt','data':'t_createdAt',
+                "render": function ( data, type, full, meta ) {
+                    return '<a href="#" class=" text-center badge badge-success">'+data+'</a>'
+                }
+            },
+            {   "targets": i++,'name':'t.updatedAt','data':'t_updatedAt',
+                "render": function ( data, type, full, meta ) {
+                    return '<a href="#" class="badge badge-success">'+data+'</a>'
+                }
+            },
             {
                 "targets": -1,
                 'name':'t.id',

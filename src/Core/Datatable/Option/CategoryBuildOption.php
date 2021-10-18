@@ -27,7 +27,7 @@ class CategoryBuildOption implements BuildOption
             ->build();
         $options .= $this->simpleButton->addLabel('Edit')
             ->addClassName(AbstractButtons::WARNING)
-            ->addRoute('admin_level_update')
+            ->addRoute('admin_category_update')
             ->addParams(['id' => $data['t_id']])
             ->addWidth("btn-lg")
             ->build();

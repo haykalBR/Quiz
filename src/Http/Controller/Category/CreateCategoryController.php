@@ -31,8 +31,6 @@ class CreateCategoryController extends AbstractController
             $this->manager->flush();
             return $this->redirectToRoute('admin_category');
         }
-        return $this->render('category/create.html.twig',['form'=>$form->createView()]);
-
-
+        return $this->render('Category/category/create.html.twig',['form'=>$form->createView()]);
     }
 }

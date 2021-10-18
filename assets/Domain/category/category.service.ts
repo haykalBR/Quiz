@@ -28,8 +28,16 @@ export default class CategoryService implements DataTable{
                     return '<img class="img-datatable" src="../uploads/category/'+data+'">'
                 }
             },
-            {   "targets": i++,'name':'t.createdAt','data':'t_createdAt' },
-            {   "targets": i++,'name':'t.updatedAt','data':'t_updatedAt' },
+            {   "targets": i++,'name':'t.createdAt','data':'t_createdAt',
+                "render": function ( data, type, full, meta ) {
+                    return '<a href="#" class=" text-center badge badge-success">'+data+'</a>'
+                }
+            },
+            {   "targets": i++,'name':'t.updatedAt','data':'t_updatedAt',
+                "render": function ( data, type, full, meta ) {
+                    return '<a href="#" class="badge badge-success">'+data+'</a>'
+                }
+            },
             {
                 "targets": -1,
                 'name':'t.id',

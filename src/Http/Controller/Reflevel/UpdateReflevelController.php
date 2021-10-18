@@ -27,10 +27,9 @@ class UpdateReflevelController extends  AbstractController
         $form   = $this->createForm(RefLevelType::class, $refLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->persist($refLevel);
             $this->manager->flush();
             return $this->redirectToRoute('admin_levels');
         }
-        return $this->render('ref_level/create.html.twig',['form'=>$form->createView()]);
+        return $this->render('User/ref_level/create.html.twig',['form'=>$form->createView()]);
     }
 }
