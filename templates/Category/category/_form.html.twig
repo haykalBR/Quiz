@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label>Name</label>
+            <label>{{ "Name"|trans }}</label>
             {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
             <small id="" class="text-danger">
                 {{ form_errors(form.name) }}
@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Enabled</label>
+            <label>{{ "Enabled"|trans }}</label>
             {{ form_widget(form.public) }}
             <small id="" class="text-danger">
                 {{ form_errors(form.public) }}
@@ -21,9 +21,8 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Photo</label>
+            <label>{{ "Photo"|trans }}</label>
             {{ form_widget(form.file,{'attr': {'class':'dropzone' }}) }}
-
             <small id="" class="text-danger">
                 {{ form_errors(form.file) }}
             </small>
@@ -31,7 +30,7 @@
     </div>
     {{ form_rest(form) }}
     <div class="col-md-12">
-        <a href="{{path('admin_category')}}" class="btn btn-info float-left" type="button"> Retour a la liste </a>
-        <button class="btn btn-primary float-right" type="submit"> Sauvegarder</button>
+        <a href="{{path('admin_category')}}" class="btn btn-info float-left" type="button">{{ "Back to the list"|trans }} </a>
+        <button class="btn btn-primary float-right" type="submit">{{ "Save"|trans }}</button>
     </div>
 {{ form_end(form) }}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="8D5HBYJ" resname="Category management">
+        <source>Category management</source>
+        <target>Gestion des catégories</target>
+      </trans-unit>
+      <trans-unit id="byAvVKe" resname="List">
+        <source>List</source>
+        <target>__List</target>
+      </trans-unit>
+      <trans-unit id="qv30KP0" resname="Add category">
+        <source>Add category</source>
+        <target>__Add category</target>
+      </trans-unit>
+      <trans-unit id="OEOXHc." resname="ID">
+        <source>ID</source>
+        <target>__ID</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>__Name</target>
+      </trans-unit>
+      <trans-unit id="2E7rrak" resname="Photo">
+        <source>Photo</source>
+        <target>__Photo</target>
+      </trans-unit>
+      <trans-unit id="PUQzcBC" resname="Created At">
+        <source>Created At</source>
+        <target>__Created At</target>
+      </trans-unit>
+      <trans-unit id="M1srsky" resname="updated At">
+        <source>updated At</source>
+        <target>__updated At</target>
+      </trans-unit>
+      <trans-unit id="0NuLXjZ" resname="Options">
+        <source>Options</source>
+        <target>__Options</target>
+      </trans-unit>
+      <trans-unit id="ksHN.fT" resname="Enabled">
+        <source>Enabled</source>
+        <target>__Enabled</target>
+      </trans-unit>
+      <trans-unit id="ebbF.4f" resname="Back to the list">
+        <source>Back to the list</source>
+        <target>__Back to the list</target>
+      </trans-unit>
+      <trans-unit id="FQn1YfJ" resname="Save">
+        <source>Save</source>
+        <target>__Save</target>
+      </trans-unit>
+      <trans-unit id="KSwG8AR" resname="Category">
+        <source>Category</source>
+        <target>__Category</target>
+      </trans-unit>
+      <trans-unit id="OnhpU4i" resname="Home">
+        <source>Home</source>
+        <target>__Home</target>
+      </trans-unit>
+      <trans-unit id="DZO3ehf" resname="Edit Category">
+        <source>Edit Category</source>
+        <target>__Edit Category</target>
+      </trans-unit>
+      <trans-unit id="sUghMZ7" resname="Levels">
+        <source>Levels</source>
+        <target>__Levels</target>
+      </trans-unit>
+      <trans-unit id="FwkwXJ_" resname="Level">
+        <source>Level</source>
+        <target>__Level</target>
+      </trans-unit>
+      <trans-unit id="zLRbu8D" resname="Add Level">
+        <source>Add Level</source>
+        <target>__Add Level</target>
+      </trans-unit>
+      <trans-unit id="hg6upox" resname="Level management">
+        <source>Level management</source>
+        <target>__Level management</target>
+      </trans-unit>
+      <trans-unit id="VyqGKpO" resname="Edit Level">
+        <source>Edit Level</source>
+        <target>__Edit Level</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

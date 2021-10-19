@@ -43,4 +43,11 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+    /**
+     * @Route("/2fa", name="2fa_login")
+     */
+    public function check2Fa(): Response
+    {
+        return $this->render('security/2fa.html.twig');
+    }
 }

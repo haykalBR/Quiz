@@ -1,0 +1,52 @@
+{% extends 'security/auth.html.twig' %}
+{% block title %}Log in!{% endblock %}
+{% block content %}
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><b>Admin</b>LTE</a>
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Authentication Code email</p>
+                <form action="{{ path('2fa_login_check') }}" method="post">
+
+                    <div class="input-group mb-3">
+                        <input class="form-control"
+                               id="_auth_code"
+                               type="text"
+                               name="_auth_code"
+                               autocomplete="one-time-code"
+                               autofocus
+                        >
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-qrcode"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+
+                        <div class="form-group clearfix">
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" id="_trusted" name="_trusted">
+                                <label for="_trusted"> I'm on a trusted computer
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="social-auth-links text-center mb-3">
+                        <button  type="submit" class="btn btn-block btn-primary">
+                            Sign in
+                        </button>
+                    </div>
+
+                    <p class="mb-1">
+                        <a  href="{{ path('app_logout') }}">Cancel</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
