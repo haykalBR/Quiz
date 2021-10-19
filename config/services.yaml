@@ -38,3 +38,8 @@ services:
     App\Domain\Settings\Subscriber\LocaleSubscriber:
         arguments: [ '%kernel.default_locale%' ]
         tags: [ kernel.event_subscriber ]
+    App\Domain\Settings\EventListener\MaintenanceListener:
+        arguments:
+            - '@twig'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

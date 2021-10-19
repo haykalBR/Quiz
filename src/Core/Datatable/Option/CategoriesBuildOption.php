@@ -6,7 +6,7 @@ use App\Core\Datatable\Buttons\AbstractButtons;
 use App\Core\Datatable\Buttons\SimpleButton;
 use App\Core\Datatable\Buttons\SwitchButton;
 
-class CategoryBuildOption implements BuildOption
+class CategoriesBuildOption implements BuildOption
 {
     const TYPE = "category";
     private SwitchButton $switchButton;

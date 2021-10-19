@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Api\Category;
+namespace App\Http\Api\Categories;
 
-use App\Domain\Category\Entity\Category;
+use App\Domain\Categories\Entity\Categories;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,11 +20,11 @@ class ChangeStatusAction extends AbstractController
     {
         $this->manager = $manager;
     }
-    public function __invoke(Category $data ,Request  $request)
+    public function __invoke(Categories $data ,Request  $request)
     {
         $result=json_decode($request->getContent(), true);
         $data->setPublic($result['state']);
         $this->manager->flush();
-        return new JsonResponse("Compte Update");
+        return new JsonResponse("Categories Update");
     }
 }

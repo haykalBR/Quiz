@@ -1,8 +1,8 @@
 <?php
-namespace  App\Http\Controller\Category;
+namespace  App\Http\Controller\Categories;
 use App\Core\Datatable\Factory\DataTableFactory;
-use App\Domain\Category\Entity\Category;
-use App\Form\CategoryType;
+use App\Domain\Categories\Entity\Categories;
+use App\Form\CategoriesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/category/create", name="category_create")
  */
-class CreateCategoryController extends AbstractController
+class CreateCategoriesController extends AbstractController
 {
 
     private EntityManagerInterface $manager;
@@ -23,14 +23,14 @@ class CreateCategoryController extends AbstractController
     }
     public function __invoke(Request $request)
     {
-        $category = new Category();
-        $form   = $this->createForm(CategoryType::class, $category);
+        $categories = new Categories();
+        $form   = $this->createForm(CategoriesType::class, $categories);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->persist($category);
+            $this->manager->persist($categories);
             $this->manager->flush();
             return $this->redirectToRoute('admin_category');
         }
-        return $this->render('Category/category/create.html.twig',['form'=>$form->createView()]);
+        return $this->render('Categories/categories/create.html.twig',['form'=>$form->createView()]);
     }
 }

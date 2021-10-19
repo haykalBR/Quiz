@@ -4,14 +4,14 @@ namespace App\Form;
 
 use App\Core\FormType\DropifyType;
 use App\Core\FormType\SwitchType;
-use App\Domain\Category\Entity\Category;
+use App\Domain\Categories\Entity\Categories;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CategoryType extends AbstractType
+class CategoriesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,7 +26,7 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults([
 
-            'data_class' => Category::class
+            'data_class' => Categories::class
         ]);
     }
 }

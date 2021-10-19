@@ -47,6 +47,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @ORM\Column(type="string")
      */
     private $password;
+    /**
+     * @ORM\Column(type="boolean",options={"default":true})
+     */
+    private bool  $enabled;
 
     public function getId(): ?int
     {
@@ -160,4 +164,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     {
         $this->authCode = $authCode;
     }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
+    }
+
+
 }
