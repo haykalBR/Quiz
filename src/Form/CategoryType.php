@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Core\FormType\DropifyType;
 use App\Core\FormType\SwitchType;
 use App\Domain\Category\Entity\Category;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +18,7 @@ class CategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('public', SwitchType::class)
-            ->add('file', FileType::class)
+            ->add('file', DropifyType::class)
         ;
     }
 

@@ -1,5 +1,5 @@
 import 'dropify';
-
+import "dropify/dist/css/dropify.css"
 export default {
     messages: {
         'default': '',

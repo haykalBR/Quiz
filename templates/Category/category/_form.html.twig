@@ -22,7 +22,10 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>{{ "Photo"|trans }}</label>
-            {{ form_widget(form.file,{'attr': {'class':'dropzone' }}) }}
+
+            {{ form_widget(form.file) }}
+
+
             <small id="" class="text-danger">
                 {{ form_errors(form.file) }}
             </small>
