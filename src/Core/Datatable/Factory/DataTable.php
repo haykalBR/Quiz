@@ -2,6 +2,7 @@
 
 namespace App\Core\Datatable\Factory;
 
+use App\Core\Datatable\Enum\DataTableEnum;
 use App\Core\Datatable\Option\RegistryHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -17,12 +18,15 @@ class DataTable implements DataTableInterface
     private RequestStack $requestStack;
     private int $filteredTotal;
     private array $search;
+    private array $customSearch;
     private array $orders;
     private array $columns;
     private array $hiddenColumn;
     private array $joins;
     protected string $entityName;
     protected  $typeButton;
+    protected  $requestQuery;
+    protected  $draw;
 
     protected QueryBuilder $queryBuilder;
     private RegistryHandler $handler;
@@ -31,14 +35,14 @@ class DataTable implements DataTableInterface
     {
         $this->manager = $manager;
         $this->requestStack = $requestStack;
-        //$this->queryBuilder = $this->manager->createQueryBuilder();
-        $requestQuery = $requestStack->getCurrentRequest()->query->all();
-        $this->search = $requestQuery['search'] ?? [];
-        $this->orders = $requestQuery['order'] ?? [];
-        $this->columns = $requestQuery['columns'] ?? [];
-        $this->hiddenColumn = $requestQuery['hiddenColumn'] ?? [];
-        $this->joins = $requestQuery['join'] ?? [];
-
+        $this->requestQuery = $requestStack->getCurrentRequest()->query->all();
+        $this->search =  $this->requestQuery['search'] ?? [];
+        $this->orders =  $this->requestQuery['order'] ?? [];
+        $this->columns =  $this->requestQuery['columns'] ?? [];
+        $this->hiddenColumn =  $this->requestQuery['hiddenColumn'] ?? [];
+        $this->joins =  $this->requestQuery['join'] ?? [];
+        $this->draw =  $this->requestQuery['draw'] ?? '1';
+        $this->customSearch = $this->requestQuery['customSearch']??[];
         $this->handler = $handler;
     }
     function getTotalRecords(QueryBuilder $total): int
@@ -126,38 +130,71 @@ class DataTable implements DataTableInterface
     }
     function execute(): array
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request) {
-            $requestQuery = $request->query->all();
-            $draw = $requestQuery['draw'] ?? '1';
-            $this->queryBuilder = $this->manager->createQueryBuilder()->from($this->entityName, 't')
-                ->select($this->selectColumns())
-            ;
 
-            $total = $this->manager->createQueryBuilder()->from($this->entityName, 't')->select('count(t.id)');
 
-            $filteredTotal = $this->setJoins(clone $total);
-            $filteredTotal = $this->setSearch($filteredTotal);
+            if ($this->requestStack->getCurrentRequest()) {
 
-            $this->setOrderBy();
-            $this->setPaginationRecords($requestQuery);
+                $this->queryBuilder = $this->manager->createQueryBuilder()->from($this->entityName, 't')
+                    ->select($this->selectColumns())
+                ;
 
-            $recordsTotal = $this->getTotalRecords($total);
-            $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
+                $total = $this->manager->createQueryBuilder()->from($this->entityName, 't')->select('count(t.id)');
+                $filteredTotal = $this->setJoins(clone $total);
+                $filteredTotal = $this->setSearch($filteredTotal);
+                $filteredTotal = $this->setcustomSearch($filteredTotal);
+                $this->setOrderBy();
+                $this->setPaginationRecords($this->requestQuery);
 
-            $results = [];
-            foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result) {
-                $result['t_buttons'] = $this->handler->build($this->typeButton, $result);
-                $results[] = $result;
+                $recordsTotal = $this->getTotalRecords($total);
+                $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
+
+                $results = [];
+                foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result) {
+                    $result['t_buttons'] = $this->handler->build($this->typeButton, $result);
+                    $results[] = $result;
+                }
+                return [
+                    'draw' => $this->draw,
+                    'recordsTotal' => $recordsTotal,
+                    'recordsFiltered' => $recordsFiltered,
+                    'data' => $results,
+                ];
             }
-            return [
-                'draw' => $draw,
-                'recordsTotal' => $recordsTotal,
-                'recordsFiltered' => $recordsFiltered,
-                'data' => $results,
-            ];
-        }
 
-        return [];
+            return [];
+
+
+    }
+
+    function setcustomSearch(QueryBuilder $custom): QueryBuilder
+    {
+
+        if (isset($this->customSearch)) {
+            $searchlist=[];
+            foreach ($this->customSearch as $search) {
+                $type  = $search['type'];
+                $value = $search['value'];
+                $name  = $search['name'];
+                switch ($type){
+                    case DataTableEnum::BOOLEAN:
+                        if ($value!=""){
+                            $searchlist[] = $this->queryBuilder->expr()->eq($name, $value);
+                        }
+                        break;
+                    case DataTableEnum::TEXT:
+                        if ('' !== $type) {
+                            $searchlist[] = $this->queryBuilder->expr()->like($name, '\'%' . \trim($value) . '%\'');
+                        }
+                        break;
+                    default:
+
+                }
+            }
+        }
+        if (count($searchlist) > 0) {
+            $this->queryBuilder->andWhere(new Expr\Andx($searchlist));
+            $custom->andWhere(new Expr\Andx($searchlist));
+        }
+            return $custom;
     }
 }

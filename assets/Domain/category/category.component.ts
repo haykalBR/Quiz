@@ -9,9 +9,12 @@ export default class CategoryComponent {
         @inject(DatatableFactory) datatableFactory:DatatableFactory,
     ){
         this.categoryService=categoryService;
-        datatableFactory.getDatatable('#category_table', categoryService)
+        let dataTable = datatableFactory.getDatatable('#category_table', categoryService)
+        this.Search(dataTable);
     }
-
+    private Search(dataTable):void{
+        $('#categories_search_search_public').on("change",dataTable.draw);
+    }
     deleteLevel():void{
         $("#category_table").on('click', '.delete',this.categoryService.deleteLevel);
     }

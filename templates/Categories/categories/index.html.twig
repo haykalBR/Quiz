@@ -22,6 +22,9 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
+                    {{ form_start(form) }}
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
                 </div>
                 <div class="card-body">
                     <a  href="{{ path('admin_category_create') }}" class="btn btn-info"> {{ "Add category"|trans }}</a>

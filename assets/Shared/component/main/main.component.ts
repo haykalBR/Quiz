@@ -10,6 +10,6 @@ export default class MainComponent {
         @inject(MainService) mainService: MainService
     ) {
        $('.dropify-fr').dropify(dropifyConfig);
-       $('.chkSwitch').switchbutton(switchButtonConfig);
+      // $('.chkSwitch').switchbutton(switchButtonConfig);
     }
 }

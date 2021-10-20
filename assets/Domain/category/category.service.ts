@@ -12,8 +12,11 @@ export default class CategoryService implements DataTable{
             'url': Routing.generate("admin_category"),
             data: function(data,buttons) {
                 data.hiddenColumn= [
-                    {   name: 't.public',data: 't_public'}
+                    {   name: 't.public',data: 't_public'},
                 ];
+                data.customSearch =[
+                    {'name':'t.public','value':$('#categories_search_search_public').val(),'type':'boolean'},
+                ]
             },
 
         }
