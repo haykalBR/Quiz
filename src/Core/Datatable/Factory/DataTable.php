@@ -31,7 +31,7 @@ class DataTable implements DataTableInterface
     {
         $this->manager = $manager;
         $this->requestStack = $requestStack;
-        $this->queryBuilder = $this->manager->createQueryBuilder();
+        //$this->queryBuilder = $this->manager->createQueryBuilder();
         $requestQuery = $requestStack->getCurrentRequest()->query->all();
         $this->search = $requestQuery['search'] ?? [];
         $this->orders = $requestQuery['order'] ?? [];
@@ -41,10 +41,10 @@ class DataTable implements DataTableInterface
 
         $this->handler = $handler;
     }
-    function getTotalRecords(): int
+    function getTotalRecords(QueryBuilder $total): int
     {
         try {
-            return (int) $this->queryBuilder->getQuery()->getSingleScalarResult();
+            return (int) $total->getQuery()->getSingleScalarResult();
         } catch (NonUniqueResultException $e) {
             return 0;
         }
@@ -59,10 +59,10 @@ class DataTable implements DataTableInterface
         $this->typeButton=$type_button;
         return $this;
     }
-    function getRecordsFiltered():int
+    function getRecordsFiltered(QueryBuilder $filteredTotal):int
     {
         try {
-            return (int) $this->queryBuilder->getQuery()->getSingleScalarResult();
+            return (int) $filteredTotal->getQuery()->getSingleScalarResult();
         } catch (NonUniqueResultException $e) {
             return 0;
         }
@@ -129,24 +129,27 @@ class DataTable implements DataTableInterface
         $request = $this->requestStack->getCurrentRequest();
         if ($request) {
             $requestQuery = $request->query->all();
-
             $draw = $requestQuery['draw'] ?? '1';
             $this->queryBuilder = $this->manager->createQueryBuilder()->from($this->entityName, 't')
                 ->select($this->selectColumns())
             ;
+
             $total = $this->manager->createQueryBuilder()->from($this->entityName, 't')->select('count(t.id)');
+
             $filteredTotal = $this->setJoins(clone $total);
             $filteredTotal = $this->setSearch($filteredTotal);
+
             $this->setOrderBy();
             $this->setPaginationRecords($requestQuery);
+
             $recordsTotal = $this->getTotalRecords($total);
             $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
+
             $results = [];
             foreach ($this->queryBuilder->getQuery()->getScalarResult() as $result) {
                 $result['t_buttons'] = $this->handler->build($this->typeButton, $result);
                 $results[] = $result;
             }
-
             return [
                 'draw' => $draw,
                 'recordsTotal' => $recordsTotal,

@@ -7,8 +7,8 @@ use Doctrine\ORM\QueryBuilder;
 interface DataTableInterface
 {
 
-    function getTotalRecords():int;
-    function getRecordsFiltered():int;
+    function getTotalRecords(QueryBuilder $total):int;
+    function getRecordsFiltered(QueryBuilder $filteredTotal):int;
     function setEntity($entity_name):self;
     function setTypeButtons($type_button):self;
     function setSearch(QueryBuilder $filteredTotal):QueryBuilder;
