@@ -12,9 +12,11 @@ class SwitchButton extends AbstractButtons
 
     public function build()
     {
-        $options = '<label  class="switch switch200">';
-        $options .= $this->checked();
-        $options .= '<span class="slider slider200"></span></label>';
+         $options= '    <button type="button"  data-toggle="button" 
+                     aria-pressed="true" autocomplete="off" ';
+
+        $options.= $this->checked();
+        $options .= '><div class="handle"></div></button>';
         return $options;
     }
 }

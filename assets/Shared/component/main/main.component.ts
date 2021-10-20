@@ -3,6 +3,7 @@ import dropifyConfig from '../../../Config/dropify';
 import switchButtonConfig from '../../../Config/switchButton';
 import MainService from "./main.service";
 import 'bootstrap-switch-button';
+import 'select2';
 
 @injectable()
 export default class MainComponent {
@@ -10,6 +11,9 @@ export default class MainComponent {
         @inject(MainService) mainService: MainService
     ) {
        $('.dropify-fr').dropify(dropifyConfig);
-      // $('.chkSwitch').switchbutton(switchButtonConfig);
+        $('.select2').select2({
+         width: 'resolve'
+        });
+       $('.chkSwitch').switchbutton(switchButtonConfig);
     }
 }

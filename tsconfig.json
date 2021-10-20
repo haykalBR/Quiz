@@ -3,6 +3,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
     "module": "CommonJS",
     "target": "es6",
     "lib": ["es5", "dom"],

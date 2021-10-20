@@ -17,12 +17,16 @@ class CategoriesController extends  AbstractController
 
     private DataTable $dataTable;
 
+
     public function __construct(DataTable $dataTable)
     {
         $this->dataTable = $dataTable;
+
     }
     public function __invoke(Request $request)
     {
+
+
         $form   = $this->createForm(CategoriesSearchType::class, null);
         if ($request->isXmlHttpRequest()){
             return  $this->json($this->dataTable->setEntity(Categories::class)->setTypeButtons(CategoriesBuildOption::TYPE)->execute());

@@ -11,11 +11,16 @@ export default class CategoryService implements DataTable{
         return {
             'url': Routing.generate("admin_category"),
             data: function(data,buttons) {
+                data.join = [
+                    {   "join": "App\\Domain\\Categories\\Entity\\Categories","alias": 'c',"condition": "t.id = c.parent","type":""},
+                ];
                 data.hiddenColumn= [
                     {   name: 't.public',data: 't_public'},
+                    {   name: 'c.parent',data: 'c_parent'},
                 ];
                 data.customSearch =[
                     {'name':'t.public','value':$('#categories_search_search_public').val(),'type':'boolean'},
+                    {'name':'c.parent','value':$('#categories_search_parent').val(),'type':'integer'},
                 ]
             },
 
@@ -58,13 +63,12 @@ export default class CategoryService implements DataTable{
         deleterecord(id,"api_categories_delete_item");
     }
     changeState(event:JQuery.ClickEvent):void{
-        let  mainParent = $(this).parent('.switch ');
-        const  state:boolean =$(mainParent).find('input.switch-input').is(':checked');
+        const  state:boolean =$(this).hasClass( "active" );
         const  id :string = $(this).attr('data-id');
         axios({
             method: 'put',
             url: Routing.generate('api_categories_change-state_item',{id:id}),
-            data: {state: state}
+            data: {state: !state}
         }).then(async (response) => {
         }, (error) => {
             console.error(error)

@@ -14,6 +14,8 @@ export default class CategoryComponent {
     }
     private Search(dataTable):void{
         $('#categories_search_search_public').on("change",dataTable.draw);
+        $('#categories_search_parent').on("change",dataTable.draw);
+
     }
     deleteLevel():void{
         $("#category_table").on('click', '.delete',this.categoryService.deleteLevel);

@@ -11,6 +11,7 @@ class DataTableEnum
 {
     const TEXT         = 'text';
     const BOOLEAN         = 'boolean';
+    const INTEGER         = 'integer';
     const ARRAY        =' array';
     const DATE         = 'date';
 }

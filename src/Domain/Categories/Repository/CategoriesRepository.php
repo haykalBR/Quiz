@@ -18,4 +18,8 @@ class CategoriesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Categories::class);
     }
+    public function getCategoriesParent(){
+         return $this->createQueryBuilder('c')
+            ->where($this->createQueryBuilder('c')->expr()->isNull('c.parent'));
+    }
 }

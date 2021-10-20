@@ -14,9 +14,8 @@ trait SwitchButtonTrait
     public function checked():string
     {
         if ($this->data[$this->parmsChecked]) {
-            return '<input  data-id="'.$this->data['t_id'].'"  type="checkbox" class="switch-input" checked >';
+            return ' data-id="'.$this->data['t_id'].'"  class="btn btn-lg btn-toggle switch-input active"';
         }
-
-        return '<input  data-id="'.$this->data['t_id'].'"  type="checkbox" class="switch-input" >';
+        return ' data-id="'.$this->data['t_id'].'"  class="btn btn-lg btn-toggle switch-input"';
     }
 }

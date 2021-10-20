@@ -138,12 +138,15 @@ class DataTable implements DataTableInterface
                     ->select($this->selectColumns())
                 ;
 
+
                 $total = $this->manager->createQueryBuilder()->from($this->entityName, 't')->select('count(t.id)');
                 $filteredTotal = $this->setJoins(clone $total);
+
                 $filteredTotal = $this->setSearch($filteredTotal);
                 $filteredTotal = $this->setcustomSearch($filteredTotal);
                 $this->setOrderBy();
                 $this->setPaginationRecords($this->requestQuery);
+                dd($this->queryBuilder->getQuery());
 
                 $recordsTotal = $this->getTotalRecords($total);
                 $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
@@ -186,6 +189,11 @@ class DataTable implements DataTableInterface
                             $searchlist[] = $this->queryBuilder->expr()->like($name, '\'%' . \trim($value) . '%\'');
                         }
                         break;
+                    case DataTableEnum::INTEGER:
+                        if (!empty($value)) {
+
+                            $searchlist[] = $this->queryBuilder->expr()->eq($name, $value);
+                        }
                     default:
 
                 }
