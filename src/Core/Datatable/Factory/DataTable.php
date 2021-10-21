@@ -146,8 +146,6 @@ class DataTable implements DataTableInterface
                 $filteredTotal = $this->setcustomSearch($filteredTotal);
                 $this->setOrderBy();
                 $this->setPaginationRecords($this->requestQuery);
-                dd($this->queryBuilder->getQuery());
-
                 $recordsTotal = $this->getTotalRecords($total);
                 $recordsFiltered = $this->getRecordsFiltered($filteredTotal);
 

@@ -11,16 +11,13 @@ export default class CategoryService implements DataTable{
         return {
             'url': Routing.generate("admin_category"),
             data: function(data,buttons) {
-                data.join = [
-                    {   "join": "App\\Domain\\Categories\\Entity\\Categories","alias": 'c',"condition": "t.id = c.parent","type":""},
-                ];
+
                 data.hiddenColumn= [
-                    {   name: 't.public',data: 't_public'},
-                    {   name: 'c.parent',data: 'c_parent'},
+                    {   name: 't.public',data: 't_public'}
                 ];
                 data.customSearch =[
                     {'name':'t.public','value':$('#categories_search_search_public').val(),'type':'boolean'},
-                    {'name':'c.parent','value':$('#categories_search_parent').val(),'type':'integer'},
+                    {'name':'t.parent','value':$('#categories_search_parent').val(),'type':'integer'},
                 ]
             },
 
