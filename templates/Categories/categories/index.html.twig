@@ -14,6 +14,8 @@
                         <li class="breadcrumb-item"><a href="#">{{ "Category management"|trans }}</a></li>
                         <li class="breadcrumb-item active">{{ "List"|trans }}</li>
                     </ol>
+                    <br>
+                    {{ show_source_code(_self) }}
                 </div>
             </div>
         </div>
@@ -21,14 +23,11 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
+
                 <div class="card-header">
                     {{ form_start(form) }}
                     {{ form_rest(form) }}
                     {{ form_end(form) }}
-
-
-
-
                 </div>
                 <div class="card-body">
                     <a  href="{{ path('admin_category_create') }}" class="btn btn-info"> {{ "Add category"|trans }}</a>
