@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Core\FormType\DropifyType;
-use App\Core\FormType\SwitchType;
+use App\Core\Type\DropifyType;
+use App\Core\Type\SwitchType;
 use App\Domain\Categories\Entity\Categories;
 use App\Domain\Categories\Repository\CategoriesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

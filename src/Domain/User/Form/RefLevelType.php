@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Form;
 
+use App\Core\Type\SwitchType;
 use App\Domain\User\Entity\RefLevel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -14,11 +15,7 @@ class RefLevelType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('enabled', CheckboxType::class, [
-                'label_attr' => ['class' => 'switch-custom' ],
-            ])
-
-        ;
+            ->add('enabled', SwitchType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

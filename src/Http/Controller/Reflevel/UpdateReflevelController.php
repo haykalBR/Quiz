@@ -30,6 +30,6 @@ class UpdateReflevelController extends  AbstractController
             $this->manager->flush();
             return $this->redirectToRoute('admin_levels');
         }
-        return $this->render('User/ref_level/create.html.twig',['form'=>$form->createView()]);
+        return $this->render('User/ref_level/edit.html.twig',['form'=>$form->createView()]);
     }
 }

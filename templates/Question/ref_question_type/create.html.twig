@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <section class="content-header">
+        {{ show_source_code(_self) }}<br>
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{{ "Category"|trans }}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">{{ "Home"|trans }}</a></li>
+                        <li class="breadcrumb-item active">{{ "Category"|trans }}</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "Add category"|trans }}</h3>
+
+                </div>
+                <div class="card-body">
+                    {% include 'Question/ref_question_type/_form.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

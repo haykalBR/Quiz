@@ -4,6 +4,7 @@
 {% block content %}
 
     <section class="content-header">
+        {{ show_source_code(_self) }}<br>
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -14,8 +15,7 @@
                         <li class="breadcrumb-item"><a href="#">{{ "Category management"|trans }}</a></li>
                         <li class="breadcrumb-item active">{{ "List"|trans }}</li>
                     </ol>
-                    <br>
-                    {{ show_source_code(_self) }}
+
                 </div>
             </div>
         </div>

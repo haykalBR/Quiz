@@ -1,32 +1,69 @@
-<div class="section source-code">
-    <p>
-        Click on this button to show the source code of the Controller and template used to render this page.
-    </p>
+<style>
+    #sourceCodeModal h3 {
+        font-size: 19px;
+        margin-top: 0
+    }
 
-    <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#sourceCodeModal">
+    #sourceCodeModal h3 small {
+        color: #7b8a8b;
+        font-size: 80%
+    }
+
+    #sourceCodeModal pre {
+        margin-bottom: 2em;
+        padding: 0
+    }
+    code {
+        background: #ecf0f1;
+        color: #2c3e50
+    }
+    .pull-right {
+        float: right!important;
+    }
+    a {
+        color: #18bc9c;
+        text-decoration: none;
+    }
+    pre {
+        word-wrap: break-word;
+        background-color: #ecf0f1;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: #7b8a8b;
+        display: block;
+        font-size: 14px;
+        line-height: 1.42857;
+        margin: 0 0 10.5px;
+        padding: 10px;
+        word-break: break-all;
+    }
+</style>
+<div class="section source-code " >
+     <button type="button" class="btn btn-default btn-lg float-right " data-toggle="modal" data-target="#sourceCodeModal">
         <i class="fa fa-cogs" aria-hidden="true"></i>  Show code
     </button>
-
     <div class="modal fade" id="sourceCodeModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'action.close'|trans }}">
+                    <h5 class="modal-title">
+                        <i class="fa fa-code" aria-hidden="true"></i>
+                        Source code used to render this page
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title"><i class="fa fa-code" aria-hidden="true"></i> {{ 'title.source_code'|trans }}</h4>
                 </div>
-
                 <div class="modal-body">
                     {% if controller %}
-                        <h3><a href="https://symfony.com/doc/current/controller.html" target="_blank">{{ 'title.controller_code'|trans }}</a><small class="pull-right">{{ controller.file_path|format_file(controller.starting_line) }}</small></h3>
+                        <h3><a href="https://symfony.com/doc/current/controller.html" target="_blank">Controller code</a>
+                            <small class="pull-right">{{ controller.file_path|format_file(controller.starting_line) }}</small></h3>
                         <pre><code class="php">{{ controller.source_code }}</code></pre>
                     {% else %}
-                        <h3><a href="https://symfony.com/doc/current/controller.html">{{ 'title.controller_code'|trans }}</a></h3>
+                        <h3><a href="https://symfony.com/doc/current/controller.html">Controller code </a></h3>
                         <pre><code>{{ 'not_available'|trans }}</code></pre>
                     {% endif %}
-
-                    <h3><a href="https://symfony.com/doc/current/templates.html" target="_blank">{{ 'title.twig_template_code'|trans }}</a><small class="pull-right">{{ template.file_path|format_file(template.starting_line) }}</small></h3>
+                    <h3><a href="https://symfony.com/doc/current/templates.html" target="_blank">Twig template code </a><small class="pull-right">{{ template.file_path|format_file(template.starting_line) }}</small></h3>
                     <pre><code class="twig">{{ template.source_code }}</code></pre>
                 </div>
             </div>
