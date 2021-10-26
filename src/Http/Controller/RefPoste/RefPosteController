@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
-namespace App\Http\Controller\Controller{{ namespace }};
+namespace App\Http\Controller\ControllerRefPoste;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
-* @Route("{{route}}", name="{{route_name}}",options = { "expose" = true })
+* @Route("/refposte", name="refposte",options = { "expose" = true })
 */
-class {{ class_name }} extends AbstractController
+class RefPosteController extends AbstractController
 {
     
     public function __invoke():Response

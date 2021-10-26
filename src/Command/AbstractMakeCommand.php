@@ -74,29 +74,70 @@ use Twig\Environment;
          return $io->askQuestion($q);
      }
      protected function createController($io,$domain,$entity){
-        $cruds=[$entity,'Create'.$entity,'Update'.$entity];
+        $paths=[
+            ['class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity)],
+            ['class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create'],
+            ['class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update']
+        ];
+
         $filesystem = new Filesystem();
         $basePath = $this->projectDir.'/src/Http/Controller/'.$entity;
         if (!$filesystem->exists($basePath)) {
             $filesystem->mkdir($basePath);
         }
-      
-        foreach($cruds as $crud){
+    
+        foreach($paths as $path){
+
             $params = [
-                'namespace' => $entity,
-                'class_name' => $crud.'Controller'
+                'namespace' => $path['class'],
+                'class_name' => $path['class'].'Controller',
+                'route' => $path['route'],
+                'route_name' => $path['route_name']
+
             ];
-            $content = $this->twig->render("@maker/controller.twig", $params);
-            $filename  = $this->projectDir.'/src/Http/Controller/'.$entity.'/'.$params['class_name'];
-            $directory = dirname($filename);
-            if (!file_exists($directory)) {
-                mkdir($directory, 0777, true);
-            }
-            file_put_contents($filename, $content);
+            $output  = $this->projectDir.'/src/Http/Controller/'.$entity.'/'.$params['class_name'];
+            $this->createFile('controller',$params,$output);
         }
      }
-     protected function createFile(string $template, array $params, string $output){
-        $content = $this->twig->render("@maker/$template.twig", $params);
+     protected function createTemplate($io,$domain,$entity){
+        $paths=[
+            ['template'=>'index'],
+            ['template'=>'create'],
+            ['template'=>'edit'],
+            ['template'=>'_form'],
+        ];
 
+        $filesystem = new Filesystem();
+        $basePath = $this->projectDir.'/templates/'.$domain.'/'.$this->slugify($entity);
+        if (!$filesystem->exists($basePath)) {
+            $filesystem->mkdir($basePath);
+        }
+        foreach($paths as $path){
+            $params = [
+            ];
+            $output  = $basePath.'/'.$path['template'];
+            $this->createFile("admin/".$path['template'].".html",$params,$output.'.html.twig');
+        }
      }
+     protected function createFile(string $template, array $params, string $output): void
+     {
+         $content = $this->twig->render("@maker/$template.twig", $params);
+         $directory = dirname($output);
+         if (!file_exists($directory)) {
+             mkdir($directory, 0777, true);
+         }
+         file_put_contents($output, $content);
+     }
+     function slugify($str){
+        $strings = preg_split('/(?=[A-Z])/',$str);
+        array_shift($strings);
+        $string="";
+        foreach ($strings as $key=>$s ){
+            $separteur=(count($strings)-1>$key)?'_':'';
+            $string.=strtolower($s).$separteur;
+        }
+       return $string;
+     }
+
+   
  }
