@@ -123,8 +123,19 @@ use Twig\Environment;
             $this->createFile("admin/".$path['template'].".html",$params,$output.'.html.twig');
         }
      }
+     protected function createFormType($io,$domain,$entity){
+        $filesystem = new Filesystem();
+        $params = [
+            'domain'=>$domain,
+            "entity"=>$entity,
+        ];
+        $basePath = $this->projectDir.'/src/Domain/'.$domain.'/Form';
+        $this->createFile("form/FormType.php",$params,$basePath.'/'.$entity.'Type.php');
+
+     }
      protected function createFile(string $template, array $params, string $output): void
      {
+        
          $content = $this->twig->render("@maker/$template.twig", $params);
          $directory = dirname($output);
          if (!file_exists($directory)) {
