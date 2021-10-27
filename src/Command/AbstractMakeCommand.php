@@ -5,6 +5,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Twig\Environment;
 
  abstract class AbstractMakeCommand extends Command
@@ -106,7 +107,7 @@ use Twig\Environment;
             ['template'=>'edit'],
             ['template'=>'_form'],
         ];
-
+        $properties=$this->getProperties($domain,$entity);
         $filesystem = new Filesystem();
         $basePath = $this->projectDir.'/templates/'.$domain.'/'.$this->slugify($entity);
         if (!$filesystem->exists($basePath)) {
@@ -114,6 +115,9 @@ use Twig\Environment;
         }
         foreach($paths as $path){
             $params = [
+                'label'=>$entity,
+                "id_table"=>$this->slugify($entity)."_table",
+                "properties"=>$properties
             ];
             $output  = $basePath.'/'.$path['template'];
             $this->createFile("admin/".$path['template'].".html",$params,$output.'.html.twig');
@@ -138,6 +142,8 @@ use Twig\Environment;
         }
        return $string;
      }
-
-   
+     protected function getProperties (string $domain, string $entity): array{
+        $reflectionExtractor = new ReflectionExtractor();
+        return $reflectionExtractor->getProperties("App\\Domain\\".$domain."\\Entity\\".$entity);
+     }
  }
