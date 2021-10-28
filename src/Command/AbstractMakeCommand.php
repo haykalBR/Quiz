@@ -43,7 +43,24 @@ use Twig\Environment;
 
          return $io->askQuestion($q);
      }
-
+     protected function askAttributes(SymfonyStyle $io,$domain,$entity):array{
+        $attrubutis=$this->getProperties($domain,$entity);
+        $q = new Question('Sélectionner une Properties');
+        $q->setAutocompleterValues($attrubutis);
+        $result[]=$io->askQuestion($q);
+        while(true){
+            $qs = new Question('Sélectionner une autre Propertie '.self::YES.'/'.self::No.'?');
+            $reponse  =$io->askQuestion($qs);
+            if (self::No === mb_strtoupper($reponse)) {
+                return $result;
+            }
+            $q = new Question('Sélectionner une Properties');
+            $q->setAutocompleterValues($attrubutis);
+            $result[]=$io->askQuestion($q);
+            
+        }
+         
+     }
      /**
       * Demande à l'utilisateur de  créer ou choisir une entity.
       */
@@ -100,14 +117,13 @@ use Twig\Environment;
             $this->createFile('controller',$params,$output);
         }
      }
-     protected function createTemplate($io,$domain,$entity){
+     protected function createTemplate($io,$domain,$entity,$properties){
         $paths=[
             ['template'=>'index'],
             ['template'=>'create'],
             ['template'=>'edit'],
             ['template'=>'_form'],
         ];
-        $properties=$this->getProperties($domain,$entity);
         $filesystem = new Filesystem();
         $basePath = $this->projectDir.'/templates/'.$domain.'/'.$this->slugify($entity);
         if (!$filesystem->exists($basePath)) {
@@ -123,11 +139,12 @@ use Twig\Environment;
             $this->createFile("admin/".$path['template'].".html",$params,$output.'.html.twig');
         }
      }
-     protected function createFormType($io,$domain,$entity){
+     protected function createFormType($io,$domain,$entity,$properties){
         $filesystem = new Filesystem();
         $params = [
             'domain'=>$domain,
             "entity"=>$entity,
+            "properties"=>$properties
         ];
         $basePath = $this->projectDir.'/src/Domain/'.$domain.'/Form';
         $this->createFile("form/FormType.php",$params,$basePath.'/'.$entity.'Type.php');
