@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
-namespace App\Http\Controller\ControllerRefPoste;
+namespace App\Http\Controller\Controller{{ namespace }};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Core\Datatable\Factory\DataTable;
 use Symfony\Component\HttpFoundation\Request;
-use App\Core\Datatable\Option\RefPosteBuildOption;
+use App\Core\Datatable\Option\{{namespace}}BuildOption;
 
 
 /**
-* @Route("/refposte", name="refposte",options = { "expose" = true })
+* @Route("{{route}}", name="{{route_name}}",options = { "expose" = true })
 */
-class RefPosteController extends AbstractController
+class {{ class_name }} extends AbstractController
 {
     private DataTable $dataTable;
     public function __construct(DataTable $dataTable)
@@ -23,7 +23,7 @@ class RefPosteController extends AbstractController
     public function __invoke(Request $request):Response
     {
         if ($request->isXmlHttpRequest()){
-            return  $this->json($this->dataTable->setEntity(RefPoste::class)->setTypeButtons(RefPosteBuildOption::TYPE)->execute());
+            return  $this->json($this->dataTable->setEntity({{namespace}}::class)->setTypeButtons({{namespace}}BuildOption::TYPE)->execute());
         }
         return $this->render('Categories/categories/index.html.twig');
     }

@@ -92,10 +92,11 @@ use Twig\Environment;
          return $io->askQuestion($q);
      }
      protected function createController($io,$domain,$entity){
+        $output  = $this->projectDir.'/src/Http/Controller/'.$entity.'/';
         $paths=[
-            ['class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity)],
-            ['class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create'],
-            ['class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update']
+            ['file'=>'index','class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity),'output'=>$output.$entity.'Controller','view'=>$domain.'/'.strtolower($entity).'/'.'index.html.twig'],
+            ['file'=>'create','class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create','output'=>$output.'Create'.$entity.'Controller','view'=>$domain.'/'.strtolower($entity).'/'.'create.html.twig'],
+            ['file'=>'update','class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update','output'=>$output.'Update'.$entity.'Controller','view'=>$domain.'/'.strtolower($entity).'/'.'edit.html.twig']
         ];
 
         $filesystem = new Filesystem();
@@ -103,7 +104,6 @@ use Twig\Environment;
         if (!$filesystem->exists($basePath)) {
             $filesystem->mkdir($basePath);
         }
-    
         foreach($paths as $path){
 
             $params = [
@@ -114,10 +114,10 @@ use Twig\Environment;
 
             ];
             $output  = $this->projectDir.'/src/Http/Controller/'.$entity.'/'.$params['class_name'];
-            $this->createFile('controller',$params,$output);
+            $this->createFile('controller/'.$path['file'].'.controller',$params,$output);
         }
      }
-     protected function createTemplate($io,$domain,$entity,$properties){
+     protected function createTemplate($io,$domain,$entity,$fields){
         $paths=[
             ['template'=>'index'],
             ['template'=>'create'],
@@ -133,18 +133,18 @@ use Twig\Environment;
             $params = [
                 'label'=>$entity,
                 "id_table"=>$this->slugify($entity)."_table",
-                "properties"=>$properties
+                "fields"=>$fields 
             ];
             $output  = $basePath.'/'.$path['template'];
-            $this->createFile("admin/".$path['template'].".html",$params,$output.'.html.twig');
+            $this->createFile("views/".$path['template'].".html",$params,$output.'.html.twig');
         }
      }
-     protected function createFormType($io,$domain,$entity,$properties){
+     protected function createFormType($io,$domain,$entity,$fields){
         $filesystem = new Filesystem();
         $params = [
             'domain'=>$domain,
             "entity"=>$entity,
-            "properties"=>$properties
+            "fields"=>$fields
         ];
         $basePath = $this->projectDir.'/src/Domain/'.$domain.'/Form';
         $this->createFile("form/FormType.php",$params,$basePath.'/'.$entity.'Type.php');
@@ -172,6 +172,14 @@ use Twig\Environment;
      }
      protected function getProperties (string $domain, string $entity): array{
         $reflectionExtractor = new ReflectionExtractor();
+     /*   $x= $reflectionExtractor->getProperties("App\\Domain\\".$domain."\\Entity\\".$entity);
+        foreach($x as $i){
+            dump($reflectionExtractor->getTypes("App\\Domain\\".$domain."\\Entity\\".$entity,$i));
+        }
+        dd(
+            $x
+        );
+        */
         return $reflectionExtractor->getProperties("App\\Domain\\".$domain."\\Entity\\".$entity);
      }
  }

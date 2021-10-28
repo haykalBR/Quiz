@@ -26,10 +26,10 @@ class CrudGeneratorCommand extends AbstractMakeCommand
         $io = new SymfonyStyle($input, $output);
         $domain = $this->askDomain($io);
         $entity = $this->askEntity($io, $domain);
-        $attrubutis = $this->askAttributes($io, $domain,$entity);
+        $fields  = $this->askAttributes($io, $domain,$entity);
         $this->createController($io,$domain,$entity);
-        $this->createTemplate($io,$domain,$entity,$attrubutis);
-        $this->createFormType($io,$domain,$entity,$attrubutis);
+        $this->createTemplate($io,$domain,$entity,$fields);
+        $this->createFormType($io,$domain,$entity,$fields);
         return Command::SUCCESS;
     }
     
