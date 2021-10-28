@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
-namespace App\Http\Controller\Controller{{ namespace }};
+namespace App\Http\Controller\{{ namespace }};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Core\Datatable\Factory\DataTable;
 use Symfony\Component\HttpFoundation\Request;
-use App\Core\Datatable\Option\{{namespace}}BuildOption;
-
-
+use App\Core\Datatable\Option\{{namespace}}TypeOption;
+use App\Domain\{{domain}}\Entity\{{namespace}};
 /**
 * @Route("{{route}}", name="{{route_name}}",options = { "expose" = true })
 */
@@ -23,8 +22,8 @@ class {{ class_name }} extends AbstractController
     public function __invoke(Request $request):Response
     {
         if ($request->isXmlHttpRequest()){
-            return  $this->json($this->dataTable->setEntity({{namespace}}::class)->setTypeButtons({{namespace}}BuildOption::TYPE)->execute());
+            return  $this->json($this->dataTable->setEntity({{name}}::class)->setTypeButtons({{name}}TypeOption::TYPE)->execute());
         }
-        return $this->render('Categories/categories/index.html.twig');
+        return $this->render("{{view}}");
     }
 }

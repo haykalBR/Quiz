@@ -27,8 +27,9 @@ class CrudGeneratorCommand extends AbstractMakeCommand
         $domain = $this->askDomain($io);
         $entity = $this->askEntity($io, $domain);
         $fields  = $this->askAttributes($io, $domain,$entity);
-        $this->createController($io,$domain,$entity);
         $this->createTemplate($io,$domain,$entity,$fields);
+        $this->createButtonOption($io,$domain,$entity);
+        $this->createController($io,$domain,$entity);
         $this->createFormType($io,$domain,$entity,$fields);
         return Command::SUCCESS;
     }

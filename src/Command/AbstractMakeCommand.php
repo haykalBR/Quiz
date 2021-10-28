@@ -94,9 +94,9 @@ use Twig\Environment;
      protected function createController($io,$domain,$entity){
         $output  = $this->projectDir.'/src/Http/Controller/'.$entity.'/';
         $paths=[
-            ['file'=>'index','class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity),'output'=>$output.$entity.'Controller','view'=>$domain.'/'.strtolower($entity).'/'.'index.html.twig'],
-            ['file'=>'create','class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create','output'=>$output.'Create'.$entity.'Controller','view'=>$domain.'/'.strtolower($entity).'/'.'create.html.twig'],
-            ['file'=>'update','class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update','output'=>$output.'Update'.$entity.'Controller','view'=>$domain.'/'.strtolower($entity).'/'.'edit.html.twig']
+            ['file'=>'index','name'=>$entity,'class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity),'output'=>$output.$entity.'Controller.php','view'=>$domain.'/'.strtolower($entity).'/'.'index.html.twig'],
+            ['file'=>'create','name'=>$entity,'class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create','output'=>$output.'Create'.$entity.'Controller.php','view'=>$domain.'/'.strtolower($entity).'/'.'create.html.twig'],
+            ['file'=>'update','name'=>$entity,'class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update','output'=>$output.'Update'.$entity.'Controller.php','view'=>$domain.'/'.strtolower($entity).'/'.'edit.html.twig']
         ];
 
         $filesystem = new Filesystem();
@@ -104,18 +104,29 @@ use Twig\Environment;
         if (!$filesystem->exists($basePath)) {
             $filesystem->mkdir($basePath);
         }
+   
         foreach($paths as $path){
 
             $params = [
                 'namespace' => $path['class'],
                 'class_name' => $path['class'].'Controller',
                 'route' => $path['route'],
-                'route_name' => $path['route_name']
-
+                'route_name' => $path['route_name'],
+                'domain' => $domain,
+                'view'=> $path['view'],
+                'name'=>$path['name']
             ];
-            $output  = $this->projectDir.'/src/Http/Controller/'.$entity.'/'.$params['class_name'];
-            $this->createFile('controller/'.$path['file'].'.controller',$params,$output);
+           
+            $this->createFile('controller/'.$path['file'].'.controller',$params,$path['output']);
         }
+     }
+     protected function createButtonOption($io,$domain,$entity){
+        $params = [
+            'class'=>$entity,
+            "type"=>strtoupper($entity),
+        ];
+        $this->createFile("datatable/type.datatable",$params,$this->projectDir.'/src/Core/Datatable/Option/'.$entity.'BuildOption.php');
+
      }
      protected function createTemplate($io,$domain,$entity,$fields){
         $paths=[
