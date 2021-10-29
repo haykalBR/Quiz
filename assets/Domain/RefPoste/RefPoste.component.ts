@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import RefPosteService from "./refposte.service";
+import RefPosteService from "./RefPoste.service";
 import DatatableFactory from "../../Shared/factory/datatableFactory"
 @injectable()
 export default class RefPosteComponent {
@@ -9,7 +9,7 @@ export default class RefPosteComponent {
         @inject(DatatableFactory) datatableFactory:DatatableFactory,
     ){
         this.refposteService=refposteService;
-        let dataTable = datatableFactory.getDatatable('#refposte_table', refposteService)
+        let dataTable = datatableFactory.getDatatable('#ref_poste_table', refposteService)
     }
 
 }

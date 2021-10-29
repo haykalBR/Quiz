@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+namespace App\Http\Controller\ControllerUpdateRefLevel;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+/**
+* @Route("/reflevel/update/{id}", name="reflevel_update",options = { "expose" = true })
+*/
+class UpdateRefLevelController extends AbstractController
+{
+    
+    public function __invoke():Response
+    {
+    }
+}

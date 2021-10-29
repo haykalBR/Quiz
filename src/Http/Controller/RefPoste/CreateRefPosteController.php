@@ -28,7 +28,7 @@ class CreateRefPosteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($entity);
             $this->manager->flush();
-            return $this->redirectToRoute('admin_category');
+            return $this->redirectToRoute('admin_refposte');
         }
         return $this->render("User/ref_poste/create.html.twig",['form'=>$form->createView()]);
     }

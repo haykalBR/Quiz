@@ -29,6 +29,7 @@ Encore
     .addEntry('reflevel', './assets/Domain/RefLevel/index.ts')
     .addEntry('category', './assets/Domain/category/index.ts')
     .addEntry('refquestiontype', './assets/Domain/RefQuestionType/index.ts')
+    .addEntry('ref_poste', './assets/Domain/RefPoste/index.ts')
     .addStyleEntry('custom', './assets/styles/app.scss')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

@@ -26,7 +26,7 @@ class UpdateRefPosteController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->flush();
-            return $this->redirectToRoute('admin_category');
+            return $this->redirectToRoute('admin_refposte');
         }
         return $this->render("User/ref_poste/edit.html.twig",['form'=>$form->createView()]);
     }

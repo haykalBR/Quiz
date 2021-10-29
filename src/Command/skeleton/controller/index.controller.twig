@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Core\Datatable\Factory\DataTable;
 use Symfony\Component\HttpFoundation\Request;
-use App\Core\Datatable\Option\{{namespace}}TypeOption;
+use App\Core\Datatable\Option\{{namespace}}BuildOption;
 use App\Domain\{{domain}}\Entity\{{namespace}};
 /**
 * @Route("{{route}}", name="{{route_name}}",options = { "expose" = true })
@@ -22,7 +22,7 @@ class {{ class_name }} extends AbstractController
     public function __invoke(Request $request):Response
     {
         if ($request->isXmlHttpRequest()){
-            return  $this->json($this->dataTable->setEntity({{name}}::class)->setTypeButtons({{name}}TypeOption::TYPE)->execute());
+            return  $this->json($this->dataTable->setEntity({{name}}::class)->setTypeButtons({{name}}BuildOption::TYPE)->execute());
         }
         return $this->render("{{view}}");
     }

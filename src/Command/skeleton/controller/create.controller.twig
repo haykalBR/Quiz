@@ -28,7 +28,7 @@ class {{ class_name }} extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($entity);
             $this->manager->flush();
-            return $this->redirectToRoute('admin_category');
+            return $this->redirectToRoute('{{ route_index }}');
         }
         return $this->render("{{view}}",['form'=>$form->createView()]);
     }

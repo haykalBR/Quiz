@@ -12,12 +12,14 @@ class {{entity}}Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
            {% for field  in fields  %}
             {% if field !="id" %}
-                ->add('{{field}}');
+                ->add('{{field}}')
             {% endif %}
            {% endfor %}
+        ;
     }
     public function configureOptions(OptionsResolver $resolver)
     {
