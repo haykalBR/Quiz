@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Entity\RefPoste;
+use App\Domain\User\Entity\RefPoste;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

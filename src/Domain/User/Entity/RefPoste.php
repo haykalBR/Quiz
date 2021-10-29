@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Entity;
 
-use App\Repository\RefPosteRepository;
+use App\Domain\User\Repository\RefPosteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 

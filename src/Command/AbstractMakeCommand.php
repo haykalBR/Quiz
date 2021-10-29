@@ -145,7 +145,9 @@ use Twig\Environment;
             $params = [
                 'label'=>$entity,
                 "id_table"=>$this->slugify($entity)."_table",
-                "fields"=>$fields 
+                "fields"=>$fields,
+                "domain"=>$domain,
+                "entity"=>$this->slugify($entity)
             ];
             $output  = $basePath.'/'.$path['template'];
             $this->createFile("views/".$path['template'].".html",$params,$output.'.html.twig');
