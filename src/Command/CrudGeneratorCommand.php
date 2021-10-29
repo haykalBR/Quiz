@@ -32,7 +32,9 @@ class CrudGeneratorCommand extends AbstractMakeCommand
         $this->createController($io,$domain,$entity);
         $this->createFormType($io,$domain,$entity,$fields);
         $this->creatJSFile($io,$domain,$entity,$fields);
-        //TODO JS Datatable
+        //TODO add if deja exist solution
+        // TODO tanbdhim code
+        // TODO traja3  eli bech tzidhom f fichier 
         return Command::SUCCESS;
     }
     

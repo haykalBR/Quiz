@@ -41,6 +41,6 @@
             </div>
         </div>
     </section>
-    {{ encore_entry_script_tags('category') }}
+    {{ encore_entry_script_tags('" | raw }}{{entity}}{{ "') }}
 {% endblock %}
 " | raw }}
