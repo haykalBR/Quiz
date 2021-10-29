@@ -1,6 +1,6 @@
 <?php
 namespace App\Core\Datatable\Option;
-class RefPosteTypeOption implements BuildOption
+class RefPosteBuildOption implements BuildOption
 {
 
     const TYPE = "REFPOSTE";

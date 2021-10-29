@@ -18,6 +18,7 @@ use Twig\Environment;
 
      public function __construct(string $projectDir,Environment $twig)
      {
+
          parent::__construct();
          $this->projectDir = $projectDir;
          $this->twig=$twig;
@@ -94,9 +95,9 @@ use Twig\Environment;
      protected function createController($io,$domain,$entity){
         $output  = $this->projectDir.'/src/Http/Controller/'.$entity.'/';
         $paths=[
-            ['file'=>'index','name'=>$entity,'class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity),'output'=>$output.$entity.'Controller.php','view'=>$domain.'/'.strtolower($entity).'/'.'index.html.twig'],
-            ['file'=>'create','name'=>$entity,'class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create','output'=>$output.'Create'.$entity.'Controller.php','view'=>$domain.'/'.strtolower($entity).'/'.'create.html.twig'],
-            ['file'=>'update','name'=>$entity,'class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update','output'=>$output.'Update'.$entity.'Controller.php','view'=>$domain.'/'.strtolower($entity).'/'.'edit.html.twig']
+            ['file'=>'index','name'=>$entity,'class'=>$entity,'route'=>"/".strtolower($entity),'route_name'=>strtolower($entity),'output'=>$output.$entity.'Controller.php','view'=>$domain.'/'.$this->slugify($entity).'/'.'index.html.twig'],
+            ['file'=>'create','name'=>$entity,'class'=>'Create'.$entity,'route'=>"/".strtolower($entity).'/create','route_name'=>strtolower($entity).'_create','output'=>$output.'Create'.$entity.'Controller.php','view'=>$domain.'/'.$this->slugify($entity).'/'.'create.html.twig'],
+            ['file'=>'update','name'=>$entity,'class'=>'Update'.$entity,'route'=>"/".strtolower($entity).'/update/{id}','route_name'=>strtolower($entity).'_update','output'=>$output.'Update'.$entity.'Controller.php','view'=>$domain.'/'.$this->slugify($entity).'/'.'edit.html.twig']
         ];
 
         $filesystem = new Filesystem();
@@ -161,6 +162,28 @@ use Twig\Environment;
         $this->createFile("form/FormType.php",$params,$basePath.'/'.$entity.'Type.php');
 
      }
+     protected function creatJSFile($io,$domain,$entity,$fields):void{
+         $paths=[
+             ['template'=>'entity.component','output'=>$entity.'.component.ts'],
+             ['template'=>'entity.service','output'=>$entity.'.service.ts'],
+             ['template'=>'index','output'=>'index.ts'],
+
+         ];
+         $filesystem = new Filesystem();
+         $basePath = $this->projectDir.'/assets/Domain/'.ucfirst($entity);
+
+         if (!$filesystem->exists($basePath)) {
+             $filesystem->mkdir($basePath);
+         }
+         foreach($paths as $path){
+             $params = [
+                 'entity'=>$entity,
+                 "name"=>strtolower($entity),
+                 "fields"=>$fields
+             ];
+             $this->createFile("js/".$path['template'],$params,$basePath.'/'.$path['output']);
+         }
+     }
      protected function createFile(string $template, array $params, string $output): void
      {
         
@@ -170,7 +193,9 @@ use Twig\Environment;
              mkdir($directory, 0777, true);
          }
          file_put_contents($output, $content);
+
      }
+
      function slugify($str){
         $strings = preg_split('/(?=[A-Z])/',$str);
         array_shift($strings);

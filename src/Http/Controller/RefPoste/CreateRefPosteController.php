@@ -30,6 +30,6 @@ class CreateRefPosteController extends AbstractController
             $this->manager->flush();
             return $this->redirectToRoute('admin_category');
         }
-        return $this->render("User/refposte/create.html.twig",['form'=>$form->createView()]);
+        return $this->render("User/ref_poste/create.html.twig",['form'=>$form->createView()]);
     }
 }

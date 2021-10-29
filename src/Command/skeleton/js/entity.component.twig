@@ -1,0 +1,15 @@
+import { inject, injectable } from "inversify";
+import {{ entity }}Service from "./{{ name }}.service";
+import DatatableFactory from "../../Shared/factory/datatableFactory"
+@injectable()
+export default class {{ entity }}Component {
+    private {{ name }}Service: {{ entity }}Service;
+    constructor(
+        @inject({{ entity }}Service) {{ name }}Service:{{ entity }}Service,
+        @inject(DatatableFactory) datatableFactory:DatatableFactory,
+    ){
+        this.{{ name }}Service={{ name }}Service;
+        let dataTable = datatableFactory.getDatatable('#{{ name }}_table', {{ name }}Service)
+    }
+
+}

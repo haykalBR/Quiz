@@ -1,0 +1,43 @@
+import Routing from '../../Config/routing';
+import { injectable } from 'inversify';
+import DataTable from '../../Shared/interfaces/datatable';
+import {deleterecord} from "../../Shared/helper/sweetalert2";
+import axios from "../../Config/axios";
+
+@injectable()
+export default class {{ entity }}Service implements DataTable{
+
+    getAjax(){
+        return {
+            'url': Routing.generate("admin_{{ name }}"),
+            data: function(data,buttons) {
+
+                data.hiddenColumn= [
+
+                ];
+                data.customSearch =[
+
+                ]
+            },
+
+        }
+    }
+    getDatableColumnDef():Array<any>{
+        let i =0;
+        return [
+
+            {% for  field in  fields%}
+                {   "targets": i++,'name':'t.{{ field }}','data':'t_{{ field }}'},
+            {% endfor %}
+            {
+                "targets": -1,
+                'name':'t.id',
+                'data':'t_buttons',
+                "render": function ( data, type, full, meta ) {
+                    return data;
+                }
+            }
+        ]
+    }
+
+}

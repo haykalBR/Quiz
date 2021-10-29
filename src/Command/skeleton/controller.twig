@@ -1,0 +1,24 @@
+<?php
+declare(strict_types=1);
+namespace App\Http\Controller\Controller{{ namespace }};
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Core\Datatable\Factory\DataTable;
+
+/**
+* @Route("{{route}}", name="{{route_name}}",options = { "expose" = true })
+*/
+class {{ class_name }} extends AbstractController
+{
+    private DataTable $dataTable;
+    public function __construct(DataTable $dataTable)
+    {
+        $this->dataTable = $dataTable;
+
+    }
+
+    public function __invoke():Response
+    {
+    }
+}

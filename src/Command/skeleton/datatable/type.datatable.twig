@@ -1,0 +1,16 @@
+<?php
+namespace App\Core\Datatable\Option;
+class {{class}}BuildOption implements BuildOption
+{
+
+    const TYPE = "{{type}}";
+    public function render($data): string
+    {
+       return "";
+    }
+
+    public function support(string $type): bool
+    {
+        return  $type == self::TYPE;
+    }
+}

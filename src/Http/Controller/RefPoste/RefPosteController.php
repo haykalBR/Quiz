@@ -24,6 +24,6 @@ class RefPosteController extends AbstractController
         if ($request->isXmlHttpRequest()){
             return  $this->json($this->dataTable->setEntity(RefPoste::class)->setTypeButtons(RefPosteTypeOption::TYPE)->execute());
         }
-        return $this->render("User/refposte/index.html.twig");
+        return $this->render("User/ref_poste/index.html.twig");
     }
 }
