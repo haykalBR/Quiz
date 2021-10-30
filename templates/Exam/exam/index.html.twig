@@ -1,20 +1,49 @@
 {% extends 'base.html.twig' %}
+{% block content %}
+    <section class="content-header">
+        {{ show_source_code(_self) }}<br>
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1> Entity management </h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a>Entity management</a></li>
+                        <li class="breadcrumb-item active">List</li>
+                    </ol>
 
-{% block title %}Hello ExamController!{% endblock %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+                <div class="card-header">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/application/src/Controller/ExamController.php'|file_link(0) }}">src/Controller/ExamController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/application/templates/exam/index.html.twig'|file_link(0) }}">templates/exam/index.html.twig</a></code></li>
-    </ul>
-</div>
+                </div>
+                <div class="card-body">
+                    <a  href=' {{ path('admin_exam_create') }}' class="btn btn-info"> Add  </a>
+                    
+                    <table id="exam_table" class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                                                     <th >id </th>
+                                                     <th >title </th>
+                                                     <th >duration </th>
+                                                     <th >passingPercentage </th>
+                                                     <th >nbQuestions </th>
+                         
+                            <th > Options </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{ encore_entry_script_tags('exam') }}
 {% endblock %}
+

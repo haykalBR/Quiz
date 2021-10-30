@@ -45,22 +45,8 @@ abstract class AbstractMakeCommand extends Command
     }
     protected function askAttributes(SymfonyStyle $io, $domain, $entity):array
     {
-        $attrubutis = $this->getProperties($domain, $entity);
-        $q = new Question('Sélectionner une Properties');
-        $q->setAutocompleterValues($attrubutis);
-        $result[] = $io->askQuestion($q);
-        while (true) {
-            $qs = new Question('Sélectionner une autre Propertie '.self::YES.'/'.self::NO.'?');
-            $reponse  = $io->askQuestion($qs);
-            if (self::NO === mb_strtoupper($reponse)) {
-                return $result;
-            }
-            $q = new Question('Sélectionner une Properties');
-            $q->setAutocompleterValues($attrubutis);
-            $result[] = $io->askQuestion($q);
-        }
+        return $this->getProperties($domain, $entity);
     }
-
     protected function askEntity(SymfonyStyle $io, string $domain): string
     {
         $finder= new Finder();
@@ -181,6 +167,21 @@ abstract class AbstractMakeCommand extends Command
             $this->createFile("js/".$path['template'], $params, $basePath.'/'.$path['output']);
         }
     }
+    protected function verfiyCrud(SymfonyStyle $io,string $domain,string $entity){
+        $controllerPath = $this->projectDir.'/src/Http/Controller/'.$entity;
+        if (!$this->filesystem->exists($controllerPath)){
+            return true;
+        }
+        if ((new Finder())->in($controllerPath)->depth(0)->count()>0){
+            $io->error("le crud est deja crée");
+            $qs = new Question('Voulez-vous  régénérer le crud '.self::YES.'/'.mb_strtoupper(self::NO).'?');
+            $reponse  = $io->askQuestion($qs);
+            if (self::YES === mb_strtoupper($reponse)) {
+                return true;
+            }
+            return  false;
+        }
+    }
     protected function createFile(string $template, array $params, string $output): void
     {
 
@@ -191,7 +192,6 @@ abstract class AbstractMakeCommand extends Command
         }
         file_put_contents($output, $content);
     }
-
     function slugify($str)
     {
         $strings = preg_split('/(?=[A-Z])/', $str);
