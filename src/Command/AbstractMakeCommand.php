@@ -183,17 +183,16 @@ abstract class AbstractMakeCommand extends Command
             return  false;
         }
     }
-    protected function correctionDir(string $domain, string $entity)
+    protected function correctionDir(string $domain)
     {
-        $file   = "{$this->projectDir}/src/Repository";
+        $file   = "{$this->projectDir}/config/packages/dev/maker.yaml";
         if ($this->filesystem->exists($file)) {
             $this->filesystem->remove($file);
         }
         $params = [
-            'entity' => $entity,
             "domain" => $domain,
         ];
-        $this->createFile("Repository/exemple.repository", $params, "{$this->projectDir}/src/Domain/{$domain}/Repository/{$entity}Repository.php");
+        $this->createFile("maker/maker.controller", $params, "{$this->projectDir}/config/packages/dev/maker.yaml");
     }
     protected function createFile(string $template, array $params, string $output): void
     {

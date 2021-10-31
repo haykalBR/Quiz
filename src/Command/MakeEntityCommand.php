@@ -27,6 +27,8 @@ class MakeEntityCommand extends AbstractMakeCommand
         $domain = $this->askDomain($io);
         /** @var string $entity */
         $entity = $input->getArgument('entityName');
+        $this->correctionDir($domain);
+
 
         /** @var Application $application */
         $application = $this->getApplication();
@@ -37,7 +39,6 @@ class MakeEntityCommand extends AbstractMakeCommand
         ];
         $greetInput = new ArrayInput($arguments);
         $command->run($greetInput, $output);
-        $this->correctionDir($domain,$entity);
         return Command::SUCCESS;
     }
 }
