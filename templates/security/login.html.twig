@@ -3,7 +3,7 @@
 {% block content %}
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>Admin</b>LTE</a>
+            <a href="#"><b>NEXT</b>QUIZ</a>
         </div>
         <div class="card">
             <div class="card-body login-card-body">
@@ -11,7 +11,7 @@
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
-                <form action="{{ path('app_login') }}" method="post">
+                <form action="{{ path('admin_app_login') }}" method="post">
                     <div class="input-group mb-3">
                         <input type="email"
                                class="form-control"
@@ -63,9 +63,6 @@
                         Sign in
                     </button>
                 </div>
-                <p class="mb-1">
-                    <a href="">I forgot my password</a>
-                </p>
                 </form>
             </div>
         </div>

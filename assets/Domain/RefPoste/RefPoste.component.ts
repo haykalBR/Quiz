@@ -11,5 +11,10 @@ export default class RefPosteComponent {
         this.refposteService=refposteService;
         let dataTable = datatableFactory.getDatatable('#ref_poste_table', refposteService)
     }
-
+    deleteLevel():void{
+        $("#ref_poste_table").on('click', '.delete',this.refposteService.deleteLevel);
+    }
+    changeStateLevel():void{
+        $("#ref_poste_table").on('click', '.switch-input',this.refposteService.changeState);
+    }
 }

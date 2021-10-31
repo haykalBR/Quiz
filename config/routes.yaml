@@ -1,9 +1,0 @@
-admin_2fa_login:
-  path: /admin/2fa
-  controller: App\Controller\SecurityController::check2Fa
-
-2fa_login_check:
-  path: /2fa_check
-api_login_check:
-  path: /api/login_check
-  methods: [ POST ]

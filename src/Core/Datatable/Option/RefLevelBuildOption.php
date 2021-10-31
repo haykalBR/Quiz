@@ -28,13 +28,14 @@ class RefLevelBuildOption implements BuildOption
                                  ->build();
         $options .= $this->simpleButton->addLabel('Edit')
                                  ->addClassName(AbstractButtons::WARNING)
-                                 ->addRoute('admin_level_update')
+                                 ->addRoute('admin_refposte_update')
                                  ->addParams(['id' => $data['t_id']])
                                  ->addWidth("btn-lg")
                                  ->build();
         $options .= $this->switchButton->addData($data)
                                  ->addParmsChecked('t_enabled')
                                  ->build();
+
         return  $options;
     }
 

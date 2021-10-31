@@ -1,9 +1,11 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="#" class="brand-link">
+{#
       <img src="{{ asset('admin/dist/img/AdminLTELogo.png')}}"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
+#}
       <span class="brand-text font-weight-light">Next Quiz </span>
     </a>
     <div class="sidebar ">
@@ -19,25 +21,39 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-level-up"></i>
+              <i class="fa fa-home" aria-hidden="true"></i>
               <p>
-                Gestion des Levels
+                Dashboard
+              </p>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <p>
+                Users
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ path('admin_levels') }}" class="nav-link">
-                  <i class="fa fa-level-up nav-icon"></i>
-                  <p>Liste des levels</p>
+                <a href="{{ path('admin_user') }}" class="nav-link">
+                  <p>Gestion des utilisateurs</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ path('admin_level_create') }}" class="nav-link">
-                  <i class="fa fa-plus nav-icon"></i>
-                  <p>ajouter  level</p>
+                <a href="{{ path('admin_refposte') }}" class="nav-link">
+                  <p>Gestion des Poste</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ path('admin_levels') }}" class="nav-link">
+                  <p>Gestion des Levels</p>
+                </a>
+              </li>
+
 
             </ul>
           </li>
@@ -45,29 +61,47 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-level-up"></i>
+              <i class="fa fa-list" aria-hidden="true"></i>
               <p>
-                Gestion des Category
+                Categories
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{ path('admin_category') }}" class="nav-link">
-                  <i class="fa fa-level-up nav-icon"></i>
-                  <p>Liste des Category</p>
+                  <p>Gestion des Categories</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{ path('admin_level_create') }}" class="nav-link">
-                  <i class="fa fa-plus nav-icon"></i>
-                  <p>ajouter  Category</p>
-                </a>
-              </li>
-
             </ul>
           </li>
         </ul>
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fa fa-question" aria-hidden="true"></i>
+              <p>
+                 Questions
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <p>Gestion des Question</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ path('admin_ref_question') }}" class="nav-link">
+                  <p>Gestion des type Question</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item has-treeview">
             <a href="{{ path('admin_settings') }}" class="nav-link">

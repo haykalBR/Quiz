@@ -25,7 +25,6 @@ abstract class AbstractMakeCommand extends Command
         $this->projectDir = $projectDir;
         $this->twig = $twig;
         $this->filesystem = $filesystem;
-
     }
 
     /**
@@ -49,7 +48,7 @@ abstract class AbstractMakeCommand extends Command
     }
     protected function askEntity(SymfonyStyle $io, string $domain): string
     {
-        $finder= new Finder();
+        $finder = new Finder();
         if (!$this->filesystem->exists("{$this->projectDir}/src/Domain/{$domain}")) {
             $question = new Question('domain name not found Do you Create '.self::YES.'/'.self::NO.'?');
             $reponse  = $io->askQuestion($question);
@@ -113,7 +112,7 @@ abstract class AbstractMakeCommand extends Command
            ['template' => 'index'],
            ['template' => '_form'],
            ['template' => 'create'],
-           ['template' => 'edit']
+           ['template' => 'edit'],
         ];
         $basePath = $this->projectDir.'/templates/'.$domain.'/'.$this->slugify($entity);
         if (!$this->filesystem->exists($basePath)) {
@@ -161,26 +160,40 @@ abstract class AbstractMakeCommand extends Command
             $params = [
                 'entity' => $entity,
                 "name" => strtolower($entity),
-                'id_table'=>$this->slugify($entity),
+                'id_table' => $this->slugify($entity),
                 "fields" => $fields,
             ];
             $this->createFile("js/".$path['template'], $params, $basePath.'/'.$path['output']);
         }
     }
-    protected function verfiyCrud(SymfonyStyle $io,string $domain,string $entity){
+    protected function verfiyCrud(SymfonyStyle $io, string $domain, string $entity)
+    {
         $controllerPath = $this->projectDir.'/src/Http/Controller/'.$entity;
-        if (!$this->filesystem->exists($controllerPath)){
+        if (!$this->filesystem->exists($controllerPath)) {
             return true;
         }
-        if ((new Finder())->in($controllerPath)->depth(0)->count()>0){
+        if ((new Finder())->in($controllerPath)->depth(0)->count() > 0) {
             $io->error("le crud est deja crée");
             $qs = new Question('Voulez-vous  régénérer le crud '.self::YES.'/'.mb_strtoupper(self::NO).'?');
             $reponse  = $io->askQuestion($qs);
             if (self::YES === mb_strtoupper($reponse)) {
                 return true;
             }
+
             return  false;
         }
+    }
+    protected function correctionDir(string $domain, string $entity)
+    {
+        $file   = "{$this->projectDir}/src/Repository";
+        if ($this->filesystem->exists($file)) {
+            $this->filesystem->remove($file);
+        }
+        $params = [
+            'entity' => $entity,
+            "domain" => $domain,
+        ];
+        $this->createFile("Repository/exemple.repository", $params, "{$this->projectDir}/src/Domain/{$domain}/Repository/{$entity}Repository.php");
     }
     protected function createFile(string $template, array $params, string $output): void
     {
@@ -217,4 +230,5 @@ abstract class AbstractMakeCommand extends Command
         */
         return $reflectionExtractor->getProperties("App\\Domain\\".$domain."\\Entity\\".$entity);
     }
+
 }

@@ -27,7 +27,6 @@ class CrudGeneratorCommand extends AbstractMakeCommand
         $domain = $this->askDomain($io);
         $entity = $this->askEntity($io, $domain);
         $isCrud=$this->verfiyCrud($io,$domain,$entity);
-        //probleme deux att
         if ($isCrud){
             $fields  = $this->askAttributes($io, $domain, $entity);
             $this->createTemplate($io, $domain, $entity, $fields);

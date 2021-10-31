@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Authentication Code email</p>
-                <form action="{{ path('2fa_login_check') }}" method="post">
+                <form action="{{ path('admin_2fa_login_check') }}" method="post">
 
                     <div class="input-group mb-3">
                         <input class="form-control"
@@ -42,7 +42,7 @@
                     </div>
 
                     <p class="mb-1">
-                        <a  href="{{ path('app_logout') }}">Cancel</a>
+                        <a  href="{{ path('admin_app_logout') }}">Cancel</a>
                     </p>
                 </form>
             </div>

@@ -18,12 +18,11 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class CreateUserCommand extends Command
 {
-    protected static $defaultName = 'CreateUser';
+    protected static $defaultName = 'next:create:user';
     /**
      * @var SymfonyStyle
      */
     private $io;
-
     private $entityManager;
     private $passwordHasher;
     private $validator;
@@ -32,7 +31,6 @@ class CreateUserCommand extends Command
     public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, Validator $validator, UserRepository $users)
     {
         parent::__construct();
-
         $this->entityManager = $em;
         $this->passwordHasher = $passwordHasher;
         $this->validator = $validator;
@@ -46,8 +44,6 @@ class CreateUserCommand extends Command
         $this
             ->setDescription('Creates users and stores them in the database')
             ->setHelp($this->getCommandHelp())
-            // commands can optionally define arguments and/or options (mandatory and optional)
-            // see https://symfony.com/doc/current/components/console/console_arguments.html
             ->addArgument('password', InputArgument::OPTIONAL, 'The plain password of the new user')
             ->addArgument('email', InputArgument::OPTIONAL, 'The email of the new user')
             ->addOption('admin', null, InputOption::VALUE_NONE, 'If set, the user is created as an administrator')
@@ -134,6 +130,7 @@ class CreateUserCommand extends Command
         // create the user and hash its password
         $user = new User();
         $user->setEmail($email);
+        $user->setEnabled(true);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         // See https://symfony.com/doc/current/security.html#c-encoding-passwords
