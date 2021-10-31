@@ -3,6 +3,8 @@
 namespace App\Core\DataFixtures;
 
 use App\Domain\Categories\Entity\Categories;
+use App\Domain\Categories\Entity\Technology;
+use App\Domain\Categories\Repository\CategoriesRepository;
 use App\Domain\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -12,16 +14,19 @@ class InitFixtures extends Fixture
 {
 
     private UserPasswordHasherInterface $userPasswordHasher;
+    private CategoriesRepository $categoriesRepository;
 
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher,CategoriesRepository $categoriesRepository)
     {
         $this->userPasswordHasher = $userPasswordHasher;
+        $this->categoriesRepository = $categoriesRepository;
     }
     public function load(ObjectManager $manager)
     {
         $this->addUsers($manager);
         $this->addCategory($manager);
-        $manager->flush();
+        $this->addTechnology($manager);
+
 
     }
     private function addUsers(ObjectManager $manager){
@@ -39,6 +44,7 @@ class InitFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $manager->persist($user);
         }
+        $manager->flush();
     }
     private function addCategory(ObjectManager  $manager){
         //ADD priciê technoligue to Category and delete sub category
@@ -52,5 +58,26 @@ class InitFixtures extends Fixture
             $categorie->setName($category);
             $manager->persist($categorie);
         }
+        $manager->flush();
+    }
+    private function addTechnology(ObjectManager $manger){
+       $technologies=[
+           ['Android','ionic','ios','fullter'],
+           ['php','springboot','symfony','laravel','React JS','Cake PHP','Meteor JS','Angular','Nodejs','ExtJS','SASS','Vue JS'],
+           ['linux',' Windows Server','VAGRANT','DOCKER','DOCKER','KUBERNETES','ANSIBLE','VIRTUALISATION']
+       ];
+       foreach ($technologies as $technology){
+           $i=1;
+
+           foreach ($technology as $item){
+               $category=$this->categoriesRepository->find($i);
+               $technologie = new Technology();
+               $technologie->setName($item);
+               $technologie->setSlug($item);
+               $manger->persist($technologie);
+           }
+
+       }
+       $manger->flush();
     }
 }
