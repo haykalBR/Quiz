@@ -1,6 +1,4 @@
-controllers:
-    resource: ../../src/Controller/
-    type: annotation
+
 admin_controllers:
     name_prefix: admin_
     prefix: '/admin'

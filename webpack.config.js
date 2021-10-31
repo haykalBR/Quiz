@@ -32,6 +32,7 @@ Encore
     .addEntry('ref_poste', './assets/Domain/RefPoste/index.ts')
     .addEntry('exam', './assets/Domain/Exam/index.ts')
     .addEntry('user', './assets/Domain/User/index.ts')
+    .addEntry('technology', './assets/Domain/Technology/index.ts')
     .addStyleEntry('custom', './assets/styles/app.scss')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
