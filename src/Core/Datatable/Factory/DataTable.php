@@ -112,6 +112,7 @@ class DataTable implements DataTableInterface
     {
         foreach ($this->joins as $join) {
             $this->queryBuilder->leftJoin($join['join'], $join['alias'], Expr\Join::WITH, $join['condition']);
+
             $filteredTotal->leftJoin($join['join'], $join['alias'], Expr\Join::WITH, $join['condition']);
         }
 
@@ -141,6 +142,7 @@ class DataTable implements DataTableInterface
 
                 $total = $this->manager->createQueryBuilder()->from($this->entityName, 't')->select('count(t.id)');
                 $filteredTotal = $this->setJoins(clone $total);
+
 
                 $filteredTotal = $this->setSearch($filteredTotal);
                 $filteredTotal = $this->setcustomSearch($filteredTotal);

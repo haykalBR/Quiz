@@ -11,7 +11,6 @@ export default class CategoryService implements DataTable{
         return {
             'url': Routing.generate("admin_category"),
             data: function(data,buttons) {
-
                 data.hiddenColumn= [
                     {   name: 't.public',data: 't_public'}
                 ];

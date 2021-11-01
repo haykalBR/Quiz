@@ -11,7 +11,11 @@ export default class TechnologyService implements DataTable{
         return {
             'url': Routing.generate("admin_technology"),
             data: function(data,buttons) {
-
+                data.join = [
+/*
+                    {   "join": "App\\Domain\\Categories\\Entity\\Categories","alias": 'c',"condition": "t.categories in c.id","type":""},
+*/
+                ];
                 data.hiddenColumn= [
 
                 ];
