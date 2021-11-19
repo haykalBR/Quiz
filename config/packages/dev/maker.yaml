@@ -1,2 +1,2 @@
 maker:
-  root_namespace: 'App\Domain\Exam'
+  root_namespace: 'App\Domain\User'

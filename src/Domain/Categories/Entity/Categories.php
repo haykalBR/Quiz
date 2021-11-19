@@ -66,10 +66,7 @@ class Categories
      */
     private $categories;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Technology::class, mappedBy="categories")
-     */
-    private $technologies;
+
 
     public function __toString(): string
     {
@@ -79,7 +76,6 @@ class Categories
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->technologies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,30 +164,5 @@ class Categories
         return $this;
     }
 
-    /**
-     * @return Collection|Technology[]
-     */
-    public function getTechnologies(): Collection
-    {
-        return $this->technologies;
-    }
 
-    public function addTechnology(Technology $technology): self
-    {
-        if (!$this->technologies->contains($technology)) {
-            $this->technologies[] = $technology;
-            $technology->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTechnology(Technology $technology): self
-    {
-        if ($this->technologies->removeElement($technology)) {
-            $technology->removeCategory($this);
-        }
-
-        return $this;
-    }
 }

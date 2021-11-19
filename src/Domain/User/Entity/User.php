@@ -3,6 +3,8 @@
 namespace App\Domain\User\Entity;
 
 use App\Domain\User\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -51,6 +53,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @ORM\Column(type="boolean",options={"default":true})
      */
     private bool  $enabled;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Permissions::class, mappedBy="users")
+     */
+    private $permissions;
+
+    public function __construct()
+    {
+        $this->permissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,6 +191,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return Collection|Permissions[]
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permissions $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permissions $permission): self
+    {
+        if ($this->permissions->removeElement($permission)) {
+            $permission->removeUser($this);
+        }
+
+        return $this;
     }
 
 

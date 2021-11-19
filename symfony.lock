@@ -52,6 +52,9 @@
             "src/Entity/.gitignore"
         ]
     },
+    "beberlei/assert": {
+        "version": "v3.3.1"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -264,6 +267,9 @@
     "opis/closure": {
         "version": "3.6.2"
     },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
+    },
     "phar-io/manifest": {
         "version": "2.0.1"
     },
@@ -369,6 +375,9 @@
     "scheb/2fa-email": {
         "version": "v5.12.1"
     },
+    "scheb/2fa-totp": {
+        "version": "v5.13.0"
+    },
     "scheb/2fa-trusted-device": {
         "version": "v5.12.1"
     },
@@ -440,6 +449,9 @@
     },
     "slevomat/coding-standard": {
         "version": "6.4.1"
+    },
+    "spomky-labs/otphp": {
+        "version": "v10.0.1"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.6",
@@ -856,6 +868,9 @@
     },
     "thecodingmachine/phpstan-strict-rules": {
         "version": "v0.12.1"
+    },
+    "thecodingmachine/safe": {
+        "version": "v1.3.3"
     },
     "theseer/tokenizer": {
         "version": "1.2.0"

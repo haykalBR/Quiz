@@ -20,6 +20,7 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "scheb/2fa-bundle": "^5.12",
         "scheb/2fa-email": "^5.12",
+        "scheb/2fa-totp": "^5.13",
         "scheb/2fa-trusted-device": "^5.12",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.3.*",

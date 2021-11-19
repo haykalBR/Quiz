@@ -26,14 +26,13 @@ Encore
      */
 
     .addEntry('app', './assets/app.ts')
-    .addEntry('reflevel', './assets/Domain/RefLevel/index.ts')
     .addEntry('category', './assets/Domain/category/index.ts')
     .addEntry('refquestiontype', './assets/Domain/RefQuestionType/index.ts')
-    .addEntry('ref_poste', './assets/Domain/RefPoste/index.ts')
     .addEntry('exam', './assets/Domain/Exam/index.ts')
     .addEntry('user', './assets/Domain/User/index.ts')
-    .addEntry('technology', './assets/Domain/Technology/index.ts')
+    .addEntry('permissions', './assets/Domain/Permissions/index.ts')
     .addStyleEntry('custom', './assets/styles/app.scss')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
     // will require an extra script tag for runtime.js
