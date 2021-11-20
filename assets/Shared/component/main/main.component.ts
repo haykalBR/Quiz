@@ -10,10 +10,11 @@ export default class MainComponent {
     constructor(
         @inject(MainService) mainService: MainService
     ) {
+        console.warn(44)
        $('.dropify-fr').dropify(dropifyConfig);
         $('.select2').select2({
          width: 'resolve'
         });
-       $('.chkSwitch').switchbutton(switchButtonConfig);
+     //  $('.chkSwitch').switchbutton(switchButtonConfig);
     }
 }

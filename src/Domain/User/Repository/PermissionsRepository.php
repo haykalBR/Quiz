@@ -27,4 +27,30 @@ class PermissionsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
+    /**
+     * get Permission from roles
+     * @param array $roles
+     * @return int|mixed|string
+     */
+    public function getPermissionFromRoles(array $roles){
+        return $this->createQueryBuilder('p')
+            ->select('p.guardName,p.id')
+            ->innerJoin('p.roles','r')
+            ->andWhere('r.id IN (:ids)')
+            ->setParameter('ids', $roles)
+            ->getQuery()->getResult();
+    }
+    /**
+     * get Permission not in  roles
+     * @param array $roles
+     * @return int|mixed|string
+     */
+    public function getPermissionNotInRoles(array $roles){
+        return $this->createQueryBuilder('p')
+            ->select('p.guardName,p.id')
+            ->innerJoin('p.roles','r')
+            ->andWhere('r.id not IN (:ids)')
+            ->setParameter('ids', $roles)
+            ->getQuery()->getResult();
+    }
 }

@@ -4,3 +4,4 @@ let permissionsComponent:PermissionsComponent;
 permissionsComponent=container.resolve<PermissionsComponent>(PermissionsComponent);
 permissionsComponent.addPermissions();
 
+

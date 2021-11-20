@@ -12,10 +12,22 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Http\Api\Users\GetPermissionFromRolesAction;
 /**
  * @ApiResource(
- *     collectionOperations={},
- *     itemOperations={"delete"}
+ *     collectionOperations={
+ *   "permission-from-roles"={
+ *       "method"="post",
+ *       "path"="/users/permission-from-roles",
+ *       "openapi_context"={"summary"=" Get  permission  from  roles "},
+ *       "controller"=GetPermissionFromRolesAction::class,
+ *       "normalization_context"={"groups"={"read:permission:roles"}},
+ *       "denormalization_context"={"groups"={"read:permission:roles"}},
+ *      }
+ *     },
+ *     itemOperations={
+ *     "delete"
+ *     }
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  *
@@ -23,6 +35,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -79,7 +93,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @ORM\ManyToMany(targetEntity=Roles::class, inversedBy="users")
      */
     private $role;
-
+    private $grantPermission;
+    private $revokePermission;
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
@@ -331,6 +346,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function setBirthDate($birthDate): void
     {
         $this->birthDate = $birthDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGrantPermission()
+    {
+        return $this->grantPermission;
+    }
+
+    /**
+     * @param mixed $grantPermission
+     */
+    public function setGrantPermission($grantPermission): void
+    {
+        $this->grantPermission = $grantPermission;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRevokePermission()
+    {
+        return $this->revokePermission;
+    }
+
+    /**
+     * @param mixed $revokePermission
+     */
+    public function setRevokePermission($revokePermission): void
+    {
+        $this->revokePermission = $revokePermission;
     }
 
 }
