@@ -15,9 +15,11 @@ export default class UserComponent {
     randompaasword(){
         $('#user_random_password').on('click',this.userService.randompaasword);
     }
-    reloadPermissions():void{
-        $('#user_role').on('change',
-            this.userService.reloadPermissions
+     reloadPermissions(){
+        $('#user_role').on('change',async () => {
+          const data :any  = await this.userService.reloadPermissions()
+          this.userService.addPermissionToSelect(data);
+        }
         );
     }
 }

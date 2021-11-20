@@ -56,10 +56,16 @@ class Permissions
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserPermission::class, mappedBy="permission")
+     */
+    private $userPermissions;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->userPermissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,6 +140,36 @@ class Permissions
     public function removeUser(User $user): self
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserPermission[]
+     */
+    public function getUserPermissions(): Collection
+    {
+        return $this->userPermissions;
+    }
+
+    public function addUserPermission(UserPermission $userPermission): self
+    {
+        if (!$this->userPermissions->contains($userPermission)) {
+            $this->userPermissions[] = $userPermission;
+            $userPermission->setPermission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserPermission(UserPermission $userPermission): self
+    {
+        if ($this->userPermissions->removeElement($userPermission)) {
+            // set the owning side to null (unless already changed)
+            if ($userPermission->getPermission() === $this) {
+                $userPermission->setPermission(null);
+            }
+        }
 
         return $this;
     }

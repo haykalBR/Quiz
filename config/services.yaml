@@ -47,6 +47,9 @@ services:
             - '@twig'
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+    App\Domain\User\Subscriber\UserPermissionsSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
 #Extension Doctrine
     gedmo.listener.sluggable:
         class: Gedmo\Sluggable\SluggableListener

@@ -4,6 +4,7 @@ import DataTable from '../../Shared/interfaces/datatable';
 import {deleterecord} from "../../Shared/helper/sweetalert2";
 import axios from "../../Config/axios";
 import randomstring from "randomstring";
+import {AxiosResponse} from "axios";
 
 @injectable()
 export default class UserService implements DataTable{
@@ -48,32 +49,28 @@ export default class UserService implements DataTable{
         $('#user_plainPassword_first').val(password);
         $('#user_plainPassword_second').val(password);
     }
-    reloadPermissions():void{
-        let roles=$('#user_role').select2('data').map(o => parseInt(o['id']))
-        axios({
-            method: 'post',
-            url: Routing.generate('api_users_permission-from-roles_collection'),
-            data: {
-                roles: roles,
-            }
-        }).then((response) => {
-            this.addPermissionToSelect( Object.values(response.data))
-        }, (error) => {
-            console.error('55',error)
-        });
+
+     async reloadPermissions(){
+      let roles=$('#user_role').select2('data').map(o => parseInt(o['id']))
+      const data = await axios.post(Routing.generate('api_users_permission-from-roles_collection'),{ roles: roles})
+      .then(res=> res.data)
+      .then(response => { return Object.values(response)})
+      .catch(error => console.log(error))
+         return data;
     }
-     public addPermissionToSelect(routes:Array<any>):void{
+
+    addPermissionToSelect(routes: AxiosResponse<any> | void):void{
         this.addGrantPermissionToSelect(routes[0])
         this.addRevokePermissionToSelect(routes[1])
     }
-     addGrantPermissionToSelect(routes:Array<any>):void{
+    private addGrantPermissionToSelect(routes:Array<any>):void{
         var grantPermission = $("#user_grantPermission");
         grantPermission.html('');
         routes.forEach(function(route) {
             grantPermission.append('<option value="' + route.id + '">' + route.guardName+ '</option>');
         });
     }
-     addRevokePermissionToSelect(routes:Array<any>):void{
+     private addRevokePermissionToSelect(routes:Array<any>):void{
         var revokePermission = $("#user_revokePermission");
         revokePermission.html('');
         routes.forEach(function(route) {

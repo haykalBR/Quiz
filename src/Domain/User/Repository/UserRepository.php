@@ -3,6 +3,7 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Entity\User;
+use App\Domain\User\Entity\UserPermission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -37,5 +38,29 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function getGrantPermissionByUser(User $user){
+        return $this->createQueryBuilder('u')
+            ->select('up.id,p.guardName')
+            ->innerJoin('u.userPermissions','up')
+            ->innerJoin('up.permission','p')
+            ->Where('u.id = up.user')
+            ->andWhere('u.id = :id')
+            ->andWhere('up.status = :status')
+            ->setParameter('id', $user->getId())
+            ->setParameter('status', UserPermission::GRANT)
+            ->getQuery()->getResult();
+    }
 
+    public function getRevokePermissionByUser(UserInterface $user){
+        return $this->createQueryBuilder('u')
+            ->select('up.id,p.guardName')
+            ->innerJoin('u.userPermissions','up')
+            ->innerJoin('up.permission','p')
+            ->Where('u.id = up.user')
+            ->andWhere('u.id = :id')
+            ->andWhere('up.status = :status')
+            ->setParameter('id', $user->getId())
+            ->setParameter('status', UserPermission::REVOKE)
+            ->getQuery()->getResult();
+    }
 }

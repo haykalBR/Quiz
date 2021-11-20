@@ -95,10 +95,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     private $role;
     private $grantPermission;
     private $revokePermission;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserPermission::class, mappedBy="user")
+     */
+    private $userPermissions;
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
         $this->role = new ArrayCollection();
+        $this->userPermissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -378,6 +384,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function setRevokePermission($revokePermission): void
     {
         $this->revokePermission = $revokePermission;
+    }
+
+    /**
+     * @return Collection|UserPermission[]
+     */
+    public function getUserPermissions(): Collection
+    {
+        return $this->userPermissions;
+    }
+
+    public function addUserPermission(UserPermission $userPermission): self
+    {
+        if (!$this->userPermissions->contains($userPermission)) {
+            $this->userPermissions[] = $userPermission;
+            $userPermission->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserPermission(UserPermission $userPermission): self
+    {
+        if ($this->userPermissions->removeElement($userPermission)) {
+            // set the owning side to null (unless already changed)
+            if ($userPermission->getUser() === $this) {
+                $userPermission->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

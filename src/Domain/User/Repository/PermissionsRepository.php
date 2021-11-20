@@ -48,7 +48,7 @@ class PermissionsRepository extends ServiceEntityRepository
     public function getPermissionNotInRoles(array $roles){
         return $this->createQueryBuilder('p')
             ->select('p.guardName,p.id')
-            ->innerJoin('p.roles','r')
+            ->leftJoin('p.roles','r')
             ->andWhere('r.id not IN (:ids)')
             ->setParameter('ids', $roles)
             ->getQuery()->getResult();
