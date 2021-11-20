@@ -6,18 +6,19 @@ use App\Domain\User\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
-
 /**
  * @ApiResource(
  *     collectionOperations={},
  *     itemOperations={"delete"}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
@@ -46,22 +47,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string The hashed password
+     *
      * @ORM\Column(type="string")
      */
     private $password;
     /**
      * @ORM\Column(type="boolean",options={"default":true})
      */
-    private bool  $enabled;
+    private bool $enabled;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthDate;
 
     /**
      * @ORM\ManyToMany(targetEntity=Permissions::class, mappedBy="users")
      */
     private $permissions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Roles::class, inversedBy="users")
+     */
+    private $role;
+
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
+        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,7 +188,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function getEmailAuthCode(): string
     {
         if (null === $this->authCode) {
-            throw new \LogicException('The email authentication code was not set');
+            throw new LogicException('The email authentication code was not set');
         }
 
         return $this->authCode;
@@ -201,12 +223,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->permissions;
     }
 
-    public function addPermission(Permissions $permission): self
+    public function setPermissions(Collection $permissions): self
     {
-        if (!$this->permissions->contains($permission)) {
-            $this->permissions[] = $permission;
-            $permission->addUser($this);
-        }
+        $this->permissions = $permissions;
 
         return $this;
     }
@@ -220,5 +239,98 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this;
     }
 
+    /**
+     * @return Collection|Roles[]
+     */
+    public function getRole(): Collection
+    {
+        return $this->role;
+    }
+
+    public function addRole(Roles $role): self
+    {
+        if (!$this->role->contains($role)) {
+            $this->role[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Roles $role): self
+    {
+        $this->role->removeElement($role);
+
+        return $this;
+    }
+
+    public function setPermissionsFromRoles(): self
+    {
+        $this->setPermissions(new ArrayCollection());
+        foreach ($this->role as $role) {
+            foreach ($role->getPermissions()->getValues() as $permission) {
+                $this->addPermission($permission);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addPermission(Permissions $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->addUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param mixed $birthDate
+     */
+    public function setBirthDate($birthDate): void
+    {
+        $this->birthDate = $birthDate;
+    }
 
 }

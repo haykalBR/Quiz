@@ -2,16 +2,20 @@
 
 namespace App\Domain\User\Entity;
 
+use App\Core\Traits\TimestampableTrait;
 use App\Domain\Roles\Repository\Domain\User\Entity\RolesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 /**
  * @ORM\Entity(repositoryClass=RolesRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Roles implements RoleInterface
 {
+    use TimestampableTrait, SoftDeleteable;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,9 +36,15 @@ class Roles implements RoleInterface
      */
     private $permissions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="role")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -99,5 +109,32 @@ class Roles implements RoleInterface
     public function isSuperAdmin()
     {
         return $this->getGuardName() === static::ROLE_SUPER_ADMIN;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeRole($this);
+        }
+
+        return $this;
     }
 }

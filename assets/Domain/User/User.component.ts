@@ -12,4 +12,8 @@ export default class UserComponent {
         let dataTable = datatableFactory.getDatatable('#user_table', userService)
     }
 
+    randompaasword(){
+        $('#user_random_password').on('click',this.userService.randompaasword);
+    }
+
 }

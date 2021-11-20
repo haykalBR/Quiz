@@ -25,7 +25,6 @@ class InitFixtures extends Fixture
     {
         $this->addUsers($manager);
         $this->addCategory($manager);
-        $this->addTechnology($manager);
 
 
     }
@@ -47,7 +46,6 @@ class InitFixtures extends Fixture
         $manager->flush();
     }
     private function addCategory(ObjectManager  $manager){
-        //ADD priciê technoligue to Category and delete sub category
         $categories=['développement mobile','développement web','administrateur systèmes',
                      'Administrateur/Administratrice de base de données','Testeur/Testeuse','Ingénieur/Ingénieure cloud computing',
                      'Ingénieur/Ingénieure télécoms et réseaux' , 'référencement','Webdesigner' ,'Marketing'
@@ -60,24 +58,5 @@ class InitFixtures extends Fixture
         }
         $manager->flush();
     }
-    private function addTechnology(ObjectManager $manger){
-       $technologies=[
-           ['Android','ionic','ios','fullter'],
-           ['php','springboot','symfony','laravel','React JS','Cake PHP','Meteor JS','Angular','Nodejs','ExtJS','SASS','Vue JS'],
-           ['linux',' Windows Server','VAGRANT','DOCKER','DOCKER','KUBERNETES','ANSIBLE','VIRTUALISATION']
-       ];
-       foreach ($technologies as $technology){
-           $i=1;
 
-           foreach ($technology as $item){
-               $category=$this->categoriesRepository->find($i);
-               $technologie = new Technology();
-               $technologie->setName($item);
-               $technologie->setSlug($item);
-               $manger->persist($technologie);
-           }
-
-       }
-       $manger->flush();
-    }
 }

@@ -1,6 +1,6 @@
 api_platform:
     title: 'Application Quiz '
-    description: 'Application footbaal '
+    description: 'Application Quiz '
     version: '0.0.1'
     mapping:
         paths:

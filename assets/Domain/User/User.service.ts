@@ -3,6 +3,7 @@ import { injectable } from 'inversify';
 import DataTable from '../../Shared/interfaces/datatable';
 import {deleterecord} from "../../Shared/helper/sweetalert2";
 import axios from "../../Config/axios";
+import randomstring from "randomstring";
 
 @injectable()
 export default class UserService implements DataTable{
@@ -34,6 +35,18 @@ export default class UserService implements DataTable{
                 }
             }
         ]
+    }
+
+    /**
+     * genrete random password
+     */
+    randompaasword():void{
+        let password = randomstring.generate({
+            length: 15,
+            charset: 'alphanumeric'
+        });
+        $('#user_plainPassword_first').val(password);
+        $('#user_plainPassword_second').val(password);
     }
 
 }

@@ -40,4 +40,22 @@ export default class PermissionsService implements DataTable{
         ]
     }
 
+    addPermissions():void{
+        const headers = {
+            'Content-Type': 'application/json',
+        }
+
+        axios.post( Routing.generate('api_permissions_add-guard-route_collection'), null, {
+            headers: headers
+        })
+            .then((response) => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+
+
+    }
 }

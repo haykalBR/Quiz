@@ -12,4 +12,7 @@ export default class PermissionsComponent {
         let dataTable = datatableFactory.getDatatable('#permissions_table', permissionsService)
     }
 
+    addPermissions():void{
+        $('#add_new_permission').on('click',this.permissionsService.addPermissions);
+    }
 }

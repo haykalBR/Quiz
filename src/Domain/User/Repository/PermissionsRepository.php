@@ -18,33 +18,13 @@ class PermissionsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Permissions::class);
     }
-
-    // /**
-    //  * @return Permissions[] Returns an array of Permissions objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    /**
+     * get all name of guard
+     */
+    public function findGuardName(){
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('p.guardName')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getArrayResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Permissions
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

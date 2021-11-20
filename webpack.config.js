@@ -31,6 +31,7 @@ Encore
     .addEntry('exam', './assets/Domain/Exam/index.ts')
     .addEntry('user', './assets/Domain/User/index.ts')
     .addEntry('permissions', './assets/Domain/Permissions/index.ts')
+    .addEntry('roles', './assets/Domain/Roles/index.ts')
     .addStyleEntry('custom', './assets/styles/app.scss')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
