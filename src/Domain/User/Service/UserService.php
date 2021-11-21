@@ -31,15 +31,13 @@ class UserService
         }
         if (count($user->getUserPermissions())>0){
             foreach ($user->getUserPermissions() as $userPermission){
-                $user->removeUserPermission($userPermission);
+               $this->manager->remove($userPermission);
             }
         }
         $this->manager->flush();
     }
     public function deleteUserCloneFromUser(User $user){
         $user->setUserClone(null);
-        $this->deleteRolesFromUser($user);
-        $this->deleteGroupFromUser($user);
         $this->manager->flush();
     }
     /**

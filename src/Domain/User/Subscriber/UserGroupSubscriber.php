@@ -17,10 +17,11 @@ class UserGroupSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            UpdateGroupEvent::class  => 'updateGroupe'
+            UpdateGroupEvent::class  => 'updateGroup'
         ];
     }
-    public function updateGroupe(UpdateGroupEvent $event){
-       // $this->userService->deleteRolesFromUser($event->getUser());
+    public function updateGroup(UpdateGroupEvent $event){
+        $this->userService->deleteRolesFromUser($event->getUser());
+        $this->userService->deleteUserCloneFromUser($event->getUser());
     }
 }

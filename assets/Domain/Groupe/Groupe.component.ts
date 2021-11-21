@@ -11,5 +11,7 @@ export default class GroupeComponent {
         this.groupeService=groupeService;
         let dataTable = datatableFactory.getDatatable('#groupe_table', groupeService)
     }
-
+    deleteGroup():void{
+        $("#groupe_table").on('click', '.delete',this.groupeService.deleteGroupe);
+    }
 }

@@ -3,5 +3,6 @@ import PermissionsComponent from "./Permissions.component";
 let permissionsComponent:PermissionsComponent;
 permissionsComponent=container.resolve<PermissionsComponent>(PermissionsComponent);
 permissionsComponent.addPermissions();
+permissionsComponent.deletePermissions();
 
 

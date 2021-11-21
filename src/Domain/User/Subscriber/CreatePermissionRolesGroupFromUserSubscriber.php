@@ -16,6 +16,8 @@ class CreatePermissionRolesGroupFromUserSubscriber implements EventSubscriberInt
 
 
     public function addRolesAndPermissionFromUserClone(CreatePermissionRolesGroupFromUserEvent $event){
+        $this->userService->deleteGroupFromUser($event->getCurentUser());
+        $this->userService->deleteRolesFromUser($event->getCurentUser());
         $this->userService->addRolesAndPermissionFromUserClone($event->getCurentUser(),$event->getCloneUser());
     }
 

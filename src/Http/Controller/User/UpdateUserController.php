@@ -31,11 +31,18 @@ class UpdateUserController extends AbstractController
     {
         $form   = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->flush();
-            $this->eventDispatcher->dispatch(new UpdatePermissionsEvent($user,$request->request->all()['user']));
-            $this->eventDispatcher->dispatch(new CreatePermissionRolesGroupFromUserEvent($user, $user->getUserClone()));
-            $this->eventDispatcher->dispatch((new UpdateGroupEvent($user)));
+            if (count($user->getRole())>0){
+                $this->eventDispatcher->dispatch(new UpdatePermissionsEvent($user,$request->request->all()['user']));
+            }
+            if ($user->getUserClone()){
+                $this->eventDispatcher->dispatch(new CreatePermissionRolesGroupFromUserEvent($user, $user->getUserClone()));
+            }
+            if (count($user->getGroupes())>0){
+                $this->eventDispatcher->dispatch((new UpdateGroupEvent($user)));
+            }
             return $this->redirectToRoute('admin_user');
         }
         return $this->render("User/user/edit.html.twig",['form'=>$form->createView()]);

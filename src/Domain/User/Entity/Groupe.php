@@ -8,8 +8,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource(
+ *  collectionOperations={},
+ *  itemOperations={
+ *   "delete"
+ *   }
+ * )
  * @ORM\Entity(repositoryClass=GroupeRepository::class)
  * @ORM\HasLifecycleCallbacks
  */

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Domain\Settings\Entity\Settings;
 use App\Domain\Settings\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -29,7 +30,7 @@ class SettingsCommand extends Command
         parent::__construct();
         $this->settings=["app.settings.lang","app.settings.name","app.mail.smtp.name","app.mail.smtp.password",
                          "app.mail.smtp.username","app.mail.smtp.encryption","app.mail.smtp.port","app.mail.smtp.host",
-                         "app.mail.address.email"];
+                         "app.mail.address.email","app.security.recaptcha","number_attempt","pattern_password_regex","password_expire_days"];
         $this->manager = $manager;
         $this->settingsRepository = $settingsRepository;
     }
@@ -45,8 +46,19 @@ class SettingsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        foreach ($this->settings as $setting){
+
+            $settingE = $this->settingsRepository->findOneBy(['theKey'=>$setting]);
+            if (!$settingE){
+                $settingNE = new Settings();
+                $settingNE->setTheKey($setting);
+                $settingNE->setTheValue("");
+                $this->manager->persist($settingNE);
+            }
+        }
+        $this->manager->flush();
         return Command::SUCCESS;
     }
 }

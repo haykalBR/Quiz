@@ -15,4 +15,7 @@ export default class PermissionsComponent {
     addPermissions():void{
         $('#add_new_permission').on('click',this.permissionsService.addPermissions);
     }
+    deletePermissions():void{
+        $("#permissions_table").on('click', '.delete',this.permissionsService.deletePermissions);
+    }
 }

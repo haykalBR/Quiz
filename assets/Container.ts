@@ -9,6 +9,7 @@ import UserService from './Domain/User/User.service'
 import PermissionsService from './Domain/Permissions/Permissions.service'
 import RolesService from './Domain/Roles/Roles.service'
 import GroupeService from './Domain/Groupe/Groupe.service'
+
 let container= new Container()
 container.bind<CategoryService>(CategoryService).toSelf();
 container.bind<RefquestionService>(RefquestionService).toSelf();

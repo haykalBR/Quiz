@@ -22,7 +22,9 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
  *      "denormalization_context"={"groups"={"write:newpermission"}}
  *      }
  *     },
- *  itemOperations={}
+ *  itemOperations={
+ *   "delete"
+ *   }
  * )
  * @ORM\Entity(repositoryClass=PermissionsRepository::class)
  * @ORM\HasLifecycleCallbacks

@@ -39,5 +39,9 @@ export default class GroupeService implements DataTable{
             }
         ]
     }
-
+    deleteGroupe(event:JQuery.ClickEvent):void{
+        event.preventDefault();
+        const id = $(this).attr('data-id');
+        deleterecord(id,"api_groupes_delete_item");
+    }
 }

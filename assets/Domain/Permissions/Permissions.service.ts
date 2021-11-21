@@ -39,12 +39,10 @@ export default class PermissionsService implements DataTable{
             }
         ]
     }
-
     addPermissions():void{
         const headers = {
             'Content-Type': 'application/json',
         }
-
         axios.post( Routing.generate('api_permissions_add-guard-route_collection'), null, {
             headers: headers
         })
@@ -55,7 +53,10 @@ export default class PermissionsService implements DataTable{
             .catch((error) => {
                 console.error(error);
             })
-
-
+    }
+    deletePermissions(event:JQuery.ClickEvent):void{
+        event.preventDefault();
+        const id = $(this).attr('data-id');
+        deleterecord(id,"api_permissions_delete_item");
     }
 }

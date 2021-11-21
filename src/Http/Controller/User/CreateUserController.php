@@ -45,7 +45,8 @@ class CreateUserController extends AbstractController
            $this->manager->persist($user);
            $this->manager->flush();
             $this->eventDispatcher->dispatch(new CreatePermissionsEvent($user,$request->request->all()['user']));
-            $this->eventDispatcher->dispatch(new CreatePermissionRolesGroupFromUserEvent($user, $user->getUserClone()));
+            if ($user->getUserClone())
+                 $this->eventDispatcher->dispatch(new CreatePermissionRolesGroupFromUserEvent($user, $user->getUserClone()));
             $this->eventDispatcher->dispatch(new MailAddUserEvent($user, $form->get('plainPassword')->getData()));
             return $this->redirectToRoute('admin_user');
         }

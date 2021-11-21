@@ -11,7 +11,6 @@ export default class UserComponent {
         this.userService=userService;
         let dataTable = datatableFactory.getDatatable('#user_table', userService)
     }
-
     randompaasword(){
         $('#user_random_password').on('click',this.userService.randompaasword);
     }
@@ -26,5 +25,8 @@ export default class UserComponent {
         $('#roles-strategy').on('click',this.userService.rolesStrategy);
         $('#groupe-strategy').on('click',this.userService.groupestrategy);
         $('#user-strategy').on('click',this.userService.userstrategy);
+    }
+    deleteUser():void{
+        $("#user_table").on('click', '.delete',this.userService.deleteUser);
     }
 }

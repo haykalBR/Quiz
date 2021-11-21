@@ -26,10 +26,10 @@ class UserPermissionsSubscriber implements EventSubscriberInterface
     }
     public function createPermissions(CreatePermissionsEvent $event){
       $this->userPermissionsService->CreateUserPermissions($event->getUser(),$event->getDate());
-
     }
     public function updatePermissions(UpdatePermissionsEvent $event){
-    //  $this->userService->deleteGroupFromUser($event->getUser());
+      $this->userService->deleteGroupFromUser($event->getUser());
+      $this->userService->deleteUserCloneFromUser($event->getUser());
       $this->userPermissionsService->removeUserPermissions($event->getUser());
       $this->userPermissionsService->CreateUserPermissions($event->getUser(),$event->getDate());
     }

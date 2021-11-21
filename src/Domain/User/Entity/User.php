@@ -97,6 +97,7 @@ class User extends UserAbstract implements PasswordAuthenticatedUserInterface, T
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="userClone")
      */
     private $users;
+
     public function __construct()
     {
         $this->role = new ArrayCollection();
@@ -499,6 +500,4 @@ class User extends UserAbstract implements PasswordAuthenticatedUserInterface, T
 
         return $this;
     }
-
-
 }

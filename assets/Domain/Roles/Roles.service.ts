@@ -39,5 +39,9 @@ export default class RolesService implements DataTable{
             }
         ]
     }
-
+    deleteRole(event:JQuery.ClickEvent):void{
+        event.preventDefault();
+        const id = $(this).attr('data-id');
+        deleterecord(id,"api_roles_delete_item");
+    }
 }

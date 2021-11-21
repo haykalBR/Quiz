@@ -41,7 +41,7 @@ class UserType extends AbstractType
                 'class' => Roles::class,
                 'choice_label' => 'name',
                 'multiple'=>true,
-                'by_reference' => false,
+                'by_reference' => true,
                 'required' => false,
                 'query_builder' => function (RolesRepository $repository) {
                     return $repository->getRolesWithoutAdmin();
@@ -59,15 +59,16 @@ class UserType extends AbstractType
                 'class' => Groupe::class,
                 'choice_label' => 'name',
                 'multiple'=>true,
-                'by_reference' => false,
+                'by_reference' => true,
                 'required' => false,
             ])
             ->add('userClone', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'username',
                 'multiple'=>false,
-                'by_reference' => false,
+                'by_reference' => true,
                 'required' => false,
+
             ])
             ;
         $builder->addEventSubscriber($this->userFormSubscriber);

@@ -11,5 +11,7 @@ export default class RolesComponent {
         this.rolesService=rolesService;
         let dataTable = datatableFactory.getDatatable('#roles_table', rolesService)
     }
-
+    deleteRole():void{
+        $("#roles_table").on('click', '.delete',this.rolesService.deleteRole);
+    }
 }
