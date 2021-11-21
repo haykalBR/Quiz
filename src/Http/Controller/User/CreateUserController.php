@@ -1,7 +1,10 @@
 <?php
 declare(strict_types=1);
 namespace App\Http\Controller\User;
+use App\Domain\User\Event\CreatePermissionRolesGroupFromUserEvent;
+use App\Domain\User\Event\CreatePermissionsEvent;
 use App\Domain\User\Event\MailAddUserEvent;
+use App\Domain\User\Event\SuperAdminEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,16 +36,17 @@ class CreateUserController extends AbstractController
         $form   = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 ));
-            $this->manager->persist($user);
-            $this->manager->flush();
+           $this->manager->persist($user);
+           $this->manager->flush();
+            $this->eventDispatcher->dispatch(new CreatePermissionsEvent($user,$request->request->all()['user']));
+            $this->eventDispatcher->dispatch(new CreatePermissionRolesGroupFromUserEvent($user, $user->getUserClone()));
             $this->eventDispatcher->dispatch(new MailAddUserEvent($user, $form->get('plainPassword')->getData()));
-
-
             return $this->redirectToRoute('admin_user');
         }
         return $this->render("User/user/create.html.twig",['form'=>$form->createView()]);

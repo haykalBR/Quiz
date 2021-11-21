@@ -8,6 +8,7 @@ import ExamService from './Domain/Exam/Exam.service';
 import UserService from './Domain/User/User.service'
 import PermissionsService from './Domain/Permissions/Permissions.service'
 import RolesService from './Domain/Roles/Roles.service'
+import GroupeService from './Domain/Groupe/Groupe.service'
 let container= new Container()
 container.bind<CategoryService>(CategoryService).toSelf();
 container.bind<RefquestionService>(RefquestionService).toSelf();
@@ -18,4 +19,5 @@ container.bind<ExamService>(ExamService).toSelf()
 container.bind<UserService>(UserService).toSelf()
 container.bind<PermissionsService>(PermissionsService).toSelf()
 container.bind<RolesService>(RolesService).toSelf()
+container.bind<GroupeService>(GroupeService).toSelf()
 export default container;

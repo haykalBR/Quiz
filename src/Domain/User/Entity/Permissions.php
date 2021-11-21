@@ -52,11 +52,6 @@ class Permissions
     private $guardName;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="permissions")
-     */
-    private $users;
-
-    /**
      * @ORM\OneToMany(targetEntity=UserPermission::class, mappedBy="permission")
      */
     private $userPermissions;
@@ -64,7 +59,6 @@ class Permissions
     public function __construct()
     {
         $this->roles = new ArrayCollection();
-        $this->users = new ArrayCollection();
         $this->userPermissions = new ArrayCollection();
     }
 
@@ -116,30 +110,6 @@ class Permissions
     public function removeRole(Roles $role): self
     {
         $this->roles->removeElement($role);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        $this->users->removeElement($user);
 
         return $this;
     }

@@ -4,4 +4,5 @@ let userComponent:UserComponent;
 userComponent=container.resolve<UserComponent>(UserComponent);
 userComponent.randompaasword();
 userComponent.reloadPermissions();
+userComponent.showButtons();
 

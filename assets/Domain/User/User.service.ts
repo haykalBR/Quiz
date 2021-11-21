@@ -77,4 +77,20 @@ export default class UserService implements DataTable{
             revokePermission.append('<option value="' + route.id + '">' + route.guardName+ '</option>');
         });
     }
+    rolesStrategy(){
+        console.log(4545)
+        $('#show-roles-strategy').show();
+        $('#show-groupe-strategy').hide();
+        $('#how-user-strategy').hide();
+    }
+    groupestrategy(){
+        $('#show-roles-strategy').hide();
+        $('#show-groupe-strategy').show();
+        $('#how-user-strategy').hide();
+    }
+    userstrategy(){
+        $('#show-roles-strategy').hide();
+        $('#show-groupe-strategy').hide();
+        $('#show-user-strategy').show();
+    }
 }

@@ -16,6 +16,7 @@
         "doctrine/orm": "^2.9",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "google/recaptcha": "^1.2",
+        "illuminate/collections": "^8.73",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "scheb/2fa-bundle": "^5.12",

@@ -3,7 +3,8 @@
 namespace App\Domain\User\Entity;
 
 use App\Core\Traits\TimestampableTrait;
-use App\Domain\Roles\Repository\Domain\User\Entity\RolesRepository;
+use App\Domain\User\Repository\RolesRepository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -41,10 +42,16 @@ class Roles implements RoleInterface
      */
     private $users;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Groupe::class, mappedBy="roles")
+     */
+    private $yes;
+
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->yes = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -133,6 +140,33 @@ class Roles implements RoleInterface
     {
         if ($this->users->removeElement($user)) {
             $user->removeRole($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Groupe[]
+     */
+    public function getYes(): Collection
+    {
+        return $this->yes;
+    }
+
+    public function addYe(Groupe $ye): self
+    {
+        if (!$this->yes->contains($ye)) {
+            $this->yes[] = $ye;
+            $ye->addRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeYe(Groupe $ye): self
+    {
+        if ($this->yes->removeElement($ye)) {
+            $ye->removeRole($this);
         }
 
         return $this;

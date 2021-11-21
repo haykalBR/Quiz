@@ -38,6 +38,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    /**
+     * select user without roles admin
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getUsersWithoutSuperAdmin(){
+        return $this
+            ->createQueryBuilder('u')
+            ->Where('u.roles not in :roles')
+            ->setParameter('guardName', Roles::ROLE_SUPER_ADMIN);
+    }
     public function getGrantPermissionByUser(User $user){
         return $this->createQueryBuilder('u')
             ->select('up.id,p.guardName')
@@ -63,4 +73,5 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('status', UserPermission::REVOKE)
             ->getQuery()->getResult();
     }
+
 }

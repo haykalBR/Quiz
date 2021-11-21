@@ -1,44 +1,37 @@
 <?php
 namespace App\Domain\User\Subscriber;
-use App\Domain\User\Entity\User;
+use App\Domain\User\Event\CreatePermissionsEvent;
+use App\Domain\User\Event\UpdatePermissionsEvent;
 use App\Domain\User\Service\UserPermissionsService;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\ORM\Events;
+use App\Domain\User\Service\UserService;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class UserPermissionsSubscriber implements EventSubscriber
+class UserPermissionsSubscriber implements EventSubscriberInterface
 {
-    private RequestStack $requestStack;
     private UserPermissionsService $userPermissionsService;
-    public function __construct(RequestStack $requestStack,UserPermissionsService $userPermissionsService)
+    private UserService $userService;
+
+    public function __construct(UserPermissionsService $userPermissionsService,UserService $userService)
     {
-        $this->requestStack = $requestStack;
         $this->userPermissionsService = $userPermissionsService;
+        $this->userService = $userService;
     }
 
-    public function getSubscribedEvents(): array
+    public static function getSubscribedEvents(): array
     {
         return [
-               Events::postPersist,
-               Events::postUpdate,
+            CreatePermissionsEvent::class  => 'createPermissions',
+            UpdatePermissionsEvent::class => 'updatePermissions',
         ];
     }
-    public function postPersist(LifecycleEventArgs $args){
-        /**
-         * TODO add condtion from any action Important !!!
-         */
-        if ($args->getObject() instanceof User){
-            $request=$this->requestStack->getCurrentRequest();
-            $this->userPermissionsService->CreateUserPermissions($args->getObject(),$request->request->all()['user']);
-        }
+    public function createPermissions(CreatePermissionsEvent $event){
+      $this->userPermissionsService->CreateUserPermissions($event->getUser(),$event->getDate());
+
     }
-    public function postUpdate(LifecycleEventArgs $args){
-        if ($args->getObject() instanceof User){
-            $request=$this->requestStack->getCurrentRequest();
-            $this->userPermissionsService->removeUserPermissions($args->getObject());
-            $this->userPermissionsService->CreateUserPermissions($args->getObject(),$request->request->all()['user']);
-        }
+    public function updatePermissions(UpdatePermissionsEvent $event){
+    //  $this->userService->deleteGroupFromUser($event->getUser());
+      $this->userPermissionsService->removeUserPermissions($event->getUser());
+      $this->userPermissionsService->CreateUserPermissions($event->getUser(),$event->getDate());
     }
 
 }

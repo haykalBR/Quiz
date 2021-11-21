@@ -21,12 +21,9 @@ class UserPermissionsService
             $this->createGrantPermissionn($user,$data['grantPermission']);
         }
         if (!empty($data['revokePermission'])){
-
             $this->createRevokePermission($user,$data['revokePermission']);
-
         }
         $this->manager->flush();
-        //   $userPermission= new UserPermission();
     }
     private function createGrantPermissionn(User  $user,array $date){
 
